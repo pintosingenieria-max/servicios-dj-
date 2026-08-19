@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DJ MICHAEL | Eventos Premium, Audio, Iluminación y Pantallas LED</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Open Graph / Meta -->
+    <meta property="og:title" content="DJ MICHAEL | Sonido, Iluminación y Pantallas LED para Eventos">
+    <meta property="og:description" content="Servicio profesional de DJ, sistemas Line Array, iluminación robótica y pantallas LED para bodas, XV años y eventos corporativos.">
+    <meta property="og:image" content="dj michael.jpg">
+    <meta property="og:url" content="https://djmichael.com.py">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Schema.org markup for Event Service -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "DJ Michael - Producción de Eventos",
+        "description": "Servicio de DJ, sonido Line Array, iluminación robótica y pantallas LED para todo tipo de eventos.",
+        "provider": {
+            "@type": "Person",
+            "name": "Michael Pintos",
+            "telephone": "+595994608163"
+        },
+        "areaServed": "Paraguay"
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg-dark: #090a0f;
+            --bg-card: rgba(18, 20, 29, 0.7);
+            --bg-card-hover: rgba(28, 32, 48, 0.85);
+            --primary-red: #ff1e43;
+            --primary-glow: rgba(255, 30, 67, 0.4);
+            --accent-cyan: #00f2fe;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(12, 14, 22, 0.8);
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Ambient Glow Backgrounds */
+        .glow-sphere-1 {
+            position: fixed;
+            top: -100px;
+            right: -100px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 30, 67, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .glow-sphere-2 {
+            position: fixed;
+            bottom: -100px;
+            left: -100px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a2e3d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-red);
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, .brand-font {
+            font-family: var(--font-heading);
+            letter-spacing: -0.02em;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, var(--primary-red) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-accent {
+            background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--primary-red) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Header / Navbar */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-box img {
+            height: 48px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(255, 30, 67, 0.4));
+        }
+
+        .logo-text {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Hamburger menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 28px;
+            height: 2px;
+            background: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff1e43 0%, #d60e2e 100%);
+            color: #fff !important;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700 !important;
+            box-shadow: 0 4px 20px var(--primary-glow);
+            transition: all 0.3s ease !important;
+            border: 1px solid rgba(255,255,255,0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 28px rgba(255, 30, 67, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Floating WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            background: #25D366;
+            color: #fff;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: none;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 35px rgba(37, 211, 102, 0.7);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 180px 1.5rem 100px;
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 3rem;
+            align-items: center;
+            min-height: 90vh;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 30, 67, 0.1);
+            border: 1px solid rgba(255, 30, 67, 0.3);
+            color: var(--primary-red);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-title {
+            font-size: 3.8rem;
+            line-height: 1.1;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-description {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 540px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2.5rem;
+            margin-top: 3.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .stat-item h3 {
+            font-size: 2rem;
+            color: #fff;
+            font-weight: 800;
+        }
+
+        .stat-item p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Hero Media */
+        .hero-media {
+            position: relative;
+        }
+
+        .hero-main-card {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            background: var(--bg-card);
+            transition: all 0.5s ease;
+        }
+
+        .hero-main-card:hover {
+            border-color: rgba(255, 30, 67, 0.5);
+            transform: scale(1.01);
+        }
+
+        .hero-main-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* Features Bar */
+        .features-bar {
+            background: rgba(15, 17, 26, 0.6);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 3rem 1.5rem;
+            margin-bottom: 6rem;
+        }
+
+        .features-grid {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: rgba(255, 30, 67, 0.1);
+            border: 1px solid rgba(255, 30, 67, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-red);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .feature-text h4 {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .feature-text p {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        /* Section Header */
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-subtitle {
+            color: var(--primary-red);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-desc {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        /* Packages Section */
+        .packages-section {
+            max-width: 1280px;
+            margin: 0 auto 8rem;
+            padding: 0 1.5rem;
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .package-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .package-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 30, 67, 0.4);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        .package-card.featured {
+            border-color: var(--primary-red);
+            background: rgba(22, 25, 38, 0.95);
+            box-shadow: 0 10px 30px rgba(255, 30, 67, 0.2);
+        }
+
+        .featured-tag {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--primary-red);
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 10;
+        }
+
+        .package-img {
+            height: 220px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .package-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .package-card:hover .package-img img {
+            transform: scale(1.08);
+        }
+
+        .package-body {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .package-title {
+            font-size: 1.6rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .package-subtitle {
+            color: var(--accent-cyan);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .package-price {
+            margin-bottom: 1.8rem;
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .price-amount {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: #fff;
+            font-family: var(--font-heading);
+        }
+
+        .price-currency {
+            color: var(--primary-red);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .price-detail {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .package-specs {
+            list-style: none;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+
+        .package-specs li {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .package-specs li i {
+            color: var(--primary-red);
+            font-size: 0.85rem;
+        }
+
+        .package-specs li.highlight {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* LED Spotlight */
+        .led-spotlight {
+            max-width: 1280px;
+            margin: 0 auto 8rem;
+            padding: 0 1.5rem;
+        }
+
+        .led-container {
+            background: linear-gradient(135deg, rgba(20, 24, 38, 0.9) 0%, rgba(10, 12, 18, 0.95) 100%);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            border-radius: 30px;
+            padding: 3.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3.5rem;
+            align-items: center;
+            box-shadow: 0 20px 50px rgba(0, 242, 254, 0.05);
+        }
+
+        .led-content h3 {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .led-content p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .led-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .led-spec-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            padding: 1.2rem;
+            border-radius: 16px;
+        }
+
+        .led-spec-box h5 {
+            color: var(--accent-cyan);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .led-spec-box p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .led-media {
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+        }
+
+        .led-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Calculator */
+        .calculator-section {
+            max-width: 1000px;
+            margin: 0 auto 8rem;
+            padding: 0 1.5rem;
+        }
+
+        .calc-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            padding: 3rem;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .calc-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .calc-group label {
+            display: block;
+            color: #fff;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        .calc-select, .calc-input {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            background: rgba(10, 12, 18, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            color: #fff;
+            font-size: 0.95rem;
+            font-family: var(--font-body);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .calc-select:focus, .calc-input:focus {
+            border-color: var(--primary-red);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+
+        .calc-checkboxes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .checkbox-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            padding: 1rem 1.2rem;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .checkbox-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .checkbox-card input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-red);
+            cursor: pointer;
+        }
+
+        .checkbox-card span {
+            color: #e2e8f0;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .calc-result-box {
+            background: linear-gradient(135deg, rgba(255, 30, 67, 0.1) 0%, rgba(0, 242, 254, 0.05) 100%);
+            border: 1px solid rgba(255, 30, 67, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .result-info h4 {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .result-info p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .result-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #fff;
+            font-family: var(--font-heading);
+        }
+
+        /* Testimonials */
+        .testimonials-section {
+            max-width: 1280px;
+            margin: 0 auto 8rem;
+            padding: 0 1.5rem;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .testimonial-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-5px);
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-red);
+        }
+
+        .testimonial-name {
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .testimonial-role {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .testimonial-text {
+            color: #cbd5e1;
+            font-style: italic;
+            line-height: 1.7;
+        }
+
+        .testimonial-stars {
+            color: #fbbf24;
+            letter-spacing: 2px;
+        }
+
+        /* Gallery */
+        .gallery-section {
+            max-width: 1280px;
+            margin: 0 auto 8rem;
+            padding: 0 1.5rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            aspect-ratio: 1/1;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover {
+            border-color: var(--primary-red);
+            transform: scale(1.02);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-cta {
+            text-align: center;
+            margin-top: 2.5rem;
+        }
+
+        /* Experience / Events */
+        .experience-section {
+            max-width: 1280px;
+            margin: 0 auto 8rem;
+            padding: 0 1.5rem;
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .event-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .event-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-5px);
+        }
+
+        .event-icon {
+            font-size: 2.2rem;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+        }
+
+        .event-card h4 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            max-width: 1100px;
+            margin: 0 auto 6rem;
+            padding: 0 1.5rem;
+        }
+
+        .contact-card {
+            background: linear-gradient(135deg, rgba(20, 24, 38, 0.95) 0%, rgba(12, 14, 22, 0.98) 100%);
+            border: 1px solid rgba(255, 30, 67, 0.3);
+            border-radius: 30px;
+            padding: 4rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .contact-card h2 {
+            font-size: 3rem;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .contact-card p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .contact-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-btn:hover {
+            background: var(--primary-red);
+            border-color: var(--primary-red);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px var(--primary-glow);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 1.5rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background: rgba(6, 7, 10, 0.95);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero {
+                grid-template-columns: 1fr;
+                padding-top: 140px;
+                text-align: center;
+            }
+            .hero-description {
+                margin: 0 auto 2.5rem;
+            }
+            .hero-cta {
+                justify-content: center;
+            }
+            .hero-stats {
+                justify-content: center;
+            }
+            .led-container {
+                grid-template-columns: 1fr;
+            }
+            .calc-result-box {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background: var(--glass-bg);
+                backdrop-filter: blur(16px);
+                padding: 1rem 0;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                border-bottom: 1px solid var(--border-color);
+                gap: 0;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+                padding: 0.8rem 0;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .nav-links li:last-child {
+                border-bottom: none;
+            }
+
+            .nav-links a {
+                font-size: 1.1rem;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hero-title {
+                font-size: 2.6rem;
+            }
+            .section-title {
+                font-size: 2.1rem;
+            }
+            .packages-grid {
+                grid-template-columns: 1fr;
+            }
+            .contact-card {
+                padding: 2.5rem 1.5rem;
+            }
+            .contact-card h2 {
+                font-size: 2.2rem;
+            }
+            .gallery-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                font-size: 1.8rem;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Glow Effects -->
+    <div class="glow-sphere-1"></div>
+    <div class="glow-sphere-2"></div>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20cotizar%20mi%20evento" class="whatsapp-float" target="_blank" aria-label="Contactar por WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo-box">
+                <img src="dj michael logo principal.png" alt="DJ Michael Logo" loading="lazy">
+                <span class="logo-text">DJ MICHAEL</span>
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links" id="nav-links" role="navigation">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#paquetes">Paquetes</a></li>
+                <li><a href="#pantalla-led">Pantalla LED</a></li>
+                <li><a href="#cotizador">Cotizador</a></li>
+                <li><a href="#galeria">Galería</a></li>
+                <li><a href="#testimonios">Testimonios</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+            <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quisiera%20consultar%20disponibilidad%20para%20un%20evento" class="btn-primary" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i> Reservar Ahora
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fa-solid fa-bolt"></i> Producción de Eventos Premium
+            </div>
+            <h1 class="hero-title">
+                Tu evento, llevado al <span class="gradient-text">siguiente nivel</span>
+            </h1>
+            <p class="hero-description">
+                Servicio profesional de DJ, sistemas de sonido Line Array de alta potencia, iluminación robótica Beam y pantallas LED de alta definición para Bodas, XV Años y Quintas.
+            </p>
+            <div class="hero-cta">
+                <a href="#cotizador" class="btn-primary">
+                    <i class="fa-solid fa-calculator"></i> Cotizar Mi Evento
+                </a>
+                <a href="https://wa.me/595994608163" class="btn-secondary" target="_blank">
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp Directo
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <h3>100%</h3>
+                    <p>Garantía de Fiesta</p>
+                </div>
+                <div class="stat-item">
+                    <h3>Line Array</h3>
+                    <p>Sonido Profesional</p>
+                </div>
+                <div class="stat-item">
+                    <h3>LED 3x2</h3>
+                    <p>Módulos HD</p>
+                </div>
+            </div>
+        </div>
+        <div class="hero-media">
+            <div class="hero-main-card">
+                <img src="dj michael.jpg" alt="DJ Michael en acción durante un evento" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Bar -->
+    <section class="features-bar">
+        <div class="features-grid">
+            <div class="feature-item">
+                <div class="feature-icon"><i class="fa-solid fa-sliders"></i></div>
+                <div class="feature-text">
+                    <h4>Sonido de Alta Fidelidad</h4>
+                    <p>Subwoofers de 18" y torres Line Array de máxima nitidez.</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                <div class="feature-text">
+                    <h4>Iluminación Robótica</h4>
+                    <p>Cabezas móviles Beam, Par LEDs y efectos stroboscópicos.</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon"><i class="fa-solid fa-tv"></i></div>
+                <div class="feature-text">
+                    <h4>Visuales en Pantalla LED</h4>
+                    <p>Estructuras dinámicas, totems y cabina de DJ con LED.</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon"><i class="fa-solid fa-clock"></i></div>
+                <div class="feature-text">
+                    <h4>Puntualidad y Respaldo</h4>
+                    <p>Montaje anticipado, operador en vivo y contrato con seña.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Packages Section -->
+    <section class="packages-section" id="paquetes">
+        <div class="section-header">
+            <span class="section-subtitle">Nuestras Propuestas</span>
+            <h2 class="section-title">Paquetes de Sonido e Iluminación</h2>
+            <p class="section-desc">Diseñados a la medida de tu espacio y la magnitud de tu celebración.</p>
+        </div>
+
+        <div class="packages-grid">
+            <!-- Package 1: Basico Sonido -->
+            <div class="package-card">
+                <div class="package-img">
+                    <img src="equipo_bassico.jpg" alt="Equipo Básico de Sonido" loading="lazy">
+                </div>
+                <div class="package-body">
+                    <h3 class="package-title">Equipo Básico</h3>
+                    <span class="package-subtitle">Ideal para Salones y Reuniones Sociales</span>
+                    <div class="package-price">
+                        <span class="price-amount">800.000</span>
+                        <span class="price-currency">Gs.</span>
+                    </div>
+                    <ul class="package-specs">
+                        <li class="highlight"><i class="fa-solid fa-check-circle"></i> 2 Subwoofers de 18"</li>
+                        <li class="highlight"><i class="fa-solid fa-check-circle"></i> 2 Módulos Line Array</li>
+                        <li><i class="fa-solid fa-check"></i> Consola de 8 canales profesional</li>
+                        <li><i class="fa-solid fa-check"></i> 2 Luces robóticas Beam</li>
+                        <li><i class="fa-solid fa-check"></i> 2 Luces Par LED</li>
+                        <li><i class="fa-solid fa-clock"></i> <strong>5 Horas de servicio</strong> (Hora adicional 100 mil Gs.)</li>
+                    </ul>
+                    <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20me%20interesa%20el%20Equipo%20B%C3%A1sico%20de%20800.000%20Gs." class="btn-secondary" style="text-align: center; justify-content: center;" target="_blank">
+                        Reservar Paquete
+                    </a>
+                </div>
+            </div>
+
+            <!-- Package 2: Basico con LED (Featured) -->
+            <div class="package-card featured">
+                <div class="featured-tag">Más Popular</div>
+                <div class="package-img">
+                    <img src="basico_led.jpg" alt="Equipo Básico con Pantalla LED" loading="lazy">
+                </div>
+                <div class="package-body">
+                    <h3 class="package-title">Básico + Pantalla LED</h3>
+                    <span class="package-subtitle">Impacto Visual Completo para XV Años y Bodas</span>
+                    <div class="package-price">
+                        <span class="price-amount">1.100.000</span>
+                        <span class="price-currency">Gs.</span>
+                    </div>
+                    <ul class="package-specs">
+                        <li class="highlight"><i class="fa-solid fa-check-circle"></i> Pantalla LED Integrada / Totem / Cabina</li>
+                        <li class="highlight"><i class="fa-solid fa-check-circle"></i> Controlador de Video y Mezcla LED</li>
+                        <li><i class="fa-solid fa-check"></i> 2 Subwoofers 18" + 2 Line Array</li>
+                        <li><i class="fa-solid fa-check"></i> 2 Luces robóticas Beam + 2 Par LED</li>
+                        <li><i class="fa-solid fa-check"></i> 2 Máquinas de humo vertical</li>
+                        <li><i class="fa-solid fa-user-gear"></i> Operador DJ en vivo incluido</li>
+                        <li><i class="fa-solid fa-clock"></i> <strong>6 Horas de servicio continuo</strong></li>
+                    </ul>
+                    <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20me%20interesa%20el%20Equipo%20B%C3%A1sico%20con%20Pantalla%20LED%20de%201.100.000%20Gs." class="btn-primary" style="text-align: center; justify-content: center;" target="_blank">
+                        Reservar Este Paquete
+                    </a>
+                </div>
+            </div>
+
+            <!-- Package 3: Exterior / Escenario Grande -->
+            <div class="package-card">
+                <div class="package-img">
+                    <img src="equipo_exterior.jpg" alt="Equipo Para Exterior y Grandes Espacios" loading="lazy">
+                </div>
+                <div class="package-body">
+                    <h3 class="package-title">Equipo Exterior / Show</h3>
+                    <span class="package-subtitle">Potencia Total para Quintas, Festivales y Conciertos</span>
+                    <div class="package-price">
+                        <span class="price-amount">2.800.000</span>
+                        <span class="price-currency">Gs.</span>
+                    </div>
+                    <ul class="package-specs">
+                        <li class="highlight"><i class="fa-solid fa-check-circle"></i> 8 Subwoofers de 18" de Altísima Potencia</li>
+                        <li class="highlight"><i class="fa-solid fa-check-circle"></i> 6 Módulos Line Array de Gran Alcance</li>
+                        <li><i class="fa-solid fa-check"></i> 4 Luces Robóticas Beam de Alta Intensidad</li>
+                        <li><i class="fa-solid fa-check"></i> 8 Luces Par LED + Estrobo</li>
+                        <li><i class="fa-solid fa-check"></i> 2 Máquinas de humo vertical de alto flujo</li>
+                        <li><i class="fa-solid fa-microphone"></i> Sistema de Micrófonos Inalámbricos</li>
+                        <li><i class="fa-solid fa-user-gear"></i> Operador DJ + Staff Técnico de Montaje</li>
+                    </ul>
+                    <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20cotizar%20el%20Equipo%20Exterior%20de%202.800.000%20Gs." class="btn-secondary" style="text-align: center; justify-content: center;" target="_blank">
+                        Reservar Show Exterior
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LED Screen Spotlight -->
+    <section class="led-spotlight" id="pantalla-led">
+        <div class="led-container">
+            <div class="led-content">
+                <span class="section-subtitle">Tecnología Visual Premium</span>
+                <h3>Alquiler de Pantalla LED HD</h3>
+                <p>
+                    Transforma la atmósfera de tu evento con nuestro sistema modular de pantallas LED. Configurable como pantalla gigante de 3x2 metros, dos tótems laterales o cabina de DJ iluminada.
+                </p>
+                <div class="led-grid">
+                    <div class="led-spec-box">
+                        <h5>3 x 2 Metros</h5>
+                        <p>12 Módulos HD de 50x100 mm</p>
+                    </div>
+                    <div class="led-spec-box">
+                        <h5>Formato Versátil</h5>
+                        <p>Opción 2 pantallas de 3x1 o Cabina DJ</p>
+                    </div>
+                    <div class="led-spec-box">
+                        <h5>Estructuras Perimetrales</h5>
+                        <p>Montaje seguro tipo Tótem en Truss</p>
+                    </div>
+                    <div class="led-spec-box">
+                        <h5>Desde 1.200.000 Gs.</h5>
+                        <p>Servicio individual o combo</p>
+                    </div>
+                </div>
+                <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20informaci%C3%B3n%20sobre%20el%20alquiler%20de%20Pantalla%20LED" class="btn-primary" target="_blank">
+                    <i class="fa-solid fa-tv"></i> Consultar Disponibilidad LED
+                </a>
+            </div>
+            <div class="led-media">
+                <img src="alquiler_led.jpg" alt="Pantalla LED en evento" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="calculator-section" id="cotizador">
+        <div class="section-header">
+            <span class="section-subtitle">Cotizador en Tiempo Real</span>
+            <h2 class="section-title">Calcula el Presupuesto de tu Evento</h2>
+            <p class="section-desc">Selecciona las características de tu fiesta para obtener un estimado instantáneo.</p>
+        </div>
+
+        <div class="calc-card">
+            <div class="calc-options">
+                <div class="calc-group">
+                    <label for="event-type"><i class="fa-solid fa-cake-candles"></i> Tipo de Evento</label>
+                    <select id="event-type" class="calc-select" onchange="calculateTotal()">
+                        <option value="XV Años">15 Años</option>
+                        <option value="Boda / Casamiento">Boda / Casamiento</option>
+                        <option value="Fiesta en Quinta">Fiesta en Quinta / Exterior</option>
+                        <option value="Cumpleaños / Privado">Cumpleaños / Privado</option>
+                        <option value="Corporativo">Corporativo</option>
+                    </select>
+                </div>
+
+                <div class="calc-group">
+                    <label for="package-select"><i class="fa-solid fa-boxes-packing"></i> Paquete Base</label>
+                    <select id="package-select" class="calc-select" onchange="calculateTotal()">
+                        <option value="800000">Equipo Básico (800.000 Gs.)</option>
+                        <option value="1100000" selected>Básico + Pantalla LED (1.100.000 Gs.)</option>
+                        <option value="2800000">Show Exterior Grande (2.800.000 Gs.)</option>
+                    </select>
+                </div>
+
+                <div class="calc-group">
+                    <label for="extra-hours"><i class="fa-solid fa-hourglass-half"></i> Horas Adicionales</label>
+                    <input type="number" id="extra-hours" class="calc-input" min="0" max="10" value="0" onchange="calculateTotal()" oninput="calculateTotal()">
+                </div>
+
+                <div class="calc-group">
+                    <label for="event-date"><i class="fa-regular fa-calendar"></i> Fecha del Evento</label>
+                    <input type="date" id="event-date" class="calc-input">
+                </div>
+            </div>
+
+            <label style="display: block; color: #fff; font-weight: 600; margin-bottom: 1rem;">Servicios Adicionales:</label>
+            <div class="calc-checkboxes">
+                <label class="checkbox-card">
+                    <input type="checkbox" id="add-led" value="400000" onchange="calculateTotal()">
+                    <span>Pantalla LED Adicional (+400k Gs.)</span>
+                </label>
+                <label class="checkbox-card">
+                    <input type="checkbox" id="add-smoke" value="150000" onchange="calculateTotal()">
+                    <span>Chispas Frías / Máq. Humo Ext. (+150k Gs.)</span>
+                </label>
+                <label class="checkbox-card">
+                    <input type="checkbox" id="add-mic" value="100000" onchange="calculateTotal()">
+                    <span>Micrófonos Inalámbricos Extra (+100k Gs.)</span>
+                </label>
+                <label class="checkbox-card">
+                    <input type="checkbox" id="add-dj" value="200000" onchange="calculateTotal()">
+                    <span>DJ Especializado (+200k Gs.)</span>
+                </label>
+            </div>
+
+            <div class="calc-result-box">
+                <div class="result-info">
+                    <h4>Estimación Aproximada</h4>
+                    <p>Sujeta a confirmación de ubicación y disponibilidad de fecha.</p>
+                </div>
+                <div>
+                    <div class="result-price" id="total-price">1.100.000 Gs.</div>
+                </div>
+                <a href="#" id="whatsapp-calc-btn" class="btn-primary" target="_blank">
+                    <i class="fa-brands fa-whatsapp"></i> Enviar Cotización por WhatsApp
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section (usando las imágenes existentes) -->
+    <section class="gallery-section" id="galeria">
+        <div class="section-header">
+            <span class="section-subtitle">Nuestros Trabajos</span>
+            <h2 class="section-title">Galería de Eventos</h2>
+            <p class="section-desc">Mira cómo transformamos cada celebración con sonido, luz y pantallas LED.</p>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="alquiler_led.jpg" alt="Evento con pantalla LED y luces" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="dj michael.jpg" alt="Boda con iluminación robótica" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="basico_led.jpg" alt="Fiesta de 15 años con DJ Michael" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="equipo_bassico.jpg" alt="Montaje de sonido Line Array" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="basico_led.jpg" alt="Cabina de DJ con LED" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="equipo_exterior.jpg" alt="Espectáculo de luces en quinta" loading="lazy">
+            </div>
+        </div>
+        <div class="gallery-cta">
+            <a href="https://www.instagram.com/michael.pintos" target="_blank" class="btn-secondary">
+                <i class="fa-brands fa-instagram"></i> Ver más en Instagram
+            </a>
+            <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20compartir%20fotos%20de%20mi%20evento" target="_blank" class="btn-primary" style="margin-left: 1rem;">
+                <i class="fa-solid fa-upload"></i> Sube tus Fotos
+            </a>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section" id="testimonios">
+        <div class="section-header">
+            <span class="section-subtitle">Lo que dicen nuestros clientes</span>
+            <h2 class="section-title">Testimonios Reales</h2>
+            <p class="section-desc">Experiencias de quienes confiaron en DJ Michael para su evento.</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <img src="avatar1.jpg" alt="Foto de Laura" class="testimonial-avatar" loading="lazy">
+                    <div>
+                        <div class="testimonial-name">Laura G.</div>
+                        <div class="testimonial-role">Fiesta de 15 años</div>
+                    </div>
+                </div>
+                <div class="testimonial-stars">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testimonial-text">"¡Impresionante! La pantalla LED y el sonido hicieron que mi fiesta de 15 fuera inolvidable. Todo el mundo bailó hasta el final. ¡Gracias DJ Michael!"</p>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <img src="avatar2.jpg" alt="Foto de Carlos" class="testimonial-avatar" loading="lazy">
+                    <div>
+                        <div class="testimonial-name">Carlos R.</div>
+                        <div class="testimonial-role">Boda</div>
+                    </div>
+                </div>
+                <div class="testimonial-stars">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testimonial-text">"El mejor DJ que pudimos contratar. Muy profesional, puntual y con un equipamiento de primera. La iluminación creó un ambiente mágico."</p>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <img src="avatar3.jpg" alt="Foto de Mariana" class="testimonial-avatar" loading="lazy">
+                    <div>
+                        <div class="testimonial-name">Mariana S.</div>
+                        <div class="testimonial-role">Evento Corporativo</div>
+                    </div>
+                </div>
+                <div class="testimonial-stars">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testimonial-text">"Sonido cristalino para las presentaciones y luego una fiesta espectacular. Todos quedaron encantados con la producción. ¡Altamente recomendado!"</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience / Events -->
+    <section class="experience-section">
+        <div class="section-header">
+            <span class="section-subtitle">Especialistas en la Pista</span>
+            <h2 class="section-title">Servicios para Cada Ocasión</h2>
+        </div>
+        <div class="events-grid">
+            <div class="event-card">
+                <div class="event-icon"><i class="fa-solid fa-crown"></i></div>
+                <h4>Fiestas de 15 Años</h4>
+                <p>Luces impactantes, tandas bailables ultra dinámicas, visuales personalizados y los éxitos del momento.</p>
+            </div>
+            <div class="event-card">
+                <div class="event-icon"><i class="fa-solid fa-heart"></i></div>
+                <h4>Bodas & Casamientos</h4>
+                <p>Ambientación elegante para la recepción, protocolo de entrada imponente y fiesta total sin pausa.</p>
+            </div>
+            <div class="event-card">
+                <div class="event-icon"><i class="fa-solid fa-tree"></i></div>
+                <h4>Fiestas en Quintas</h4>
+                <p>Equipos reforzados con graves profundos para cubrir áreas abiertas y jardines sin perder potencia.</p>
+            </div>
+            <div class="event-card">
+                <div class="event-icon"><i class="fa-solid fa-building"></i></div>
+                <h4>Eventos Corporativos</h4>
+                <p>Sonido nítido para discursos, micrófonos profesionales e iluminación de realce para salones.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contacto">
+        <div class="contact-card">
+            <h2>¿Listo para hacer vibrar tu evento?</h2>
+            <p>Reserva con anticipación mediante seña y asegura la fecha de tu fiesta con el mejor equipamiento visual y de sonido.</p>
+            <div class="contact-actions">
+                <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quisiera%20reservar%20mi%20fecha" class="btn-primary" target="_blank" style="font-size: 1.1rem; padding: 1rem 2.5rem;">
+                    <i class="fa-brands fa-whatsapp"></i> Hablar al 0994 608 163
+                </a>
+                <a href="tel:0992311266" class="btn-secondary" style="font-size: 1.1rem; padding: 1rem 2.5rem;">
+                    <i class="fa-solid fa-phone"></i> Llama al 0992 311 266
+                </a>
+            </div>
+            <div class="social-links">
+                <a href="https://facebook.com/michael.pintos" class="social-btn" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://instagram.com/michael.pintos" class="social-btn" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://wa.me/595994608163" class="social-btn" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 DJ MICHAEL / GS Producciones & Eventos. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- Interactive Calculator Script -->
+    <script>
+        // Mobile hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+        hamburger.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navLinks.classList.toggle('open');
+            const expanded = this.classList.contains('active');
+            this.setAttribute('aria-expanded', expanded);
+        });
+
+        // Close menu on link click (mobile)
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('open');
+                hamburger.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // Calculator function
+        function calculateTotal() {
+            const packagePrice = parseInt(document.getElementById('package-select').value) || 0;
+            const extraHours = parseInt(document.getElementById('extra-hours').value) || 0;
+            const extraHourRate = 100000;
+
+            let addLed = document.getElementById('add-led').checked ? parseInt(document.getElementById('add-led').value) : 0;
+            let addSmoke = document.getElementById('add-smoke').checked ? parseInt(document.getElementById('add-smoke').value) : 0;
+            let addMic = document.getElementById('add-mic').checked ? parseInt(document.getElementById('add-mic').value) : 0;
+            let addDj = document.getElementById('add-dj').checked ? parseInt(document.getElementById('add-dj').value) : 0;
+
+            const total = packagePrice + (extraHours * extraHourRate) + addLed + addSmoke + addMic + addDj;
+
+            // Format Currency
+            const formattedTotal = total.toLocaleString('es-PY') + " Gs.";
+            document.getElementById('total-price').innerText = formattedTotal;
+
+            // Update WhatsApp Link
+            const eventTypeSelect = document.getElementById('event-type');
+            const eventTypeName = eventTypeSelect.options[eventTypeSelect.selectedIndex].text;
+            const packageName = document.getElementById('package-select').options[document.getElementById('package-select').selectedIndex].text;
+            const eventDate = document.getElementById('event-date').value || 'No especificada';
+
+            const message = `Hola DJ Michael! Estuve cotizando en tu página web:
+- Evento: ${eventTypeName}
+- Fecha: ${eventDate}
+- Paquete: ${packageName}
+- Horas Extra: ${extraHours}
+- Estimado Total: ${formattedTotal}
+
+¿Tienes disponibilidad para esta fecha?`;
+
+            const encodedMessage = encodeURIComponent(message);
+            document.getElementById('whatsapp-calc-btn').href = `https://wa.me/595994608163?text=${encodedMessage}`;
+        }
+
+        // Initialize calculator
+        calculateTotal();
+    </script>
+</body>
+</html>
