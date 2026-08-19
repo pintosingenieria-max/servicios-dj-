@@ -8,31 +8,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Open Graph / Meta -->
-    <meta property="og:title" content="DJ MICHAEL | Sonido, Iluminación y Pantallas LED para Eventos">
-    <meta property="og:description" content="Servicio profesional de DJ, sistemas Line Array, iluminación robótica y pantallas LED para bodas, XV años y eventos corporativos.">
+    <!-- Open Graph -->
+    <meta property="og:title" content="DJ MICHAEL | Sonido, Iluminación y Pantallas LED para Eventos en Central">
+    <meta property="og:description" content="Servicio profesional de DJ en Villeta, Central. Cubrimos toda la región con sonido Line Array, iluminación robótica y pantallas LED.">
     <meta property="og:image" content="dj michael.jpg">
     <meta property="og:url" content="https://djmichael.com.py">
-    <meta name="twitter:card" content="summary_large_image">
-
-    <!-- Schema.org markup for Event Service -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        "name": "DJ Michael - Producción de Eventos",
-        "description": "Servicio de DJ, sonido Line Array, iluminación robótica y pantallas LED para todo tipo de eventos.",
-        "provider": {
-            "@type": "Person",
-            "name": "Michael Pintos",
-            "telephone": "+595994608163"
-        },
-        "areaServed": "Paraguay"
-    }
-    </script>
 
     <style>
         :root {
@@ -63,29 +46,37 @@
             font-family: var(--font-body);
             overflow-x: hidden;
             line-height: 1.6;
+            position: relative;
         }
 
-        /* Ambient Glow Backgrounds */
-        .glow-sphere-1 {
+        /* Fondo animado con partículas y destellos */
+        #particles-canvas {
             position: fixed;
-            top: -100px;
-            right: -100px;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(255, 30, 67, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: -1;
             pointer-events: none;
         }
 
-        .glow-sphere-2 {
+        /* Efecto de fondo con gradiente animado como capa adicional */
+        .bg-animated {
             position: fixed;
-            bottom: -100px;
-            left: -100px;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(0, 242, 254, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
-            z-index: -1;
-            pointer-events: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(circle at 20% 30%, rgba(255, 30, 67, 0.08) 0%, rgba(0, 0, 0, 0) 60%),
+                        radial-gradient(circle at 80% 70%, rgba(0, 242, 254, 0.06) 0%, rgba(0, 0, 0, 0) 60%),
+                        #090a0f;
+            animation: gradientShift 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
         }
 
         /* Custom Scrollbar */
@@ -103,7 +94,6 @@
             background: var(--primary-red);
         }
 
-        /* Typography */
         h1, h2, h3, h4, .brand-font {
             font-family: var(--font-heading);
             letter-spacing: -0.02em;
@@ -121,7 +111,7 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Header / Navbar */
+        /* Header */
         header {
             position: fixed;
             top: 0;
@@ -185,7 +175,6 @@
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
-        /* Hamburger menu */
         .hamburger {
             display: none;
             flex-direction: column;
@@ -256,7 +245,7 @@
             transform: translateY(-2px);
         }
 
-        /* Floating WhatsApp Button */
+        /* Floating WhatsApp */
         .whatsapp-float {
             position: fixed;
             bottom: 30px;
@@ -282,7 +271,7 @@
             box-shadow: 0 10px 35px rgba(37, 211, 102, 0.7);
         }
 
-        /* Hero Section */
+        /* Hero */
         .hero {
             padding: 180px 1.5rem 100px;
             max-width: 1280px;
@@ -324,6 +313,24 @@
             max-width: 540px;
         }
 
+        .location-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 242, 254, 0.1);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            color: var(--accent-cyan);
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .location-badge i {
+            font-size: 1.1rem;
+        }
+
         .hero-cta {
             display: flex;
             gap: 1rem;
@@ -349,7 +356,6 @@
             font-size: 0.85rem;
         }
 
-        /* Hero Media */
         .hero-media {
             position: relative;
         }
@@ -376,7 +382,7 @@
             object-fit: cover;
         }
 
-        /* Features Bar */
+        /* Features */
         .features-bar {
             background: rgba(15, 17, 26, 0.6);
             border-top: 1px solid var(--border-color);
@@ -452,7 +458,7 @@
             font-size: 1.05rem;
         }
 
-        /* Packages Section */
+        /* Packages */
         .packages-section {
             max-width: 1280px;
             margin: 0 auto 8rem;
@@ -562,11 +568,6 @@
             font-size: 1.2rem;
         }
 
-        .price-detail {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
         .package-specs {
             list-style: none;
             margin-bottom: 2rem;
@@ -664,121 +665,68 @@
             display: block;
         }
 
-        /* Calculator */
-        .calculator-section {
-            max-width: 1000px;
+        /* Opcionales (Mejora tu Evento) */
+        .upgrades-section {
+            max-width: 1280px;
             margin: 0 auto 8rem;
             padding: 0 1.5rem;
         }
 
-        .calc-card {
+        .upgrades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .upgrade-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 30px;
-            padding: 3rem;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-
-        .calc-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .calc-group label {
-            display: block;
-            color: #fff;
-            font-weight: 600;
-            margin-bottom: 0.8rem;
-            font-size: 0.95rem;
-        }
-
-        .calc-select, .calc-input {
-            width: 100%;
-            padding: 0.9rem 1.2rem;
-            background: rgba(10, 12, 18, 0.8);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            color: #fff;
-            font-size: 0.95rem;
-            font-family: var(--font-body);
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .calc-select:focus, .calc-input:focus {
-            border-color: var(--primary-red);
-            box-shadow: 0 0 15px var(--primary-glow);
-        }
-
-        .calc-checkboxes {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             gap: 1rem;
-            margin-bottom: 2.5rem;
         }
 
-        .checkbox-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-color);
-            padding: 1rem 1.2rem;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            user-select: none;
+        .upgrade-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 15px 40px rgba(0, 242, 254, 0.1);
         }
 
-        .checkbox-card:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
+        .upgrade-icon {
+            font-size: 3rem;
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
         }
 
-        .checkbox-card input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--primary-red);
-            cursor: pointer;
-        }
-
-        .checkbox-card span {
-            color: #e2e8f0;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .calc-result-box {
-            background: linear-gradient(135deg, rgba(255, 30, 67, 0.1) 0%, rgba(0, 242, 254, 0.05) 100%);
-            border: 1px solid rgba(255, 30, 67, 0.3);
-            border-radius: 20px;
-            padding: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-        }
-
-        .result-info h4 {
+        .upgrade-title {
+            font-size: 1.6rem;
             color: #fff;
-            font-size: 1.1rem;
-            margin-bottom: 4px;
+            font-weight: 700;
         }
 
-        .result-info p {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        .result-price {
-            font-size: 2.5rem;
+        .upgrade-price {
+            font-size: 1.8rem;
             font-weight: 800;
-            color: #fff;
+            color: var(--primary-red);
             font-family: var(--font-heading);
+        }
+
+        .upgrade-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .upgrade-card .btn-secondary,
+        .upgrade-card .btn-primary {
+            margin-top: 0.5rem;
+            width: 100%;
+            justify-content: center;
         }
 
         /* Testimonials */
@@ -887,7 +835,7 @@
             margin-top: 2.5rem;
         }
 
-        /* Experience / Events */
+        /* Experience */
         .experience-section {
             max-width: 1280px;
             margin: 0 auto 8rem;
@@ -931,7 +879,7 @@
             font-size: 0.9rem;
         }
 
-        /* Contact Section */
+        /* Contact */
         .contact-section {
             max-width: 1100px;
             margin: 0 auto 6rem;
@@ -998,7 +946,6 @@
             box-shadow: 0 5px 15px var(--primary-glow);
         }
 
-        /* Footer */
         footer {
             border-top: 1px solid var(--border-color);
             padding: 3rem 1.5rem;
@@ -1008,7 +955,7 @@
             background: rgba(6, 7, 10, 0.95);
         }
 
-        /* Responsive Styles */
+        /* Responsive */
         @media (max-width: 992px) {
             .hero {
                 grid-template-columns: 1fr;
@@ -1026,11 +973,6 @@
             }
             .led-container {
                 grid-template-columns: 1fr;
-            }
-            .calc-result-box {
-                flex-direction: column;
-                align-items: stretch;
-                text-align: center;
             }
         }
 
@@ -1090,6 +1032,9 @@
             .gallery-grid {
                 grid-template-columns: 1fr 1fr;
             }
+            .upgrades-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1108,16 +1053,16 @@
 </head>
 <body>
 
-    <!-- Ambient Glow Effects -->
-    <div class="glow-sphere-1"></div>
-    <div class="glow-sphere-2"></div>
+    <!-- Fondo animado con partículas -->
+    <div class="bg-animated"></div>
+    <canvas id="particles-canvas"></canvas>
 
-    <!-- Floating WhatsApp Button -->
+    <!-- Floating WhatsApp -->
     <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20cotizar%20mi%20evento" class="whatsapp-float" target="_blank" aria-label="Contactar por WhatsApp">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
-    <!-- Header Navigation -->
+    <!-- Header -->
     <header>
         <div class="nav-container">
             <a href="#" class="logo-box">
@@ -1133,7 +1078,7 @@
                 <li><a href="#inicio">Inicio</a></li>
                 <li><a href="#paquetes">Paquetes</a></li>
                 <li><a href="#pantalla-led">Pantalla LED</a></li>
-                <li><a href="#cotizador">Cotizador</a></li>
+                <li><a href="#mejora">Mejora tu Evento</a></li>
                 <li><a href="#galeria">Galería</a></li>
                 <li><a href="#testimonios">Testimonios</a></li>
                 <li><a href="#contacto">Contacto</a></li>
@@ -1144,11 +1089,14 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Hero -->
     <section class="hero" id="inicio">
         <div class="hero-content">
             <div class="hero-badge">
                 <i class="fa-solid fa-bolt"></i> Producción de Eventos Premium
+            </div>
+            <div class="location-badge">
+                <i class="fa-solid fa-location-dot"></i> Villeta · Central · Cubrimos todo el departamento
             </div>
             <h1 class="hero-title">
                 Tu evento, llevado al <span class="gradient-text">siguiente nivel</span>
@@ -1157,8 +1105,8 @@
                 Servicio profesional de DJ, sistemas de sonido Line Array de alta potencia, iluminación robótica Beam y pantallas LED de alta definición para Bodas, XV Años y Quintas.
             </p>
             <div class="hero-cta">
-                <a href="#cotizador" class="btn-primary">
-                    <i class="fa-solid fa-calculator"></i> Cotizar Mi Evento
+                <a href="#mejora" class="btn-primary">
+                    <i class="fa-solid fa-star"></i> Mejora tu Evento
                 </a>
                 <a href="https://wa.me/595994608163" class="btn-secondary" target="_blank">
                     <i class="fa-brands fa-whatsapp"></i> WhatsApp Directo
@@ -1186,7 +1134,7 @@
         </div>
     </section>
 
-    <!-- Features Bar -->
+    <!-- Features -->
     <section class="features-bar">
         <div class="features-grid">
             <div class="feature-item">
@@ -1220,7 +1168,7 @@
         </div>
     </section>
 
-    <!-- Packages Section -->
+    <!-- Packages -->
     <section class="packages-section" id="paquetes">
         <div class="section-header">
             <span class="section-subtitle">Nuestras Propuestas</span>
@@ -1229,7 +1177,7 @@
         </div>
 
         <div class="packages-grid">
-            <!-- Package 1: Basico Sonido -->
+            <!-- Package 1 -->
             <div class="package-card">
                 <div class="package-img">
                     <img src="equipo_bassico.jpg" alt="Equipo Básico de Sonido" loading="lazy">
@@ -1255,7 +1203,7 @@
                 </div>
             </div>
 
-            <!-- Package 2: Basico con LED (Featured) -->
+            <!-- Package 2 (Featured) -->
             <div class="package-card featured">
                 <div class="featured-tag">Más Popular</div>
                 <div class="package-img">
@@ -1283,7 +1231,7 @@
                 </div>
             </div>
 
-            <!-- Package 3: Exterior / Escenario Grande -->
+            <!-- Package 3 -->
             <div class="package-card">
                 <div class="package-img">
                     <img src="equipo_exterior.jpg" alt="Equipo Para Exterior y Grandes Espacios" loading="lazy">
@@ -1312,7 +1260,7 @@
         </div>
     </section>
 
-    <!-- LED Screen Spotlight -->
+    <!-- LED Spotlight -->
     <section class="led-spotlight" id="pantalla-led">
         <div class="led-container">
             <div class="led-content">
@@ -1349,83 +1297,50 @@
         </div>
     </section>
 
-    <!-- Calculator Section -->
-    <section class="calculator-section" id="cotizador">
+    <!-- Mejora tu Evento - Opcionales -->
+    <section class="upgrades-section" id="mejora">
         <div class="section-header">
-            <span class="section-subtitle">Cotizador en Tiempo Real</span>
-            <h2 class="section-title">Calcula el Presupuesto de tu Evento</h2>
-            <p class="section-desc">Selecciona las características de tu fiesta para obtener un estimado instantáneo.</p>
+            <span class="section-subtitle">Opcionales</span>
+            <h2 class="section-title">Mejora tu Evento</h2>
+            <p class="section-desc">Agrega estos servicios extra para una experiencia aún más espectacular.</p>
         </div>
-
-        <div class="calc-card">
-            <div class="calc-options">
-                <div class="calc-group">
-                    <label for="event-type"><i class="fa-solid fa-cake-candles"></i> Tipo de Evento</label>
-                    <select id="event-type" class="calc-select" onchange="calculateTotal()">
-                        <option value="XV Años">15 Años</option>
-                        <option value="Boda / Casamiento">Boda / Casamiento</option>
-                        <option value="Fiesta en Quinta">Fiesta en Quinta / Exterior</option>
-                        <option value="Cumpleaños / Privado">Cumpleaños / Privado</option>
-                        <option value="Corporativo">Corporativo</option>
-                    </select>
-                </div>
-
-                <div class="calc-group">
-                    <label for="package-select"><i class="fa-solid fa-boxes-packing"></i> Paquete Base</label>
-                    <select id="package-select" class="calc-select" onchange="calculateTotal()">
-                        <option value="800000">Equipo Básico (800.000 Gs.)</option>
-                        <option value="1100000" selected>Básico + Pantalla LED (1.100.000 Gs.)</option>
-                        <option value="2800000">Show Exterior Grande (2.800.000 Gs.)</option>
-                    </select>
-                </div>
-
-                <div class="calc-group">
-                    <label for="extra-hours"><i class="fa-solid fa-hourglass-half"></i> Horas Adicionales</label>
-                    <input type="number" id="extra-hours" class="calc-input" min="0" max="10" value="0" onchange="calculateTotal()" oninput="calculateTotal()">
-                </div>
-
-                <div class="calc-group">
-                    <label for="event-date"><i class="fa-regular fa-calendar"></i> Fecha del Evento</label>
-                    <input type="date" id="event-date" class="calc-input">
-                </div>
+        <div class="upgrades-grid">
+            <!-- Pista LED 4x4 -->
+            <div class="upgrade-card">
+                <div class="upgrade-icon"><i class="fa-regular fa-square"></i></div>
+                <h3 class="upgrade-title">Pista LED 4x4</h3>
+                <div class="upgrade-price">1.400.000 Gs.</div>
+                <p class="upgrade-desc">Pista de baile iluminada con LED de alta densidad, ideal para darle un toque futurista a tu evento.</p>
+                <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20consultar%20la%20Pista%20LED%204x4%20de%201.400.000%20Gs." class="btn-secondary" target="_blank">
+                    <i class="fa-brands fa-whatsapp"></i> Consultar
+                </a>
             </div>
 
-            <label style="display: block; color: #fff; font-weight: 600; margin-bottom: 1rem;">Servicios Adicionales:</label>
-            <div class="calc-checkboxes">
-                <label class="checkbox-card">
-                    <input type="checkbox" id="add-led" value="400000" onchange="calculateTotal()">
-                    <span>Pantalla LED Adicional (+400k Gs.)</span>
-                </label>
-                <label class="checkbox-card">
-                    <input type="checkbox" id="add-smoke" value="150000" onchange="calculateTotal()">
-                    <span>Chispas Frías / Máq. Humo Ext. (+150k Gs.)</span>
-                </label>
-                <label class="checkbox-card">
-                    <input type="checkbox" id="add-mic" value="100000" onchange="calculateTotal()">
-                    <span>Micrófonos Inalámbricos Extra (+100k Gs.)</span>
-                </label>
-                <label class="checkbox-card">
-                    <input type="checkbox" id="add-dj" value="200000" onchange="calculateTotal()">
-                    <span>DJ Especializado (+200k Gs.)</span>
-                </label>
+            <!-- Pista Paris -->
+            <div class="upgrade-card">
+                <div class="upgrade-icon"><i class="fa-regular fa-gem"></i></div>
+                <h3 class="upgrade-title">Pista Paris</h3>
+                <div class="upgrade-price">1.500.000 Gs.</div>
+                <p class="upgrade-desc">Pista de baile con diseño elegante y luces dinámicas, perfecta para bodas y fiestas de gala.</p>
+                <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20consultar%20la%20Pista%20Paris%20de%201.500.000%20Gs." class="btn-secondary" target="_blank">
+                    <i class="fa-brands fa-whatsapp"></i> Consultar
+                </a>
             </div>
 
-            <div class="calc-result-box">
-                <div class="result-info">
-                    <h4>Estimación Aproximada</h4>
-                    <p>Sujeta a confirmación de ubicación y disponibilidad de fecha.</p>
-                </div>
-                <div>
-                    <div class="result-price" id="total-price">1.100.000 Gs.</div>
-                </div>
-                <a href="#" id="whatsapp-calc-btn" class="btn-primary" target="_blank">
-                    <i class="fa-brands fa-whatsapp"></i> Enviar Cotización por WhatsApp
+            <!-- Chispa Fría -->
+            <div class="upgrade-card">
+                <div class="upgrade-icon"><i class="fa-regular fa-sparkles"></i></div>
+                <h3 class="upgrade-title">Chispa Fría</h3>
+                <div class="upgrade-price" style="color: var(--accent-cyan);">Consultar</div>
+                <p class="upgrade-desc">Efectos de chispas frías para momentos especiales: entrada, vals, brindis o primer baile.</p>
+                <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20consultar%20el%20efecto%20de%20Chispa%20Fr%C3%ADa%20para%20mi%20evento" class="btn-primary" target="_blank">
+                    <i class="fa-brands fa-whatsapp"></i> Consultar
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Gallery Section (usando las imágenes existentes) -->
+    <!-- Gallery -->
     <section class="gallery-section" id="galeria">
         <div class="section-header">
             <span class="section-subtitle">Nuestros Trabajos</span>
@@ -1462,7 +1377,7 @@
         </div>
     </section>
 
-    <!-- Testimonials Section -->
+    <!-- Testimonials -->
     <section class="testimonials-section" id="testimonios">
         <div class="section-header">
             <span class="section-subtitle">Lo que dicen nuestros clientes</span>
@@ -1485,7 +1400,7 @@
                     <i class="fa-solid fa-star"></i>
                     <i class="fa-solid fa-star"></i>
                 </div>
-                <p class="testimonial-text">"¡Impresionante! La pantalla LED y el sonido hicieron que mi fiesta de 15 fuera inolvidable. Todo el mundo bailó hasta el final. ¡Gracias DJ Michael!"</p>
+                <p class="testimonial-text">"¡Impresionante! La pantalla LED y el sonido hicieron que mi fiesta de 15 fuera inolvidable. Todo el mundo bailó hasta el final."</p>
             </div>
             <div class="testimonial-card">
                 <div class="testimonial-header">
@@ -1524,7 +1439,7 @@
         </div>
     </section>
 
-    <!-- Experience / Events -->
+    <!-- Experience -->
     <section class="experience-section">
         <div class="section-header">
             <span class="section-subtitle">Especialistas en la Pista</span>
@@ -1554,7 +1469,7 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
+    <!-- Contact -->
     <section class="contact-section" id="contacto">
         <div class="contact-card">
             <h2>¿Listo para hacer vibrar tu evento?</h2>
@@ -1578,11 +1493,12 @@
     <!-- Footer -->
     <footer>
         <p>&copy; 2026 DJ MICHAEL / GS Producciones & Eventos. Todos los derechos reservados.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem;">Villeta, Central · Cubrimos todo el departamento</p>
     </footer>
 
-    <!-- Interactive Calculator Script -->
+    <!-- Scripts -->
     <script>
-        // Mobile hamburger menu toggle
+        // Mobile hamburger menu
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('nav-links');
         hamburger.addEventListener('click', function() {
@@ -1592,7 +1508,6 @@
             this.setAttribute('aria-expanded', expanded);
         });
 
-        // Close menu on link click (mobile)
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 hamburger.classList.remove('active');
@@ -1601,44 +1516,124 @@
             });
         });
 
-        // Calculator function
-        function calculateTotal() {
-            const packagePrice = parseInt(document.getElementById('package-select').value) || 0;
-            const extraHours = parseInt(document.getElementById('extra-hours').value) || 0;
-            const extraHourRate = 100000;
+        // Fondo animado con partículas (confeti y destellos)
+        (function() {
+            const canvas = document.getElementById('particles-canvas');
+            const ctx = canvas.getContext('2d');
+            let width, height;
+            let particles = [];
+            const PARTICLE_COUNT = 120;
 
-            let addLed = document.getElementById('add-led').checked ? parseInt(document.getElementById('add-led').value) : 0;
-            let addSmoke = document.getElementById('add-smoke').checked ? parseInt(document.getElementById('add-smoke').value) : 0;
-            let addMic = document.getElementById('add-mic').checked ? parseInt(document.getElementById('add-mic').value) : 0;
-            let addDj = document.getElementById('add-dj').checked ? parseInt(document.getElementById('add-dj').value) : 0;
+            function resize() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
 
-            const total = packagePrice + (extraHours * extraHourRate) + addLed + addSmoke + addMic + addDj;
+            class Particle {
+                constructor() {
+                    this.reset();
+                }
+                reset() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height - height;
+                    this.size = Math.random() * 4 + 2;
+                    this.speedY = Math.random() * 2 + 1;
+                    this.speedX = (Math.random() - 0.5) * 0.8;
+                    this.opacity = Math.random() * 0.6 + 0.2;
+                    this.color = `hsl(${Math.random() * 60 + 340}, 80%, 60%)`; // rojos, rosas, naranjas
+                    this.rotation = Math.random() * 360;
+                    this.rotSpeed = (Math.random() - 0.5) * 0.02;
+                    this.shape = Math.random() > 0.5 ? 'circle' : 'square';
+                }
+                update() {
+                    this.y += this.speedY;
+                    this.x += this.speedX + Math.sin(this.y * 0.01) * 0.2;
+                    this.rotation += this.rotSpeed;
+                    if (this.y > height + 20) {
+                        this.reset();
+                        this.y = -20;
+                    }
+                    if (this.x < -20) this.x = width + 20;
+                    if (this.x > width + 20) this.x = -20;
+                }
+                draw(ctx) {
+                    ctx.save();
+                    ctx.globalAlpha = this.opacity;
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.rotation);
+                    ctx.fillStyle = this.color;
+                    if (this.shape === 'circle') {
+                        ctx.beginPath();
+                        ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+                        ctx.fill();
+                    } else {
+                        ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
+                    }
+                    // Brillo interior
+                    ctx.shadowColor = this.color;
+                    ctx.shadowBlur = 15;
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
 
-            // Format Currency
-            const formattedTotal = total.toLocaleString('es-PY') + " Gs.";
-            document.getElementById('total-price').innerText = formattedTotal;
+            for (let i = 0; i < PARTICLE_COUNT; i++) {
+                const p = new Particle();
+                p.y = Math.random() * height;
+                particles.push(p);
+            }
 
-            // Update WhatsApp Link
-            const eventTypeSelect = document.getElementById('event-type');
-            const eventTypeName = eventTypeSelect.options[eventTypeSelect.selectedIndex].text;
-            const packageName = document.getElementById('package-select').options[document.getElementById('package-select').selectedIndex].text;
-            const eventDate = document.getElementById('event-date').value || 'No especificada';
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw(ctx);
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
 
-            const message = `Hola DJ Michael! Estuve cotizando en tu página web:
-- Evento: ${eventTypeName}
-- Fecha: ${eventDate}
-- Paquete: ${packageName}
-- Horas Extra: ${extraHours}
-- Estimado Total: ${formattedTotal}
+            // Añadir algunos destellos adicionales (estrellas)
+            let stars = [];
+            for (let i = 0; i < 60; i++) {
+                stars.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    size: Math.random() * 2 + 1,
+                    opacity: Math.random() * 0.5 + 0.1,
+                    twinkleSpeed: Math.random() * 0.02 + 0.01,
+                    phase: Math.random() * Math.PI * 2
+                });
+            }
 
-¿Tienes disponibilidad para esta fecha?`;
+            function drawStars() {
+                stars.forEach(s => {
+                    s.phase += s.twinkleSpeed;
+                    const alpha = s.opacity * (0.6 + 0.4 * Math.sin(s.phase));
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+                    ctx.fill();
+                });
+            }
 
-            const encodedMessage = encodeURIComponent(message);
-            document.getElementById('whatsapp-calc-btn').href = `https://wa.me/595994608163?text=${encodedMessage}`;
-        }
-
-        // Initialize calculator
-        calculateTotal();
+            // Override animate para incluir estrellas
+            const originalAnimate = animate;
+            animate = function() {
+                ctx.clearRect(0, 0, width, height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw(ctx);
+                });
+                drawStars();
+                requestAnimationFrame(animate);
+            };
+            // Reiniciar
+            cancelAnimationFrame(animate);
+            animate();
+        })();
     </script>
 </body>
 </html>
