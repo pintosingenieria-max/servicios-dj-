@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DJ MICHAEL | Eventos Premium, Audio, Iluminación y Pantallas LED</title>
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <!-- Open Graph -->
-    <meta property="og:title" content="DJ MICHAEL | Sonido, Iluminación y Pantallas LED para Eventos en Central" />
-    <meta property="og:description" content="Servicio profesional de DJ en Villeta, Central. Cubrimos toda la región con sonido Line Array, iluminación robótica y pantallas LED." />
-    <meta property="og:image" content="dj michael.jpg" />
-    <meta property="og:url" content="https://djmichael.com.py" />
+    <meta property="og:title" content="DJ MICHAEL | Sonido, Iluminación y Pantallas LED para Eventos en Central">
+    <meta property="og:description" content="Servicio profesional de DJ en Villeta, Central. Cubrimos toda la región con sonido Line Array, iluminación robótica y pantallas LED.">
+    <meta property="og:image" content="dj michael.jpg">
+    <meta property="og:url" content="https://djmichael.com.py">
 
     <style>
-        /* ===== Tus estilos completos (no los modifico) ===== */
         :root {
             --bg-dark: #090a0f;
             --bg-card: rgba(18, 20, 29, 0.7);
@@ -117,6 +117,7 @@
             100% { background-position: 100% 100%; }
         }
 
+        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -702,7 +703,7 @@
             display: block;
         }
 
-        /* Gallery */
+        /* Gallery - ahora "Paquetes Disponibles" */
         .gallery-section {
             max-width: 1280px;
             margin: 0 auto 8rem;
@@ -744,7 +745,7 @@
             margin-top: 2.5rem;
         }
 
-        /* Upgrades */
+        /* Upgrades (Mejora tu Evento) - ahora debajo de la galería */
         .upgrades-section {
             max-width: 1280px;
             margin: 0 auto 8rem;
@@ -983,7 +984,29 @@
             box-shadow: 0 5px 15px var(--primary-glow);
         }
 
-        /* Footer */
+        /* Estilos del Contador de Visitas */
+        .visitor-counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .visitor-counter i {
+            color: var(--accent-cyan);
+        }
+
+        .visitor-counter strong {
+            color: #fff;
+            font-size: 1rem;
+        }
+
         footer {
             border-top: 1px solid var(--border-color);
             padding: 3rem 1.5rem;
@@ -991,61 +1014,6 @@
             color: var(--text-muted);
             font-size: 0.9rem;
             background: rgba(6, 7, 10, 0.95);
-        }
-
-        /* ===== NUEVO: Contador de visitas con engranaje ===== */
-        .visitor-counter {
-            margin-top: 1.5rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        .counter-label {
-            font-weight: 500;
-        }
-
-        .gear-icon {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 2.8rem;
-            height: 2.8rem;
-        }
-
-        .gear-icon i {
-            font-size: 2.8rem;
-            color: #fff;
-            opacity: 0.8;
-            filter: drop-shadow(0 0 6px rgba(255, 30, 67, 0.4));
-            transition: all 0.3s ease;
-        }
-
-        .gear-icon:hover i {
-            opacity: 1;
-            filter: drop-shadow(0 0 12px rgba(255, 30, 67, 0.7));
-        }
-
-        .gear-icon span {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 0.9rem;
-            font-weight: 800;
-            color: #fff;
-            background: var(--primary-red);
-            border-radius: 50%;
-            padding: 0.1rem 0.5rem;
-            min-width: 1.6rem;
-            text-align: center;
-            line-height: 1.4;
-            box-shadow: 0 0 10px rgba(255, 30, 67, 0.5);
-            border: 1px solid rgba(255,255,255,0.2);
         }
 
         /* Responsive */
@@ -1148,7 +1116,7 @@
 
     <!-- Preloader -->
     <div id="preloader">
-        <img src="dj michael logo principal.png" alt="DJ Michael Logo" />
+        <img src="dj michael logo principal.png" alt="DJ Michael Logo">
         <div class="loader-text">Cargando...</div>
     </div>
 
@@ -1165,7 +1133,7 @@
     <header>
         <div class="nav-container">
             <a href="#" class="logo-box">
-                <img src="dj michael logo principal.png" alt="DJ Michael Logo" loading="lazy" />
+                <img src="dj michael logo principal.png" alt="DJ Michael Logo" loading="lazy">
                 <span class="logo-text">DJ MICHAEL</span>
             </a>
             <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
@@ -1228,7 +1196,7 @@
         </div>
         <div class="hero-media">
             <div class="hero-main-card">
-                <img src="dj michael.jpg" alt="DJ Michael en acción durante un evento" loading="lazy" />
+                <img src="dj michael.jpg" alt="DJ Michael en acción durante un evento" loading="lazy">
             </div>
         </div>
     </section>
@@ -1267,7 +1235,7 @@
         </div>
     </section>
 
-    <!-- Packages -->
+    <!-- Packages (Paquetes de Sonido) -->
     <section class="packages-section" id="paquetes">
         <div class="section-header">
             <span class="section-subtitle">Nuestras Propuestas</span>
@@ -1279,7 +1247,7 @@
             <!-- Package 1 -->
             <div class="package-card">
                 <div class="package-img">
-                    <img src="equipo_bassico.jpg" alt="Equipo Básico de Sonido" loading="lazy" />
+                    <img src="equipo_bassico.jpg" alt="Equipo Básico de Sonido" loading="lazy">
                 </div>
                 <div class="package-body">
                     <h3 class="package-title">Equipo Básico</h3>
@@ -1306,7 +1274,7 @@
             <div class="package-card featured">
                 <div class="featured-tag">Más Popular</div>
                 <div class="package-img">
-                    <img src="basico_led.jpg" alt="Equipo Básico con Pantalla LED" loading="lazy" />
+                    <img src="basico_led.jpg" alt="Equipo Básico con Pantalla LED" loading="lazy">
                 </div>
                 <div class="package-body">
                     <h3 class="package-title">Básico + Pantalla LED</h3>
@@ -1333,7 +1301,7 @@
             <!-- Package 3 -->
             <div class="package-card">
                 <div class="package-img">
-                    <img src="equipo_exterior.jpg" alt="Equipo Para Exterior y Grandes Espacios" loading="lazy" />
+                    <img src="equipo_exterior.jpg" alt="Equipo Para Exterior y Grandes Espacios" loading="lazy">
                 </div>
                 <div class="package-body">
                     <h3 class="package-title">Equipo Exterior / Show</h3>
@@ -1391,12 +1359,12 @@
                 </a>
             </div>
             <div class="led-media">
-                <img src="alquiler_led.jpg" alt="Pantalla LED en evento" loading="lazy" />
+                <img src="alquiler_led.jpg" alt="Pantalla LED en evento" loading="lazy">
             </div>
         </div>
     </section>
 
-    <!-- Gallery -->
+    <!-- Gallery (Paquetes Disponibles) - ahora antes de Mejora tu Evento -->
     <section class="gallery-section" id="galeria">
         <div class="section-header">
             <span class="section-subtitle">Nuestros Trabajos</span>
@@ -1405,22 +1373,22 @@
         </div>
         <div class="gallery-grid">
             <div class="gallery-item">
-                <img src="alquiler_led.jpg" alt="Evento con pantalla LED y luces" loading="lazy" />
+                <img src="alquiler_led.jpg" alt="Evento con pantalla LED y luces" loading="lazy">
             </div>
             <div class="gallery-item">
-                <img src="dj michael.jpg" alt="Boda con iluminación robótica" loading="lazy" />
+                <img src="dj michael.jpg" alt="Boda con iluminación robótica" loading="lazy">
             </div>
             <div class="gallery-item">
-                <img src="basico_led.jpg" alt="Fiesta de 15 años con DJ Michael" loading="lazy" />
+                <img src="basico_led.jpg" alt="Fiesta de 15 años con DJ Michael" loading="lazy">
             </div>
             <div class="gallery-item">
-                <img src="equipo_bassico.jpg" alt="Montaje de sonido Line Array" loading="lazy" />
+                <img src="equipo_bassico.jpg" alt="Montaje de sonido Line Array" loading="lazy">
             </div>
             <div class="gallery-item">
-                <img src="basico_led.jpg" alt="Cabina de DJ con LED" loading="lazy" />
+                <img src="basico_led.jpg" alt="Cabina de DJ con LED" loading="lazy">
             </div>
             <div class="gallery-item">
-                <img src="equipo_exterior.jpg" alt="Espectáculo de luces en quinta" loading="lazy" />
+                <img src="equipo_exterior.jpg" alt="Espectáculo de luces en quinta" loading="lazy">
             </div>
         </div>
         <div class="gallery-cta">
@@ -1433,7 +1401,7 @@
         </div>
     </section>
 
-    <!-- Upgrades -->
+    <!-- Upgrades (Mejora tu Evento) - ahora debajo de la galería -->
     <section class="upgrades-section" id="mejora">
         <div class="section-header">
             <span class="section-subtitle">Opcionales</span>
@@ -1441,6 +1409,7 @@
             <p class="section-desc">Agrega estos servicios extra para una experiencia aún más espectacular.</p>
         </div>
         <div class="upgrades-grid">
+            <!-- Pista LED 4x4 -->
             <div class="upgrade-card">
                 <div class="upgrade-icon"><i class="fa-regular fa-square"></i></div>
                 <h3 class="upgrade-title">Pista LED 4x4</h3>
@@ -1450,6 +1419,8 @@
                     <i class="fa-brands fa-whatsapp"></i> Consultar
                 </a>
             </div>
+
+            <!-- Pista Paris -->
             <div class="upgrade-card">
                 <div class="upgrade-icon"><i class="fa-regular fa-gem"></i></div>
                 <h3 class="upgrade-title">Pista Paris</h3>
@@ -1459,6 +1430,8 @@
                     <i class="fa-brands fa-whatsapp"></i> Consultar
                 </a>
             </div>
+
+            <!-- Chispa Fría -->
             <div class="upgrade-card">
                 <div class="upgrade-icon"><i class="fa-regular fa-sparkles"></i></div>
                 <h3 class="upgrade-title">Chispa Fría</h3>
@@ -1481,7 +1454,7 @@
         <div class="testimonials-grid">
             <div class="testimonial-card">
                 <div class="testimonial-header">
-                    <img src="avatar1.jpg" alt="Foto de Laura" class="testimonial-avatar" loading="lazy" />
+                    <img src="avatar1.jpg" alt="Foto de Laura" class="testimonial-avatar" loading="lazy">
                     <div>
                         <div class="testimonial-name">Laura G.</div>
                         <div class="testimonial-role">Fiesta de 15 años</div>
@@ -1498,7 +1471,7 @@
             </div>
             <div class="testimonial-card">
                 <div class="testimonial-header">
-                    <img src="avatar2.jpg" alt="Foto de Carlos" class="testimonial-avatar" loading="lazy" />
+                    <img src="avatar2.jpg" alt="Foto de Carlos" class="testimonial-avatar" loading="lazy">
                     <div>
                         <div class="testimonial-name">Carlos R.</div>
                         <div class="testimonial-role">Boda</div>
@@ -1515,7 +1488,7 @@
             </div>
             <div class="testimonial-card">
                 <div class="testimonial-header">
-                    <img src="avatar3.jpg" alt="Foto de Mariana" class="testimonial-avatar" loading="lazy" />
+                    <img src="avatar3.jpg" alt="Foto de Mariana" class="testimonial-avatar" loading="lazy">
                     <div>
                         <div class="testimonial-name">Mariana S.</div>
                         <div class="testimonial-role">Evento Corporativo</div>
@@ -1586,22 +1559,44 @@
 
     <!-- Footer -->
     <footer>
+        <div class="visitor-counter">
+            <i class="fa-solid fa-eye"></i>
+            <span>Visitas: <strong id="visit-count">Cargando...</strong></span>
+        </div>
         <p>&copy; 2026 DJ MICHAEL / GS Producciones & Eventos. Todos los derechos reservados.</p>
         <p style="margin-top: 0.5rem; font-size: 0.8rem;">Villeta, Central · Cubrimos todo el departamento</p>
-
-        <!-- Contador de visitas con engranaje (global, sin clave) -->
-        <div class="visitor-counter">
-            <span class="counter-label">Visitas:</span>
-            <div class="gear-icon">
-                <i class="fa-solid fa-gear fa-spin" style="--fa-animation-duration: 6s;"></i>
-                <span id="visit-count">0</span>
-            </div>
-        </div>
     </footer>
 
     <!-- Scripts -->
     <script>
-        // Ocultar preloader
+        // Contador de visitas usando first-counter-5172
+        function loadVisitCounter() {
+            fetch('https://api.counterapi.dev/v1/first-counter-5172/visits/up')
+                .then(response => response.json())
+                .then(data => {
+                    const countElement = document.getElementById('visit-count');
+                    if (data && data.count !== undefined) {
+                        countElement.innerText = data.count.toLocaleString();
+                    } else if (data && data.value !== undefined) {
+                        countElement.innerText = data.value.toLocaleString();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al obtener el contador:', error);
+                    fetch('https://api.countapi.xyz/hit/first-counter-5172/visits')
+                        .then(res => res.json())
+                        .then(data => {
+                            document.getElementById('visit-count').innerText = (data.value || 1).toLocaleString();
+                        })
+                        .catch(() => {
+                            document.getElementById('visit-count').innerText = '1';
+                        });
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', loadVisitCounter);
+
+        // Ocultar preloader después de 2 segundos
         window.addEventListener('load', function() {
             setTimeout(function() {
                 document.getElementById('preloader').classList.add('hidden');
@@ -1626,7 +1621,7 @@
             });
         });
 
-        // Fondo de partículas
+        // Fondo animado con partículas (confeti y destellos)
         (function() {
             const canvas = document.getElementById('particles-canvas');
             const ctx = canvas.getContext('2d');
@@ -1727,34 +1722,6 @@
                 requestAnimationFrame(animate);
             }
             animate();
-        })();
-
-        // ============================================================
-        // CONTADOR DE VISITAS GLOBAL (sin clave, usando countapi.xyz)
-        // ============================================================
-        (function() {
-            // Usamos el mismo nombre del contador que tienes en CounterAPI,
-            // pero en countapi.xyz (sin autenticación).
-            // Cambia el namespace y la key si lo deseas.
-            const url = 'https://api.countapi.xyz/hit/pintosingenieria-max/first-counter-5172';
-
-            fetch(url)
-                .then(res => {
-                    if (!res.ok) {
-                        throw new Error('Error en la respuesta de countapi');
-                    }
-                    return res.json();
-                })
-                .then(data => {
-                    // countapi.xyz devuelve { value: número, ... }
-                    const visits = data.value || 0;
-                    document.getElementById('visit-count').textContent = visits;
-                })
-                .catch(err => {
-                    console.error('Error al obtener contador:', err);
-                    // Si falla, mostramos un signo de interrogación
-                    document.getElementById('visit-count').textContent = '?';
-                });
         })();
     </script>
 </body>
