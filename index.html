@@ -49,7 +49,46 @@
             position: relative;
         }
 
-        /* Fondo animado con partículas y destellos */
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease;
+        }
+        #preloader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #preloader img {
+            width: 120px;
+            height: auto;
+            animation: pulse 1.5s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px rgba(255, 30, 67, 0.6));
+        }
+        #preloader .loader-text {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.08); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        /* Fondo animado */
         #particles-canvas {
             position: fixed;
             top: 0;
@@ -60,7 +99,6 @@
             pointer-events: none;
         }
 
-        /* Efecto de fondo con gradiente animado como capa adicional */
         .bg-animated {
             position: fixed;
             top: 0;
@@ -665,7 +703,49 @@
             display: block;
         }
 
-        /* Opcionales (Mejora tu Evento) */
+        /* Gallery - ahora "Paquetes Disponibles" */
+        .gallery-section {
+            max-width: 1280px;
+            margin: 0 auto 8rem;
+            padding: 0 1.5rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            aspect-ratio: 1/1;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover {
+            border-color: var(--primary-red);
+            transform: scale(1.02);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-cta {
+            text-align: center;
+            margin-top: 2.5rem;
+        }
+
+        /* Upgrades (Mejora tu Evento) - ahora debajo de la galería */
         .upgrades-section {
             max-width: 1280px;
             margin: 0 auto 8rem;
@@ -791,48 +871,6 @@
         .testimonial-stars {
             color: #fbbf24;
             letter-spacing: 2px;
-        }
-
-        /* Gallery */
-        .gallery-section {
-            max-width: 1280px;
-            margin: 0 auto 8rem;
-            padding: 0 1.5rem;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .gallery-item {
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-            aspect-ratio: 1/1;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .gallery-item:hover {
-            border-color: var(--primary-red);
-            transform: scale(1.02);
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.1);
-        }
-
-        .gallery-cta {
-            text-align: center;
-            margin-top: 2.5rem;
         }
 
         /* Experience */
@@ -1053,7 +1091,13 @@
 </head>
 <body>
 
-    <!-- Fondo animado con partículas -->
+    <!-- Preloader -->
+    <div id="preloader">
+        <img src="dj michael logo principal.png" alt="DJ Michael Logo">
+        <div class="loader-text">Cargando...</div>
+    </div>
+
+    <!-- Fondo animado -->
     <div class="bg-animated"></div>
     <canvas id="particles-canvas"></canvas>
 
@@ -1078,8 +1122,8 @@
                 <li><a href="#inicio">Inicio</a></li>
                 <li><a href="#paquetes">Paquetes</a></li>
                 <li><a href="#pantalla-led">Pantalla LED</a></li>
+                <li><a href="#galeria">Paquetes Disponibles</a></li>
                 <li><a href="#mejora">Mejora tu Evento</a></li>
-                <li><a href="#galeria">Galería</a></li>
                 <li><a href="#testimonios">Testimonios</a></li>
                 <li><a href="#contacto">Contacto</a></li>
             </ul>
@@ -1168,7 +1212,7 @@
         </div>
     </section>
 
-    <!-- Packages -->
+    <!-- Packages (Paquetes de Sonido) -->
     <section class="packages-section" id="paquetes">
         <div class="section-header">
             <span class="section-subtitle">Nuestras Propuestas</span>
@@ -1297,7 +1341,44 @@
         </div>
     </section>
 
-    <!-- Mejora tu Evento - Opcionales -->
+    <!-- Gallery (Paquetes Disponibles) - ahora antes de Mejora tu Evento -->
+    <section class="gallery-section" id="galeria">
+        <div class="section-header">
+            <span class="section-subtitle">Nuestros Trabajos</span>
+            <h2 class="section-title">Paquetes Disponibles</h2>
+            <p class="section-desc">Mira cómo transformamos cada celebración con sonido, luz y pantallas LED.</p>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="alquiler_led.jpg" alt="Evento con pantalla LED y luces" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="dj michael.jpg" alt="Boda con iluminación robótica" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="basico_led.jpg" alt="Fiesta de 15 años con DJ Michael" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="equipo_bassico.jpg" alt="Montaje de sonido Line Array" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="basico_led.jpg" alt="Cabina de DJ con LED" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="equipo_exterior.jpg" alt="Espectáculo de luces en quinta" loading="lazy">
+            </div>
+        </div>
+        <div class="gallery-cta">
+            <a href="https://www.instagram.com/michael.pintos" target="_blank" class="btn-secondary">
+                <i class="fa-brands fa-instagram"></i> Ver más en Instagram
+            </a>
+            <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20compartir%20fotos%20de%20mi%20evento" target="_blank" class="btn-primary" style="margin-left: 1rem;">
+                <i class="fa-solid fa-upload"></i> Sube tus Fotos
+            </a>
+        </div>
+    </section>
+
+    <!-- Upgrades (Mejora tu Evento) - ahora debajo de la galería -->
     <section class="upgrades-section" id="mejora">
         <div class="section-header">
             <span class="section-subtitle">Opcionales</span>
@@ -1337,43 +1418,6 @@
                     <i class="fa-brands fa-whatsapp"></i> Consultar
                 </a>
             </div>
-        </div>
-    </section>
-
-    <!-- Gallery -->
-    <section class="gallery-section" id="galeria">
-        <div class="section-header">
-            <span class="section-subtitle">Nuestros Trabajos</span>
-            <h2 class="section-title">Galería de Eventos</h2>
-            <p class="section-desc">Mira cómo transformamos cada celebración con sonido, luz y pantallas LED.</p>
-        </div>
-        <div class="gallery-grid">
-            <div class="gallery-item">
-                <img src="alquiler_led.jpg" alt="Evento con pantalla LED y luces" loading="lazy">
-            </div>
-            <div class="gallery-item">
-                <img src="dj michael.jpg" alt="Boda con iluminación robótica" loading="lazy">
-            </div>
-            <div class="gallery-item">
-                <img src="basico_led.jpg" alt="Fiesta de 15 años con DJ Michael" loading="lazy">
-            </div>
-            <div class="gallery-item">
-                <img src="equipo_bassico.jpg" alt="Montaje de sonido Line Array" loading="lazy">
-            </div>
-            <div class="gallery-item">
-                <img src="basico_led.jpg" alt="Cabina de DJ con LED" loading="lazy">
-            </div>
-            <div class="gallery-item">
-                <img src="equipo_exterior.jpg" alt="Espectáculo de luces en quinta" loading="lazy">
-            </div>
-        </div>
-        <div class="gallery-cta">
-            <a href="https://www.instagram.com/michael.pintos" target="_blank" class="btn-secondary">
-                <i class="fa-brands fa-instagram"></i> Ver más en Instagram
-            </a>
-            <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20compartir%20fotos%20de%20mi%20evento" target="_blank" class="btn-primary" style="margin-left: 1rem;">
-                <i class="fa-solid fa-upload"></i> Sube tus Fotos
-            </a>
         </div>
     </section>
 
@@ -1498,6 +1542,13 @@
 
     <!-- Scripts -->
     <script>
+        // Ocultar preloader después de 2 segundos
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('preloader').classList.add('hidden');
+            }, 2000);
+        });
+
         // Mobile hamburger menu
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('nav-links');
@@ -1542,7 +1593,7 @@
                     this.speedY = Math.random() * 2 + 1;
                     this.speedX = (Math.random() - 0.5) * 0.8;
                     this.opacity = Math.random() * 0.6 + 0.2;
-                    this.color = `hsl(${Math.random() * 60 + 340}, 80%, 60%)`; // rojos, rosas, naranjas
+                    this.color = `hsl(${Math.random() * 60 + 340}, 80%, 60%)`;
                     this.rotation = Math.random() * 360;
                     this.rotSpeed = (Math.random() - 0.5) * 0.02;
                     this.shape = Math.random() > 0.5 ? 'circle' : 'square';
@@ -1571,7 +1622,6 @@
                     } else {
                         ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
                     }
-                    // Brillo interior
                     ctx.shadowColor = this.color;
                     ctx.shadowBlur = 15;
                     ctx.fill();
@@ -1585,17 +1635,6 @@
                 particles.push(p);
             }
 
-            function animate() {
-                ctx.clearRect(0, 0, width, height);
-                particles.forEach(p => {
-                    p.update();
-                    p.draw(ctx);
-                });
-                requestAnimationFrame(animate);
-            }
-            animate();
-
-            // Añadir algunos destellos adicionales (estrellas)
             let stars = [];
             for (let i = 0; i < 60; i++) {
                 stars.push({
@@ -1619,9 +1658,7 @@
                 });
             }
 
-            // Override animate para incluir estrellas
-            const originalAnimate = animate;
-            animate = function() {
+            function animate() {
                 ctx.clearRect(0, 0, width, height);
                 particles.forEach(p => {
                     p.update();
@@ -1629,9 +1666,7 @@
                 });
                 drawStars();
                 requestAnimationFrame(animate);
-            };
-            // Reiniciar
-            cancelAnimationFrame(animate);
+            }
             animate();
         })();
     </script>
