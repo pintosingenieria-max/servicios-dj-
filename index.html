@@ -1569,44 +1569,71 @@
 
     <!-- Scripts -->
     <script>
-        // 🔥 Contador de visitas con tu token personalizado
+        // Contador de visitas con Firebase Realtime Database
         function loadVisitCounter() {
-            const token = "ut_CKkAyG8Pn62YSmJ5DrVJUEXmizDbsjtftVLkODCN";
-            // Usamos un namespace y slug fijos para que sea más fácil de administrar
-            const namespace = "djmichael";
-            const counter = "visitas";
-            const url = `https://api.counterapi.dev/v1/${namespace}/${counter}/up`;
+            const url = 'https://pagina-mp-default-rtdb.asia-southeast1.firebasedatabase.app/visitas.json';
+            const countElement = document.getElementById('visit-count');
 
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error en la petición');
-                }
-                return response.json();
-            })
-            .then(data => {
-                const countElement = document.getElementById('visit-count');
-                if (countElement && data && data.count !== undefined) {
-                    countElement.innerText = data.count.toLocaleString();
-                }
-            })
-            .catch(error => {
-                console.error('Error al obtener el contador:', error);
-                // Respaldo: si falla, muestra un número genérico
-                const countElement = document.getElementById('visit-count');
-                if (countElement) {
-                    countElement.innerText = "1";
-                }
-            });
+            // Si ya contamos esta sesión, solo mostrar el valor actual
+            if (sessionStorage.getItem('visitCounted')) {
+                fetch(url)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (countElement) {
+                            countElement.innerText = data ? data.toLocaleString() : '0';
+                        }
+                    })
+                    .catch(() => {
+                        if (countElement) countElement.innerText = '?';
+                    });
+                return;
+            }
+
+            // Leer, incrementar y actualizar
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    let currentCount = data ? data : 0;
+                    const newCount = currentCount + 1;
+                    return fetch(url, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(newCount)
+                    });
+                })
+                .then(res => {
+                    if (!res.ok) throw new Error('Error al actualizar');
+                    return res.json();
+                })
+                .then(() => {
+                    if (countElement) {
+                        // Volver a leer el valor actualizado (por si hubo concurrencia)
+                        return fetch(url);
+                    }
+                })
+                .then(res => res ? res.json() : null)
+                .then(finalData => {
+                    if (countElement && finalData !== null) {
+                        countElement.innerText = finalData.toLocaleString();
+                    }
+                    sessionStorage.setItem('visitCounted', 'true');
+                })
+                .catch(error => {
+                    console.error('Error en el contador:', error);
+                    // Intento mostrar al menos el valor actual
+                    fetch(url)
+                        .then(res => res.json())
+                        .then(data => {
+                            if (countElement) {
+                                countElement.innerText = data ? data.toLocaleString() : '0';
+                            }
+                        })
+                        .catch(() => {
+                            if (countElement) countElement.innerText = '?';
+                        });
+                });
         }
 
-        // Se ejecuta al cargar la página
         document.addEventListener('DOMContentLoaded', loadVisitCounter);
 
         // Ocultar preloader después de 2 segundos
@@ -1736,14 +1763,6 @@
             }
             animate();
         })();
-    </script>
-
-    <!-- Script automático de CounterAPI (respaldo y conteo automático) -->
-    <script 
-        async 
-        defer 
-        data-key="ut_CKkAyG8Pn62YSmJ5DrVJUEXmizDbsjtftVLkODCN" 
-        src="https://cdn.counterapi.dev/counter.js">
     </script>
 </body>
 </html>
