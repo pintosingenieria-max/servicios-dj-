@@ -1569,36 +1569,44 @@
 
     <!-- Scripts -->
     <script>
-        // Contador de visitas usando CounterAPI con tu equipo y API Slug exacto
+        // 🔥 Contador de visitas con tu token personalizado
         function loadVisitCounter() {
-            const team = "pintosingenieria-maxs-team";
-            const slug = "first-counter-5172";
-            const url = `https://api.counterapi.dev/v1/${team}/${slug}/up`;
+            const token = "ut_CKkAyG8Pn62YSmJ5DrVJUEXmizDbsjtftVLkODCN";
+            // Usamos un namespace y slug fijos para que sea más fácil de administrar
+            const namespace = "djmichael";
+            const counter = "visitas";
+            const url = `https://api.counterapi.dev/v1/${namespace}/${counter}/up`;
 
-            fetch(url)
-                .then(response => {
-                    if (!response.ok) {
-                        // Respaldo en caso de que la ruta por equipo cambie
-                        return fetch(`https://api.counterapi.dev/v1/${slug}/up`);
-                    }
-                    return response;
-                })
-                .then(response => response.json())
-                .then(data => {
-                    const countElement = document.getElementById('visit-count');
-                    if (countElement && data && data.count !== undefined) {
-                        countElement.innerText = data.count.toLocaleString();
-                    }
-                })
-                .catch(error => {
-                    console.error('Error al obtener el contador:', error);
-                    const countElement = document.getElementById('visit-count');
-                    if (countElement) {
-                        countElement.innerText = "1";
-                    }
-                });
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la petición');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const countElement = document.getElementById('visit-count');
+                if (countElement && data && data.count !== undefined) {
+                    countElement.innerText = data.count.toLocaleString();
+                }
+            })
+            .catch(error => {
+                console.error('Error al obtener el contador:', error);
+                // Respaldo: si falla, muestra un número genérico
+                const countElement = document.getElementById('visit-count');
+                if (countElement) {
+                    countElement.innerText = "1";
+                }
+            });
         }
 
+        // Se ejecuta al cargar la página
         document.addEventListener('DOMContentLoaded', loadVisitCounter);
 
         // Ocultar preloader después de 2 segundos
@@ -1729,7 +1737,13 @@
             animate();
         })();
     </script>
+
+    <!-- Script automático de CounterAPI (respaldo y conteo automático) -->
+    <script 
+        async 
+        defer 
+        data-key="ut_CKkAyG8Pn62YSmJ5DrVJUEXmizDbsjtftVLkODCN" 
+        src="https://cdn.counterapi.dev/counter.js">
+    </script>
 </body>
 </html>
-index.html
-Mostrando index.html.
