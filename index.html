@@ -1569,28 +1569,33 @@
 
     <!-- Scripts -->
     <script>
-        // Contador de visitas usando first-counter-5172
+        // Contador de visitas usando CounterAPI con tu equipo y API Slug exacto
         function loadVisitCounter() {
-            fetch('https://api.counterapi.dev/v1/first-counter-5172/visits/up')
+            const team = "pintosingenieria-maxs-team";
+            const slug = "first-counter-5172";
+            const url = `https://api.counterapi.dev/v1/${team}/${slug}/up`;
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        // Respaldo en caso de que la ruta por equipo cambie
+                        return fetch(`https://api.counterapi.dev/v1/${slug}/up`);
+                    }
+                    return response;
+                })
                 .then(response => response.json())
                 .then(data => {
                     const countElement = document.getElementById('visit-count');
-                    if (data && data.count !== undefined) {
+                    if (countElement && data && data.count !== undefined) {
                         countElement.innerText = data.count.toLocaleString();
-                    } else if (data && data.value !== undefined) {
-                        countElement.innerText = data.value.toLocaleString();
                     }
                 })
                 .catch(error => {
                     console.error('Error al obtener el contador:', error);
-                    fetch('https://api.countapi.xyz/hit/first-counter-5172/visits')
-                        .then(res => res.json())
-                        .then(data => {
-                            document.getElementById('visit-count').innerText = (data.value || 1).toLocaleString();
-                        })
-                        .catch(() => {
-                            document.getElementById('visit-count').innerText = '1';
-                        });
+                    const countElement = document.getElementById('visit-count');
+                    if (countElement) {
+                        countElement.innerText = "1";
+                    }
                 });
         }
 
@@ -1726,3 +1731,5 @@
     </script>
 </body>
 </html>
+index.html
+Mostrando index.html.
