@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Uploadcare Widget -->
+    <!-- Uploadcare Widget (versión estable) -->
     <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
 
     <!-- Open Graph -->
@@ -1828,6 +1828,7 @@
             FIREBASE_URL: 'https://pagina-mp-default-rtdb.asia-southeast1.firebasedatabase.app/',
             // Uploadcare pública
             UPLOADCARE_PUBLIC_KEY: 'f2d187ae3604f0b7c3fe',
+            // (Opcional) Clave secreta si usas firmas, no la necesitamos para el widget básico
             PASSWORD: '1234'
         };
 
@@ -2003,7 +2004,7 @@
         })();
 
         // =============================================================
-        // 5. SISTEMA DE EDICIÓN (Firebase + Uploadcare)
+        // 5. SISTEMA DE EDICIÓN (Firebase + Uploadcare con openDialog)
         // =============================================================
         (function() {
             const editToggleBtn = document.getElementById('editToggleBtn');
@@ -2213,51 +2214,40 @@
             });
 
             // =========================================================
-            // SUBIDA CON UPLOADCARE
+            // SUBIDA CON UPLOADCARE usando openDialog (más fiable)
             // =========================================================
-            // Inicializar el widget de Uploadcare (dialogue)
-            // Usamos la API simple con uploadcare.Widget
             uploadUploadcareBtn.addEventListener('click', function() {
                 if (!CONFIG.UPLOADCARE_PUBLIC_KEY) {
                     alert('Falta la clave pública de Uploadcare.');
                     return;
                 }
 
-                // Creamos un input de tipo file oculto de Uploadcare
-                // Si ya existe uno, lo usamos, si no lo creamos
-                let ucInput = document.getElementById('uc_upload_input');
-                if (!ucInput) {
-                    ucInput = document.createElement('input');
-                    ucInput.type = 'file';
-                    ucInput.id = 'uc_upload_input';
-                    ucInput.setAttribute('data-public-key', CONFIG.UPLOADCARE_PUBLIC_KEY);
-                    ucInput.setAttribute('data-multiple', 'false');
-                    ucInput.setAttribute('data-clearable', 'true');
-                    ucInput.style.display = 'none';
-                    document.body.appendChild(ucInput);
-
-                    // Inicializar el widget
-                    const widget = uploadcare.Widget(ucInput);
-                    // Escuchar el evento de carga completada
-                    ucInput.addEventListener('uploadcare.done', function(e) {
-                        const fileInfo = e.detail;
-                        // La URL pública de la imagen subida en Uploadcare es:
-                        // https://ucarecdn.com/{uuid}/ - podemos obtener la URL
-                        const fileUrl = fileInfo.cdnUrl;
-                        if (fileUrl) {
-                            modalImgPreview.src = fileUrl;
-                            modalImgUrl.value = fileUrl;
-                        } else {
-                            alert('No se pudo obtener la URL de la imagen.');
-                        }
-                    });
-                }
-
-                // Forzar clic en el input para abrir el diálogo de Uploadcare
-                document.getElementById('uc_upload_input').click();
+                // Abrimos el diálogo de Uploadcare
+                uploadcare.openDialog({
+                    publicKey: CONFIG.UPLOADCARE_PUBLIC_KEY,
+                    multiple: false,
+                    // Puedes añadir opciones de edición de imagen si quieres:
+                    // imageShrink: '640x480',
+                    // crop: 'free',
+                }).then(function(file) {
+                    // file es el objeto del archivo subido
+                    return file.done(); // esperamos a que esté completamente subido
+                }).then(function(fileInfo) {
+                    // Obtenemos la URL CDN
+                    const cdnUrl = fileInfo.cdnUrl;
+                    if (cdnUrl) {
+                        modalImgPreview.src = cdnUrl;
+                        modalImgUrl.value = cdnUrl;
+                    } else {
+                        alert('No se pudo obtener la URL de la imagen.');
+                    }
+                }).catch(function(error) {
+                    console.error('Error en Uploadcare:', error);
+                    alert('Error al subir la imagen: ' + (error.message || 'desconocido'));
+                });
             });
 
-            // Carga local de imagen (sin cambios)
+            // Carga local de imagen
             modalFileInput.addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (!file) return;
