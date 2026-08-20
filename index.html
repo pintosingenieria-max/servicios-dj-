@@ -27,7 +27,7 @@
     <meta property="og:url" content="https://djmichael.com.py">
 
     <style>
-        /* ======== TODOS TUS ESTILOS (con mejoras para la galería) ======== */
+        /* ======== TODOS TUS ESTILOS ======== */
         :root {
             --bg-dark: #090a0f;
             --bg-card: rgba(18, 20, 29, 0.7);
@@ -1829,7 +1829,7 @@
         <div class="visitor-counter">
             <i class="fa-solid fa-eye"></i>
             <span>Visitas: <strong id="visit-count">Cargando...</strong></span>
-            <button class="edit-toggle-btn" id="editToggleBtn" aria-label="Editar" title="Editar página (contraseña: 1234)">
+            <button class="edit-toggle-btn" id="editToggleBtn" aria-label="Editar" title="Editar página (contraseña: 12345)">
                 <i class="fa-solid fa-pen"></i>
             </button>
         </div>
@@ -1881,7 +1881,7 @@
         const CONFIG = {
             FIREBASE_URL: 'https://pagina-mp-default-rtdb.asia-southeast1.firebasedatabase.app/',
             UPLOADCARE_PUBLIC_KEY: 'f2d187ae3604f0b7c3fe',
-            PASSWORD: '1234'
+            PASSWORD: '12345' // Contraseña actualizada
         };
 
         // =============================================================
@@ -2057,6 +2057,8 @@
 
         // =============================================================
         // 5. SISTEMA DE EDICIÓN (Firebase + Uploadcare)
+        //    - Protegido con contraseña 12345
+        //    - Videos en bucle (loop) en la galería
         // =============================================================
         (function() {
             const editToggleBtn = document.getElementById('editToggleBtn');
@@ -2156,7 +2158,7 @@
             }
 
             // =========================================================
-            // FUNCIONES PARA LA GALERÍA DINÁMICA (IMÁGENES Y VIDEOS)
+            // FUNCIONES PARA LA GALERÍA DINÁMICA (IMÁGENES Y VIDEOS CON LOOP)
             // =========================================================
 
             function renderGalleryItems(items) {
@@ -2176,8 +2178,9 @@
                 let html = '';
                 items.forEach((item, index) => {
                     const isVideo = item.type === 'video' || (item.src && (item.src.match(/\.(mp4|webm|ogg|mov)$/i) || item.src.includes('video')));
+                    // Para videos: loop, autoplay, muted y controls
                     const mediaTag = isVideo
-                        ? `<video controls preload="metadata" style="width:100%;height:100%;object-fit:cover;background:#000;"><source src="${item.src}" type="video/mp4"></video>`
+                        ? `<video controls loop autoplay muted playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;background:#000;"><source src="${item.src}" type="video/mp4"></video>`
                         : `<img src="${item.src}" alt="Galería ${index+1}" loading="lazy">`;
 
                     html += `
@@ -2200,7 +2203,13 @@
 
                 grid.innerHTML = html;
 
-                // Eventos de los botones
+                // Eventos de los botones (solo si el modo edición está activo)
+                if (isEditMode) {
+                    attachGalleryEvents();
+                }
+            }
+
+            function attachGalleryEvents() {
                 document.querySelectorAll('.gallery-delete-btn').forEach(btn => {
                     btn.addEventListener('click', function(e) {
                         e.stopPropagation();
@@ -2228,24 +2237,6 @@
                 return loadContentFromFirebase().then(allContent => {
                     allContent['galeria_items'] = items;
                     return saveContentToFirebase(allContent);
-                });
-            }
-
-            function addGalleryItem(fileInfo) {
-                const url = fileInfo.cdnUrl;
-                const mimeType = fileInfo.mimeType || '';
-                const type = mimeType.startsWith('video/') ? 'video' : 'image';
-
-                getGalleryItems().then(items => {
-                    if (!items) items = [];
-                    items.push({ src: url, type: type });
-                    return saveGalleryItems(items);
-                }).then(() => {
-                    return getGalleryItems();
-                }).then(items => {
-                    renderGalleryItems(items);
-                }).catch(err => {
-                    alert('Error al añadir elemento a la galería: ' + err.message);
                 });
             }
 
@@ -2376,15 +2367,9 @@
             });
 
             // =========================================================
-            // FUNCIONES DEL MODAL DE EDICIÓN (resto del sistema)
+            // FUNCIONES DEL MODAL DE EDICIÓN
             // =========================================================
 
-            // ... (el resto de las funciones del modal: openModal, closeModal, saveCurrentEdit, etc.)
-
-            // Para no repetir todo el código del modal aquí (que ya estaba en la versión anterior),
-            // voy a mantener la estructura completa que ya teníamos.
-
-            // Abrir modal
             function openModal(key, type, imgTarget, textTarget1, textTarget2, textTarget3, specsTarget) {
                 currentEditKey = key;
                 currentEditType = type;
@@ -2535,15 +2520,19 @@
                     'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%231a1a24%22/%3E%3Ctext x=%2250%22 y=%22110%22 font-family=%22Arial%22 font-size=%2220%22 fill=%22%23666%22%3ESin imagen%3C/text%3E%3C/svg%3E';
             });
 
-            // Activar/desactivar modo edición
+            // =========================================================
+            // ACTIVAR/DESACTIVAR MODO EDICIÓN CON CONTRASEÑA 12345
+            // =========================================================
             editToggleBtn.addEventListener('click', function() {
                 if (isEditMode) {
+                    // Desactivar modo edición
                     document.body.classList.remove('edit-mode');
                     editToggleBtn.classList.remove('active');
                     isEditMode = false;
                     editToggleBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
-                    editToggleBtn.title = 'Editar página (contraseña: 1234)';
+                    editToggleBtn.title = 'Editar página (contraseña: 12345)';
                 } else {
+                    // Solicitar contraseña
                     const pass = prompt('Introduce la contraseña para editar:');
                     if (pass === CONFIG.PASSWORD) {
                         document.body.classList.add('edit-mode');
@@ -2551,18 +2540,20 @@
                         isEditMode = true;
                         editToggleBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
                         editToggleBtn.title = 'Desactivar modo edición';
+                        // Volver a asignar eventos a los botones de la galería
+                        attachGalleryEvents();
                     } else if (pass !== null) {
                         alert('Contraseña incorrecta.');
                     }
                 }
             });
 
-            // Escuchar clics en botones de edición
+            // Escuchar clics en botones de edición (solo si modo edición activo)
             document.addEventListener('click', function(e) {
                 const btn = e.target.closest('.edit-btn-overlay');
                 if (!btn) return;
-                if (!document.body.classList.contains('edit-mode')) {
-                    alert('Primero activa el modo edición con el lápiz del footer.');
+                if (!isEditMode) {
+                    alert('Primero activa el modo edición con el lápiz del footer (contraseña: 12345).');
                     return;
                 }
                 e.preventDefault();
