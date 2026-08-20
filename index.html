@@ -10,7 +10,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Uploadcare Widget (versión estable) -->
+    
+    <!-- ============================================================= -->
+    <!--  CLAVE PÚBLICA DE UPLOADCARE (NECESARIA ANTES DEL SCRIPT)    -->
+    <!-- ============================================================= -->
+    <script>
+        // Esta variable global es leída automáticamente por el widget de Uploadcare
+        UPLOADCARE_PUBLIC_KEY = 'f2d187ae3604f0b7c3fe';
+    </script>
+    <!-- Uploadcare Widget (versión 3.x estable) -->
     <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
 
     <!-- Open Graph -->
@@ -1826,9 +1834,8 @@
         const CONFIG = {
             // Firebase (misma base de datos que el contador)
             FIREBASE_URL: 'https://pagina-mp-default-rtdb.asia-southeast1.firebasedatabase.app/',
-            // Uploadcare pública
+            // Uploadcare pública (también declarada globalmente en el head)
             UPLOADCARE_PUBLIC_KEY: 'f2d187ae3604f0b7c3fe',
-            // (Opcional) Clave secreta si usas firmas, no la necesitamos para el widget básico
             PASSWORD: '1234'
         };
 
@@ -1879,7 +1886,7 @@
         document.addEventListener('DOMContentLoaded', updateVisitCounter);
 
         // =============================================================
-        // 3. PARTÍCULAS
+        // 3. PARTÍCULAS (confeti y destellos)
         // =============================================================
         (function() {
             const canvas = document.getElementById('particles-canvas');
@@ -2004,7 +2011,7 @@
         })();
 
         // =============================================================
-        // 5. SISTEMA DE EDICIÓN (Firebase + Uploadcare con openDialog)
+        // 5. SISTEMA DE EDICIÓN (Firebase + Uploadcare)
         // =============================================================
         (function() {
             const editToggleBtn = document.getElementById('editToggleBtn');
@@ -2214,26 +2221,28 @@
             });
 
             // =========================================================
-            // SUBIDA CON UPLOADCARE usando openDialog (más fiable)
+            // SUBIDA CON UPLOADCARE (FUNCIONAL CON LA CLAVE GLOBAL)
             // =========================================================
             uploadUploadcareBtn.addEventListener('click', function() {
-                if (!CONFIG.UPLOADCARE_PUBLIC_KEY) {
-                    alert('Falta la clave pública de Uploadcare.');
+                // Verificamos que la clave global esté definida
+                if (typeof UPLOADCARE_PUBLIC_KEY === 'undefined') {
+                    alert('La clave pública de Uploadcare no está configurada. Revisa el <head> de la página.');
                     return;
                 }
 
-                // Abrimos el diálogo de Uploadcare
+                // Abrimos el diálogo de Uploadcare pasando la clave explícitamente
                 uploadcare.openDialog({
-                    publicKey: CONFIG.UPLOADCARE_PUBLIC_KEY,
+                    publicKey: UPLOADCARE_PUBLIC_KEY,
                     multiple: false,
-                    // Puedes añadir opciones de edición de imagen si quieres:
-                    // imageShrink: '640x480',
+                    // Opcional: puedes añadir más configuraciones aquí
+                    // imagesOnly: true,      // solo imágenes
+                    // imageShrink: '1024x1024',
                     // crop: 'free',
                 }).then(function(file) {
-                    // file es el objeto del archivo subido
-                    return file.done(); // esperamos a que esté completamente subido
+                    // file es el objeto del archivo seleccionado
+                    return file.done(); // esperamos a que termine la subida
                 }).then(function(fileInfo) {
-                    // Obtenemos la URL CDN
+                    // fileInfo contiene la información del archivo subido
                     const cdnUrl = fileInfo.cdnUrl;
                     if (cdnUrl) {
                         modalImgPreview.src = cdnUrl;
@@ -2243,11 +2252,16 @@
                     }
                 }).catch(function(error) {
                     console.error('Error en Uploadcare:', error);
+                    // Si el usuario cierra el diálogo, no mostramos error
+                    if (error && error.message && error.message.includes('canceled')) {
+                        // El usuario canceló la subida, no hacemos nada
+                        return;
+                    }
                     alert('Error al subir la imagen: ' + (error.message || 'desconocido'));
                 });
             });
 
-            // Carga local de imagen
+            // Carga local de imagen (base64)
             modalFileInput.addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (!file) return;
