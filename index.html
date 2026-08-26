@@ -1,33 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DJ MICHAEL | Eventos Premium, Audio, Iluminación y Pantallas LED</title>
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
     <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- ============================================================= -->
-    <!--  CLAVE PÚBLICA DE UPLOADCARE (NECESARIA ANTES DEL SCRIPT)    -->
-    <!-- ============================================================= -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <!-- CLAVE PÚBLICA DE UPLOADCARE -->
     <script>
         UPLOADCARE_PUBLIC_KEY = 'f2d187ae3604f0b7c3fe';
     </script>
-    <!-- Uploadcare Widget (versión 3.x estable) -->
+    <!-- Uploadcare Widget (versión 3.x) -->
     <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
 
     <!-- Open Graph -->
-    <meta property="og:title" content="DJ MICHAEL | Sonido, Iluminación y Pantallas LED para Eventos en Central">
-    <meta property="og:description" content="Servicio profesional de DJ en Villeta, Central. Cubrimos toda la región con sonido Line Array, iluminación robótica y pantallas LED.">
-    <meta property="og:image" content="dj michael.jpg">
-    <meta property="og:url" content="https://djmichael.com.py">
+    <meta property="og:title" content="DJ MICHAEL | Sonido, Iluminación y Pantallas LED para Eventos en Central" />
+    <meta property="og:description" content="Servicio profesional de DJ en Villeta, Central. Cubrimos toda la región con sonido Line Array, iluminación robótica y pantallas LED." />
+    <meta property="og:image" content="dj michael.jpg" />
+    <meta property="og:url" content="https://djmichael.com.py" />
 
     <style>
-        /* ======== TODOS TUS ESTILOS ======== */
+        /* ======== TODOS TUS ESTILOS (sin cambios) ======== */
         :root {
             --bg-dark: #090a0f;
             --bg-card: rgba(18, 20, 29, 0.7);
@@ -414,6 +412,7 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.8);
             background: var(--bg-card);
             transition: all 0.5s ease;
+            aspect-ratio: 16/9;
         }
 
         .hero-main-card:hover {
@@ -421,11 +420,12 @@
             transform: scale(1.01);
         }
 
+        .hero-main-card video,
         .hero-main-card img {
             width: 100%;
-            height: auto;
-            display: block;
+            height: 100%;
             object-fit: cover;
+            display: block;
         }
 
         /* Features */
@@ -702,6 +702,7 @@
             overflow: hidden;
             border: 1px solid var(--border-color);
             box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+            aspect-ratio: 16/9;
         }
 
         .led-media img {
@@ -1365,7 +1366,7 @@
 
     <!-- Preloader -->
     <div id="preloader">
-        <img src="dj michael logo principal.png" alt="DJ Michael Logo">
+        <img src="dj michael logo principal.png" alt="DJ Michael Logo" />
         <div class="loader-text">Cargando...</div>
     </div>
 
@@ -1382,7 +1383,7 @@
     <header>
         <div class="nav-container">
             <a href="#" class="logo-box">
-                <img src="dj michael logo principal.png" alt="DJ Michael Logo" loading="lazy">
+                <img src="dj michael logo principal.png" alt="DJ Michael Logo" loading="lazy" />
                 <span class="logo-text">DJ MICHAEL</span>
             </a>
             <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
@@ -1445,11 +1446,15 @@
                 </div>
             </div>
         </div>
+
+        <!-- HERO MEDIA DINÁMICO (imagen o video) -->
         <div class="hero-media edit-container">
-            <div class="hero-main-card">
-                <img id="hero_img" src="dj michael.jpg" alt="DJ Michael en acción durante un evento" loading="lazy">
+            <div class="hero-main-card" id="hero_media_container">
+                <!-- Se carga dinámicamente desde Firebase o por defecto -->
             </div>
-            <button class="edit-btn-overlay" data-key="hero_img" data-type="image+text" data-img-target="hero_img" data-text-target="hero_title" data-text-target2="hero_desc_text"></button>
+            <button class="edit-btn-overlay" data-key="hero_media" data-type="media" data-target="hero_media_container">
+                <i class="fa-solid fa-pen"></i>
+            </button>
         </div>
     </section>
 
@@ -1509,7 +1514,7 @@
             <!-- Paquete 1 -->
             <div class="package-card edit-container">
                 <div class="package-img">
-                    <img id="paquete1_img" src="equipo_bassico.jpg" alt="Equipo Básico de Sonido" loading="lazy">
+                    <img id="paquete1_img" src="equipo_bassico.jpg" alt="Equipo Básico de Sonido" loading="lazy" />
                 </div>
                 <button class="edit-btn-overlay" data-key="paquete1" data-type="package" data-img-target="paquete1_img" data-text-target="paquete1_titulo" data-text-target2="paquete1_sub" data-specs-target="paquete1_specs"></button>
                 <div class="package-body">
@@ -1537,7 +1542,7 @@
             <div class="package-card featured edit-container">
                 <div class="featured-tag">Más Popular</div>
                 <div class="package-img">
-                    <img id="paquete2_img" src="basico_led.jpg" alt="Equipo Básico con Pantalla LED" loading="lazy">
+                    <img id="paquete2_img" src="basico_led.jpg" alt="Equipo Básico con Pantalla LED" loading="lazy" />
                 </div>
                 <button class="edit-btn-overlay" data-key="paquete2" data-type="package" data-img-target="paquete2_img" data-text-target="paquete2_titulo" data-text-target2="paquete2_sub" data-specs-target="paquete2_specs"></button>
                 <div class="package-body">
@@ -1565,7 +1570,7 @@
             <!-- Paquete 3 -->
             <div class="package-card edit-container">
                 <div class="package-img">
-                    <img id="paquete3_img" src="equipo_exterior.jpg" alt="Equipo Para Exterior y Grandes Espacios" loading="lazy">
+                    <img id="paquete3_img" src="equipo_exterior.jpg" alt="Equipo Para Exterior y Grandes Espacios" loading="lazy" />
                 </div>
                 <button class="edit-btn-overlay" data-key="paquete3" data-type="package" data-img-target="paquete3_img" data-text-target="paquete3_titulo" data-text-target2="paquete3_sub" data-specs-target="paquete3_specs"></button>
                 <div class="package-body">
@@ -1611,13 +1616,13 @@
                 <button class="edit-btn-overlay" data-key="led" data-type="image+text" data-img-target="led_img" data-text-target="led_titulo" data-text-target2="led_desc"></button>
             </div>
             <div class="led-media edit-container">
-                <img id="led_img" src="alquiler_led.jpg" alt="Pantalla LED en evento" loading="lazy">
+                <img id="led_img" src="alquiler_led.jpg" alt="Pantalla LED en evento" loading="lazy" />
                 <button class="edit-btn-overlay" data-key="led_img" data-type="image+text" data-img-target="led_img" data-text-target="led_titulo" data-text-target2="led_desc"></button>
             </div>
         </div>
     </section>
 
-    <!-- Gallery (Dinámica) -->
+    <!-- Gallery -->
     <section class="gallery-section" id="galeria">
         <div class="section-header">
             <span class="section-subtitle">Nuestros Trabajos</span>
@@ -1631,12 +1636,8 @@
             </p>
         </div>
 
-        <!-- Contenedor dinámico de la galería -->
-        <div class="gallery-grid" id="gallery-grid">
-            <!-- Los elementos se generan desde JavaScript -->
-        </div>
+        <div class="gallery-grid" id="gallery-grid"></div>
 
-        <!-- Botones de acción de la galería -->
         <div class="gallery-cta">
             <button id="addGalleryBtn" class="btn-primary" style="font-size: 1rem; padding: 0.8rem 2rem;">
                 <i class="fa-solid fa-plus-circle"></i> Añadir imagen o video
@@ -1710,7 +1711,7 @@
         <div class="testimonials-grid">
             <div class="testimonial-card edit-container">
                 <div class="testimonial-header">
-                    <img id="testimonio1_avatar" src="avatar1.jpg" alt="Foto de Laura" class="testimonial-avatar" loading="lazy">
+                    <img id="testimonio1_avatar" src="avatar1.jpg" alt="Foto de Laura" class="testimonial-avatar" loading="lazy" />
                     <div>
                         <div class="testimonial-name edit-text" id="testimonio1_nombre">Laura G.</div>
                         <div class="testimonial-role edit-text" id="testimonio1_rol">Fiesta de 15 años</div>
@@ -1728,7 +1729,7 @@
             </div>
             <div class="testimonial-card edit-container">
                 <div class="testimonial-header">
-                    <img id="testimonio2_avatar" src="avatar2.jpg" alt="Foto de Carlos" class="testimonial-avatar" loading="lazy">
+                    <img id="testimonio2_avatar" src="avatar2.jpg" alt="Foto de Carlos" class="testimonial-avatar" loading="lazy" />
                     <div>
                         <div class="testimonial-name edit-text" id="testimonio2_nombre">Carlos R.</div>
                         <div class="testimonial-role edit-text" id="testimonio2_rol">Boda</div>
@@ -1746,7 +1747,7 @@
             </div>
             <div class="testimonial-card edit-container">
                 <div class="testimonial-header">
-                    <img id="testimonio3_avatar" src="avatar3.jpg" alt="Foto de Mariana" class="testimonial-avatar" loading="lazy">
+                    <img id="testimonio3_avatar" src="avatar3.jpg" alt="Foto de Mariana" class="testimonial-avatar" loading="lazy" />
                     <div>
                         <div class="testimonial-name edit-text" id="testimonio3_nombre">Mariana S.</div>
                         <div class="testimonial-role edit-text" id="testimonio3_rol">Evento Corporativo</div>
@@ -1838,15 +1839,15 @@
         <button class="edit-btn-overlay" data-key="footer" data-type="text" data-text-target="footer_copyright" data-text-target2="footer_ubicacion" style="position: relative; display: none; margin: 0 auto;"></button>
     </footer>
 
-    <!-- ===== MODAL DE EDICIÓN (con Uploadcare) ===== -->
+    <!-- ===== MODAL DE EDICIÓN ===== -->
     <div class="modal-overlay" id="editModal">
         <div class="modal-box">
             <button class="modal-close" id="modalCloseBtn">&times;</button>
             <h3 id="modalTitle">Editar elemento</h3>
             <div id="modalImageSection">
-                <label>Imagen actual</label>
+                <label>Vista previa del medio</label>
                 <img id="modalImgPreview" class="img-preview" src="" alt="Vista previa" />
-                <label for="modalImgUrl">URL de imagen (o usa el botón de abajo)</label>
+                <label for="modalImgUrl">URL del medio (imagen o video)</label>
                 <input type="text" id="modalImgUrl" placeholder="https://..." />
                 <div class="file-input-wrap">
                     <button id="uploadUploadcareBtn" class="btn-primary" style="font-size:0.9rem; padding:0.5rem 1.2rem; width:100%;">
@@ -1854,7 +1855,7 @@
                     </button>
                 </div>
                 <div style="margin: 0.5rem 0; text-align:center; color:var(--text-muted);">— o —</div>
-                <input type="file" id="modalFileInput" accept="image/*" style="width:100%; padding:0.5rem;" />
+                <input type="file" id="modalFileInput" accept="image/*,video/*" style="width:100%; padding:0.5rem;" />
             </div>
             <label for="modalText1">Texto principal</label>
             <input type="text" id="modalText1" placeholder="Escribe el texto..." />
@@ -1881,7 +1882,7 @@
         const CONFIG = {
             FIREBASE_URL: 'https://pagina-mp-default-rtdb.asia-southeast1.firebasedatabase.app/',
             UPLOADCARE_PUBLIC_KEY: 'f2d187ae3604f0b7c3fe',
-            PASSWORD: '12345' // Contraseña actualizada
+            PASSWORD: '12345'
         };
 
         // =============================================================
@@ -1931,7 +1932,7 @@
         document.addEventListener('DOMContentLoaded', updateVisitCounter);
 
         // =============================================================
-        // 3. PARTÍCULAS (confeti y destellos)
+        // 3. PARTÍCULAS (sin cambios)
         // =============================================================
         (function() {
             const canvas = document.getElementById('particles-canvas');
@@ -2056,9 +2057,9 @@
         })();
 
         // =============================================================
-        // 5. SISTEMA DE EDICIÓN (Firebase + Uploadcare)
-        //    - Protegido con contraseña 12345
-        //    - Videos en bucle (loop) en la galería
+        // 5. SISTEMA DE EDICIÓN (Firebase + Uploadcare) ACTUALIZADO
+        //    - Soporte para hero_media (imagen o video)
+        //    - Galería con files.forEach (corregido)
         // =============================================================
         (function() {
             const editToggleBtn = document.getElementById('editToggleBtn');
@@ -2102,15 +2103,48 @@
                 }).then(res => res.json());
             }
 
+            // Función applyContent actualizada con soporte para hero_media
             function applyContent(content) {
                 for (const key in content) {
                     const entry = content[key];
                     if (!entry) continue;
 
+                    // === HERO MEDIA (imagen o video) ===
+                    if (key === 'hero_media' && entry.src && entry.type) {
+                        const container = document.getElementById('hero_media_container');
+                        if (container) {
+                            container.innerHTML = '';
+                            if (entry.type === 'video') {
+                                const video = document.createElement('video');
+                                video.src = entry.src;
+                                video.autoplay = true;
+                                video.loop = true;
+                                video.muted = true;
+                                video.playsInline = true;
+                                video.style.width = '100%';
+                                video.style.height = '100%';
+                                video.style.objectFit = 'cover';
+                                video.style.background = '#000';
+                                container.appendChild(video);
+                            } else {
+                                const img = document.createElement('img');
+                                img.src = entry.src;
+                                img.alt = 'Hero media';
+                                img.style.width = '100%';
+                                img.style.height = '100%';
+                                img.style.objectFit = 'cover';
+                                container.appendChild(img);
+                            }
+                        }
+                        continue;
+                    }
+
+                    // === IMAGENES ===
                     if (entry.img && entry.imgTarget) {
                         const imgEl = document.getElementById(entry.imgTarget);
                         if (imgEl) imgEl.src = entry.img;
                     }
+                    // === TEXTOS ===
                     if (entry.text1 && entry.textTarget1) {
                         const el = document.getElementById(entry.textTarget1);
                         if (el) {
@@ -2132,6 +2166,7 @@
                             else el3.innerText = entry.text3;
                         }
                     }
+                    // === ESPECIFICACIONES ===
                     if (entry.specs && entry.specsTarget) {
                         const ul = document.getElementById(entry.specsTarget);
                         if (ul) {
@@ -2158,9 +2193,8 @@
             }
 
             // =========================================================
-            // FUNCIONES PARA LA GALERÍA DINÁMICA (IMÁGENES Y VIDEOS CON LOOP)
+            // FUNCIONES PARA LA GALERÍA
             // =========================================================
-
             function renderGalleryItems(items) {
                 const grid = document.getElementById('gallery-grid');
                 if (!grid) return;
@@ -2178,7 +2212,6 @@
                 let html = '';
                 items.forEach((item, index) => {
                     const isVideo = item.type === 'video' || (item.src && (item.src.match(/\.(mp4|webm|ogg|mov)$/i) || item.src.includes('video')));
-                    // Para videos: loop, autoplay, muted y controls
                     const mediaTag = isVideo
                         ? `<video controls loop autoplay muted playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;background:#000;"><source src="${item.src}" type="video/mp4"></video>`
                         : `<img src="${item.src}" alt="Galería ${index+1}" loading="lazy">`;
@@ -2202,11 +2235,7 @@
                 });
 
                 grid.innerHTML = html;
-
-                // Eventos de los botones (solo si el modo edición está activo)
-                if (isEditMode) {
-                    attachGalleryEvents();
-                }
+                if (isEditMode) attachGalleryEvents();
             }
 
             function attachGalleryEvents() {
@@ -2217,7 +2246,6 @@
                         deleteGalleryItem(index);
                     });
                 });
-
                 document.querySelectorAll('.gallery-replace-btn').forEach(btn => {
                     btn.addEventListener('click', function(e) {
                         e.stopPropagation();
@@ -2228,9 +2256,7 @@
             }
 
             function getGalleryItems() {
-                return loadContentFromFirebase().then(data => {
-                    return data['galeria_items'] || [];
-                });
+                return loadContentFromFirebase().then(data => data['galeria_items'] || []);
             }
 
             function saveGalleryItems(items) {
@@ -2242,18 +2268,12 @@
 
             function deleteGalleryItem(index) {
                 if (!confirm('¿Eliminar este elemento de la galería?')) return;
-
                 getGalleryItems().then(items => {
                     if (!items || index >= items.length) return;
                     items.splice(index, 1);
                     return saveGalleryItems(items);
-                }).then(() => {
-                    return getGalleryItems();
-                }).then(items => {
-                    renderGalleryItems(items);
-                }).catch(err => {
-                    alert('Error al eliminar: ' + err.message);
-                });
+                }).then(() => getGalleryItems()).then(items => renderGalleryItems(items))
+                  .catch(err => alert('Error al eliminar: ' + err.message));
             }
 
             function replaceGalleryItem(index) {
@@ -2261,7 +2281,6 @@
                     alert('La clave pública de Uploadcare no está configurada.');
                     return;
                 }
-
                 uploadcare.openDialog({
                     publicKey: UPLOADCARE_PUBLIC_KEY,
                     multiple: false,
@@ -2271,24 +2290,16 @@
                     const url = fileInfo.cdnUrl;
                     const mimeType = fileInfo.mimeType || '';
                     const type = mimeType.startsWith('video/') ? 'video' : 'image';
-
                     getGalleryItems().then(items => {
                         if (!items || index >= items.length) return;
                         items[index] = { src: url, type: type };
                         return saveGalleryItems(items);
-                    }).then(() => {
-                        return getGalleryItems();
-                    }).then(items => {
-                        renderGalleryItems(items);
-                    }).catch(err => {
-                        alert('Error al reemplazar: ' + err.message);
-                    });
+                    }).then(() => getGalleryItems()).then(items => renderGalleryItems(items))
+                      .catch(err => alert('Error al reemplazar: ' + err.message));
                 }).catch(function(error) {
-                    if (error && error.message && error.message.includes('canceled')) {
-                        return;
-                    }
+                    if (error && error.message && error.message.includes('canceled')) return;
                     console.error('Error en Uploadcare:', error);
-                    alert('Error al subir la imagen: ' + (error.message || 'desconocido'));
+                    alert('Error al subir el archivo: ' + (error.message || 'desconocido'));
                 });
             }
 
@@ -2301,18 +2312,13 @@
                     { src: 'basico_led.jpg', type: 'image' },
                     { src: 'equipo_exterior.jpg', type: 'image' }
                 ];
-
                 getGalleryItems().then(items => {
                     if (!items || items.length === 0) {
-                        saveGalleryItems(defaultItems).then(() => {
-                            renderGalleryItems(defaultItems);
-                        });
+                        saveGalleryItems(defaultItems).then(() => renderGalleryItems(defaultItems));
                     } else {
                         renderGalleryItems(items);
                     }
-                }).catch(() => {
-                    renderGalleryItems(defaultItems);
-                });
+                }).catch(() => renderGalleryItems(defaultItems));
             }
 
             // Cargar contenido y galería al inicio
@@ -2320,7 +2326,7 @@
                 loadContentFromFirebase().then(applyContent);
                 initGallery();
 
-                // Botón para añadir contenido a la galería (múltiple)
+                // Botón Añadir a galería (CORREGIDO: files.forEach)
                 const addBtn = document.getElementById('addGalleryBtn');
                 if (addBtn) {
                     addBtn.addEventListener('click', function() {
@@ -2328,13 +2334,13 @@
                             alert('La clave pública de Uploadcare no está configurada.');
                             return;
                         }
-
                         uploadcare.openDialog({
                             publicKey: UPLOADCARE_PUBLIC_KEY,
                             multiple: true,
                         }).then(function(files) {
                             const promises = [];
-                            files.each(function(file) {
+                            // CORRECCIÓN: usar forEach en lugar de each
+                            files.forEach(function(file) {
                                 promises.push(file.done());
                             });
                             return Promise.all(promises);
@@ -2348,17 +2354,10 @@
                                     items.push({ src: url, type: type });
                                 });
                                 return saveGalleryItems(items);
-                            }).then(() => {
-                                return getGalleryItems();
-                            }).then(items => {
-                                renderGalleryItems(items);
-                            }).catch(err => {
-                                alert('Error al añadir elementos: ' + err.message);
-                            });
+                            }).then(() => getGalleryItems()).then(items => renderGalleryItems(items))
+                              .catch(err => alert('Error al añadir elementos: ' + err.message));
                         }).catch(function(error) {
-                            if (error && error.message && error.message.includes('canceled')) {
-                                return;
-                            }
+                            if (error && error.message && error.message.includes('canceled')) return;
                             console.error('Error en Uploadcare:', error);
                             alert('Error al subir archivos: ' + (error.message || 'desconocido'));
                         });
@@ -2367,9 +2366,8 @@
             });
 
             // =========================================================
-            // FUNCIONES DEL MODAL DE EDICIÓN
+            // MODAL DE EDICIÓN (con soporte para hero_media)
             // =========================================================
-
             function openModal(key, type, imgTarget, textTarget1, textTarget2, textTarget3, specsTarget) {
                 currentEditKey = key;
                 currentEditType = type;
@@ -2381,8 +2379,11 @@
 
                 let currentImg = '';
                 if (imgTarget) {
-                    const imgEl = document.getElementById(imgTarget);
-                    if (imgEl) currentImg = imgEl.src;
+                    const el = document.getElementById(imgTarget);
+                    if (el) {
+                        if (el.tagName === 'IMG') currentImg = el.src;
+                        else if (el.tagName === 'VIDEO') currentImg = el.src;
+                    }
                 }
                 let currentText1 = '';
                 if (textTarget1) {
@@ -2408,8 +2409,7 @@
                     }
                 }
 
-                modalImgPreview.src = currentImg ||
-                    'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%231a1a24%22/%3E%3Ctext x=%2250%22 y=%22110%22 font-family=%22Arial%22 font-size=%2220%22 fill=%22%23666%22%3ESin imagen%3C/text%3E%3C/svg%3E';
+                modalImgPreview.src = currentImg || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%231a1a24%22/%3E%3Ctext x=%2250%22 y=%22110%22 font-family=%22Arial%22 font-size=%2220%22 fill=%22%23666%22%3ESin medio%3C/text%3E%3C/svg%3E';
                 modalImgUrl.value = currentImg;
                 modalFileInput.value = '';
                 modalText1.value = currentText1;
@@ -2448,11 +2448,28 @@
                 const specsValue = modalSpecs.value.trim();
 
                 const entry = {};
-                if (imgValue && currentImgTarget) { entry.img = imgValue; entry.imgTarget = currentImgTarget; }
-                if (text1 && currentTextTarget1) { entry.text1 = text1; entry.textTarget1 = currentTextTarget1; }
-                if (text2 && currentTextTarget2) { entry.text2 = text2; entry.textTarget2 = currentTextTarget2; }
-                if (text3 && currentTextTarget3) { entry.text3 = text3; entry.textTarget3 = currentTextTarget3; }
-                if (specsValue && currentSpecsTarget) { entry.specs = specsValue; entry.specsTarget = currentSpecsTarget; }
+
+                // Si es hero_media, guardamos src y type
+                if (currentEditKey === 'hero_media' && currentImgTarget) {
+                    let type = 'image';
+                    // Detectar por extensión
+                    if (imgValue.match(/\.(mp4|webm|ogg|mov)$/i) || imgValue.includes('video')) {
+                        type = 'video';
+                    }
+                    entry.src = imgValue;
+                    entry.type = type;
+                    entry.target = currentImgTarget; // 'hero_media_container'
+                } else {
+                    // Resto de elementos (imagen normal, textos, specs)
+                    if (imgValue && currentImgTarget) {
+                        entry.img = imgValue;
+                        entry.imgTarget = currentImgTarget;
+                    }
+                    if (text1 && currentTextTarget1) { entry.text1 = text1; entry.textTarget1 = currentTextTarget1; }
+                    if (text2 && currentTextTarget2) { entry.text2 = text2; entry.textTarget2 = currentTextTarget2; }
+                    if (text3 && currentTextTarget3) { entry.text3 = text3; entry.textTarget3 = currentTextTarget3; }
+                    if (specsValue && currentSpecsTarget) { entry.specs = specsValue; entry.specsTarget = currentSpecsTarget; }
+                }
 
                 loadContentFromFirebase().then(allContent => {
                     allContent[currentEditKey] = entry;
@@ -2473,13 +2490,12 @@
                 if (e.target === this) closeModal();
             });
 
-            // Subida con Uploadcare para el modal de edición
+            // Subida con Uploadcare en el modal
             uploadUploadcareBtn.addEventListener('click', function() {
                 if (typeof UPLOADCARE_PUBLIC_KEY === 'undefined') {
                     alert('La clave pública de Uploadcare no está configurada.');
                     return;
                 }
-
                 uploadcare.openDialog({
                     publicKey: UPLOADCARE_PUBLIC_KEY,
                     multiple: false,
@@ -2491,18 +2507,16 @@
                         modalImgPreview.src = cdnUrl;
                         modalImgUrl.value = cdnUrl;
                     } else {
-                        alert('No se pudo obtener la URL de la imagen.');
+                        alert('No se pudo obtener la URL del archivo.');
                     }
                 }).catch(function(error) {
-                    if (error && error.message && error.message.includes('canceled')) {
-                        return;
-                    }
+                    if (error && error.message && error.message.includes('canceled')) return;
                     console.error('Error en Uploadcare:', error);
-                    alert('Error al subir la imagen: ' + (error.message || 'desconocido'));
+                    alert('Error al subir el archivo: ' + (error.message || 'desconocido'));
                 });
             });
 
-            // Carga local de imagen (base64)
+            // Carga local (imagen o video)
             modalFileInput.addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (!file) return;
@@ -2516,23 +2530,20 @@
             });
 
             modalImgUrl.addEventListener('input', function() {
-                modalImgPreview.src = this.value ||
-                    'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%231a1a24%22/%3E%3Ctext x=%2250%22 y=%22110%22 font-family=%22Arial%22 font-size=%2220%22 fill=%22%23666%22%3ESin imagen%3C/text%3E%3C/svg%3E';
+                modalImgPreview.src = this.value || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%231a1a24%22/%3E%3Ctext x=%2250%22 y=%22110%22 font-family=%22Arial%22 font-size=%2220%22 fill=%22%23666%22%3ESin medio%3C/text%3E%3C/svg%3E';
             });
 
             // =========================================================
-            // ACTIVAR/DESACTIVAR MODO EDICIÓN CON CONTRASEÑA 12345
+            // ACTIVAR/DESACTIVAR MODO EDICIÓN
             // =========================================================
             editToggleBtn.addEventListener('click', function() {
                 if (isEditMode) {
-                    // Desactivar modo edición
                     document.body.classList.remove('edit-mode');
                     editToggleBtn.classList.remove('active');
                     isEditMode = false;
                     editToggleBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
                     editToggleBtn.title = 'Editar página (contraseña: 12345)';
                 } else {
-                    // Solicitar contraseña
                     const pass = prompt('Introduce la contraseña para editar:');
                     if (pass === CONFIG.PASSWORD) {
                         document.body.classList.add('edit-mode');
@@ -2540,7 +2551,6 @@
                         isEditMode = true;
                         editToggleBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
                         editToggleBtn.title = 'Desactivar modo edición';
-                        // Volver a asignar eventos a los botones de la galería
                         attachGalleryEvents();
                     } else if (pass !== null) {
                         alert('Contraseña incorrecta.');
@@ -2548,7 +2558,7 @@
                 }
             });
 
-            // Escuchar clics en botones de edición (solo si modo edición activo)
+            // Escuchar clics en botones de edición
             document.addEventListener('click', function(e) {
                 const btn = e.target.closest('.edit-btn-overlay');
                 if (!btn) return;
@@ -2565,9 +2575,14 @@
                 const textTarget2 = btn.dataset.textTarget2 || null;
                 const textTarget3 = btn.dataset.textTarget3 || null;
                 const specsTarget = btn.dataset.specsTarget || null;
+                // Para hero_media usamos data-target en lugar de imgTarget
+                const target = btn.dataset.target || null;
                 if (!key) return;
 
-                openModal(key, type, imgTarget, textTarget, textTarget2, textTarget3, specsTarget);
+                // Si es hero_media, usamos target como imgTarget
+                const finalImgTarget = (key === 'hero_media') ? target : imgTarget;
+
+                openModal(key, type, finalImgTarget, textTarget, textTarget2, textTarget3, specsTarget);
             });
 
         })();
