@@ -6,7 +6,7 @@
     <title>DJ MICHAEL | Eventos Premium, Audio, Iluminación y Pantallas LED</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -25,7 +25,6 @@
     <meta property="og:url" content="https://djmichael.com.py" />
 
     <style>
-        /* ======== TODOS TUS ESTILOS (sin cambios) ======== */
         :root {
             --bg-dark: #090a0f;
             --bg-card: rgba(18, 20, 29, 0.7);
@@ -1932,7 +1931,7 @@
         document.addEventListener('DOMContentLoaded', updateVisitCounter);
 
         // =============================================================
-        // 3. PARTÍCULAS (sin cambios)
+        // 3. PARTÍCULAS
         // =============================================================
         (function() {
             const canvas = document.getElementById('particles-canvas');
@@ -2057,9 +2056,7 @@
         })();
 
         // =============================================================
-        // 5. SISTEMA DE EDICIÓN (Firebase + Uploadcare) ACTUALIZADO
-        //    - Soporte para hero_media (imagen o video)
-        //    - Galería con files.forEach (corregido)
+        // 5. SISTEMA DE EDICIÓN (Firebase + Uploadcare)
         // =============================================================
         (function() {
             const editToggleBtn = document.getElementById('editToggleBtn');
@@ -2090,7 +2087,6 @@
 
             const dbUrl = CONFIG.FIREBASE_URL + 'contenido.json';
 
-            // Cargar y aplicar contenido desde Firebase
             function loadContentFromFirebase() {
                 return fetch(dbUrl).then(res => res.json()).then(data => data || {}).catch(() => ({}));
             }
@@ -2103,13 +2099,11 @@
                 }).then(res => res.json());
             }
 
-            // Función applyContent actualizada con soporte para hero_media
             function applyContent(content) {
                 for (const key in content) {
                     const entry = content[key];
                     if (!entry) continue;
 
-                    // === HERO MEDIA (imagen o video) ===
                     if (key === 'hero_media' && entry.src && entry.type) {
                         const container = document.getElementById('hero_media_container');
                         if (container) {
@@ -2139,12 +2133,11 @@
                         continue;
                     }
 
-                    // === IMAGENES ===
                     if (entry.img && entry.imgTarget) {
                         const imgEl = document.getElementById(entry.imgTarget);
                         if (imgEl) imgEl.src = entry.img;
                     }
-                    // === TEXTOS ===
+
                     if (entry.text1 && entry.textTarget1) {
                         const el = document.getElementById(entry.textTarget1);
                         if (el) {
@@ -2166,7 +2159,7 @@
                             else el3.innerText = entry.text3;
                         }
                     }
-                    // === ESPECIFICACIONES ===
+
                     if (entry.specs && entry.specsTarget) {
                         const ul = document.getElementById(entry.specsTarget);
                         if (ul) {
@@ -2281,25 +2274,28 @@
                     alert('La clave pública de Uploadcare no está configurada.');
                     return;
                 }
-                uploadcare.openDialog({
+                const dialog = uploadcare.openDialog(null, {
                     publicKey: UPLOADCARE_PUBLIC_KEY,
-                    multiple: false,
-                }).then(function(file) {
-                    return file.done();
-                }).then(function(fileInfo) {
-                    const url = fileInfo.cdnUrl;
-                    const mimeType = fileInfo.mimeType || '';
-                    const type = mimeType.startsWith('video/') ? 'video' : 'image';
-                    getGalleryItems().then(items => {
-                        if (!items || index >= items.length) return;
-                        items[index] = { src: url, type: type };
-                        return saveGalleryItems(items);
-                    }).then(() => getGalleryItems()).then(items => renderGalleryItems(items))
-                      .catch(err => alert('Error al reemplazar: ' + err.message));
-                }).catch(function(error) {
-                    if (error && error.message && error.message.includes('canceled')) return;
-                    console.error('Error en Uploadcare:', error);
-                    alert('Error al subir el archivo: ' + (error.message || 'desconocido'));
+                    multiple: false
+                });
+
+                dialog.done(function(dialogApi) {
+                    const filePromise = dialogApi.promise ? dialogApi.promise() : dialogApi;
+                    filePromise.done(function(fileInfo) {
+                        const url = fileInfo.cdnUrl;
+                        const mimeType = fileInfo.mimeType || '';
+                        const isVideo = mimeType.startsWith('video/') || (fileInfo.name && fileInfo.name.match(/\.(mp4|webm|ogg|mov)$/i));
+                        const type = isVideo ? 'video' : 'image';
+                        getGalleryItems().then(items => {
+                            if (!items || index >= items.length) return;
+                            items[index] = { src: url, type: type };
+                            return saveGalleryItems(items);
+                        }).then(() => getGalleryItems()).then(items => renderGalleryItems(items))
+                          .catch(err => alert('Error al reemplazar: ' + err.message));
+                    }).fail(function(error) {
+                        if (error === 'cancel') return;
+                        alert('Error al procesar el archivo: ' + error);
+                    });
                 });
             }
 
@@ -2326,7 +2322,7 @@
                 loadContentFromFirebase().then(applyContent);
                 initGallery();
 
-                // Botón Añadir a galería (CORREGIDO: files.forEach)
+                // Botón Añadir a galería (CORREGIDO PARA UPLOADCARE v3)
                 const addBtn = document.getElementById('addGalleryBtn');
                 if (addBtn) {
                     addBtn.addEventListener('click', function() {
@@ -2334,39 +2330,46 @@
                             alert('La clave pública de Uploadcare no está configurada.');
                             return;
                         }
-                        uploadcare.openDialog({
-                            publicKey: UPLOADCARE_PUBLIC_KEY,
-                            multiple: true,
-                        }).then(function(files) {
-                            const promises = [];
-                            // CORRECCIÓN: usar forEach en lugar de each
-                            files.forEach(function(file) {
-                                promises.push(file.done());
-                            });
-                            return Promise.all(promises);
-                        }).then(function(fileInfos) {
-                            getGalleryItems().then(items => {
-                                if (!items) items = [];
-                                fileInfos.forEach(info => {
-                                    const url = info.cdnUrl;
-                                    const mimeType = info.mimeType || '';
-                                    const type = mimeType.startsWith('video/') ? 'video' : 'image';
-                                    items.push({ src: url, type: type });
+
+                        const dialog = uploadcare.openDialog(null, {
+                            publicKey: CONFIG.UPLOADCARE_PUBLIC_KEY || UPLOADCARE_PUBLIC_KEY,
+                            multiple: true
+                        });
+
+                        dialog.done(function(dialogApi) {
+                            const groupPromise = dialogApi.promise ? dialogApi.promise() : dialogApi;
+                            groupPromise.done(function(fileGroup) {
+                                const fileList = (fileGroup && typeof fileGroup.files === 'function') ? fileGroup.files() : [fileGroup];
+                                const promises = fileList.map(f => f.done());
+
+                                Promise.all(promises).then(function(fileInfos) {
+                                    getGalleryItems().then(items => {
+                                        if (!items) items = [];
+                                        fileInfos.forEach(info => {
+                                            const url = info.cdnUrl;
+                                            const mimeType = info.mimeType || '';
+                                            const isVideo = mimeType.startsWith('video/') || (info.name && info.name.match(/\.(mp4|webm|ogg|mov)$/i));
+                                            const type = isVideo ? 'video' : 'image';
+                                            items.push({ src: url, type: type });
+                                        });
+                                        return saveGalleryItems(items);
+                                    }).then(() => getGalleryItems()).then(items => renderGalleryItems(items))
+                                      .catch(err => alert('Error al guardar en base de datos: ' + err.message));
+                                }).catch(function(err) {
+                                    console.error('Error al procesar archivos subidos:', err);
+                                    alert('Error al procesar uno o más archivos.');
                                 });
-                                return saveGalleryItems(items);
-                            }).then(() => getGalleryItems()).then(items => renderGalleryItems(items))
-                              .catch(err => alert('Error al añadir elementos: ' + err.message));
-                        }).catch(function(error) {
-                            if (error && error.message && error.message.includes('canceled')) return;
-                            console.error('Error en Uploadcare:', error);
-                            alert('Error al subir archivos: ' + (error.message || 'desconocido'));
+                            }).fail(function(err) {
+                                if (err === 'cancel') return;
+                                console.error('Error en carga de archivos:', err);
+                            });
                         });
                     });
                 }
             });
 
             // =========================================================
-            // MODAL DE EDICIÓN (con soporte para hero_media)
+            // MODAL DE EDICIÓN
             // =========================================================
             function openModal(key, type, imgTarget, textTarget1, textTarget2, textTarget3, specsTarget) {
                 currentEditKey = key;
@@ -2381,8 +2384,7 @@
                 if (imgTarget) {
                     const el = document.getElementById(imgTarget);
                     if (el) {
-                        if (el.tagName === 'IMG') currentImg = el.src;
-                        else if (el.tagName === 'VIDEO') currentImg = el.src;
+                        if (el.tagName === 'IMG' || el.tagName === 'VIDEO') currentImg = el.src;
                     }
                 }
                 let currentText1 = '';
@@ -2449,18 +2451,15 @@
 
                 const entry = {};
 
-                // Si es hero_media, guardamos src y type
                 if (currentEditKey === 'hero_media' && currentImgTarget) {
                     let type = 'image';
-                    // Detectar por extensión
                     if (imgValue.match(/\.(mp4|webm|ogg|mov)$/i) || imgValue.includes('video')) {
                         type = 'video';
                     }
                     entry.src = imgValue;
                     entry.type = type;
-                    entry.target = currentImgTarget; // 'hero_media_container'
+                    entry.target = currentImgTarget;
                 } else {
-                    // Resto de elementos (imagen normal, textos, specs)
                     if (imgValue && currentImgTarget) {
                         entry.img = imgValue;
                         entry.imgTarget = currentImgTarget;
@@ -2482,7 +2481,6 @@
                 }).catch(err => alert('Error al guardar: ' + err.message));
             }
 
-            // Eventos del modal
             modalCloseBtn.addEventListener('click', closeModal);
             modalCancelBtn.addEventListener('click', closeModal);
             modalSaveBtn.addEventListener('click', saveCurrentEdit);
@@ -2490,29 +2488,31 @@
                 if (e.target === this) closeModal();
             });
 
-            // Subida con Uploadcare en el modal
+            // Subida con Uploadcare en el modal (individual)
             uploadUploadcareBtn.addEventListener('click', function() {
                 if (typeof UPLOADCARE_PUBLIC_KEY === 'undefined') {
                     alert('La clave pública de Uploadcare no está configurada.');
                     return;
                 }
-                uploadcare.openDialog({
-                    publicKey: UPLOADCARE_PUBLIC_KEY,
-                    multiple: false,
-                }).then(function(file) {
-                    return file.done();
-                }).then(function(fileInfo) {
-                    const cdnUrl = fileInfo.cdnUrl;
-                    if (cdnUrl) {
-                        modalImgPreview.src = cdnUrl;
-                        modalImgUrl.value = cdnUrl;
-                    } else {
-                        alert('No se pudo obtener la URL del archivo.');
-                    }
-                }).catch(function(error) {
-                    if (error && error.message && error.message.includes('canceled')) return;
-                    console.error('Error en Uploadcare:', error);
-                    alert('Error al subir el archivo: ' + (error.message || 'desconocido'));
+                const dialog = uploadcare.openDialog(null, {
+                    publicKey: CONFIG.UPLOADCARE_PUBLIC_KEY || UPLOADCARE_PUBLIC_KEY,
+                    multiple: false
+                });
+
+                dialog.done(function(dialogApi) {
+                    const filePromise = dialogApi.promise ? dialogApi.promise() : dialogApi;
+                    filePromise.done(function(fileInfo) {
+                        const cdnUrl = fileInfo.cdnUrl;
+                        if (cdnUrl) {
+                            modalImgPreview.src = cdnUrl;
+                            modalImgUrl.value = cdnUrl;
+                        } else {
+                            alert('No se pudo obtener la URL del archivo.');
+                        }
+                    }).fail(function(error) {
+                        if (error === 'cancel') return;
+                        console.error('Error en Uploadcare:', error);
+                    });
                 });
             });
 
@@ -2575,11 +2575,9 @@
                 const textTarget2 = btn.dataset.textTarget2 || null;
                 const textTarget3 = btn.dataset.textTarget3 || null;
                 const specsTarget = btn.dataset.specsTarget || null;
-                // Para hero_media usamos data-target en lugar de imgTarget
                 const target = btn.dataset.target || null;
                 if (!key) return;
 
-                // Si es hero_media, usamos target como imgTarget
                 const finalImgTarget = (key === 'hero_media') ? target : imgTarget;
 
                 openModal(key, type, finalImgTarget, textTarget, textTarget2, textTarget3, specsTarget);
@@ -2589,3 +2587,5 @@
     </script>
 </body>
 </html>
+index.html
+Mostrando index.html.
