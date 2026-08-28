@@ -1401,6 +1401,8 @@
                 <li><a href="#mejora">Mejora tu Evento</a></li>
                 <li><a href="#testimonios">Testimonios</a></li>
                 <li><a href="#contacto">Contacto</a></li>
+                <!-- NUEVO ENLACE A AGENDA -->
+                <li><a href="#" id="agendaLink">📅 Agenda</a></li>
             </ul>
             <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quisiera%20consultar%20disponibilidad%20para%20un%20evento" class="btn-primary" target="_blank">
                 <i class="fa-brands fa-whatsapp"></i> Reservar Ahora
@@ -2062,7 +2064,25 @@
         })();
 
         // =============================================================
-        // 5. SISTEMA DE EDICIÓN Y GESTIÓN DE GALERÍA MULTIMEDIA
+        // 5. ACCESO A LA AGENDA (NUEVO)
+        // =============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const agendaLink = document.getElementById('agendaLink');
+            if (agendaLink) {
+                agendaLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const password = prompt('Ingresa la contraseña para acceder a la agenda:');
+                    if (password === '12345') {
+                        window.location.href = 'https://pintosingenieria-max.github.io/fechas/';
+                    } else if (password !== null) {
+                        alert('Contraseña incorrecta. Acceso denegado.');
+                    }
+                });
+            }
+        });
+
+        // =============================================================
+        // 6. SISTEMA DE EDICIÓN Y GESTIÓN DE GALERÍA MULTIMEDIA
         // =============================================================
         (function() {
             const editToggleBtn = document.getElementById('editToggleBtn');
