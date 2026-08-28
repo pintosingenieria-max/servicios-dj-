@@ -2064,7 +2064,7 @@
         })();
 
         // =============================================================
-        // 5. ACCESO A LA AGENDA (NUEVO)
+        // 5. ACCESO A LA AGENDA
         // =============================================================
         document.addEventListener('DOMContentLoaded', function() {
             const agendaLink = document.getElementById('agendaLink');
@@ -2073,7 +2073,7 @@
                     e.preventDefault();
                     const password = prompt('Ingresa la contraseña para acceder a la agenda:');
                     if (password === '12345') {
-                        window.location.href = 'https://pintosingenieria-max.github.io/fechas/';
+                        window.location.href = 'https://pintosingenieria-max.github.io/fechas-/';
                     } else if (password !== null) {
                         alert('Contraseña incorrecta. Acceso denegado.');
                     }
