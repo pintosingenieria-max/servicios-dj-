@@ -732,6 +732,7 @@
             transition: all 0.3s ease;
             aspect-ratio: 1/1;
             cursor: default;
+            background: #000;
         }
 
         .gallery-item:hover {
@@ -751,7 +752,7 @@
 
         .gallery-item:hover img,
         .gallery-item:hover video {
-            transform: scale(1.1);
+            transform: scale(1.06);
         }
 
         .gallery-item .gallery-overlay {
@@ -760,7 +761,7 @@
             left: 0;
             right: 0;
             top: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            background: linear-gradient(to top, rgba(0,0,0,0.85), transparent 60%);
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
@@ -768,6 +769,7 @@
             opacity: 0;
             transition: opacity 0.3s ease;
             pointer-events: none;
+            z-index: 10;
         }
 
         .gallery-item:hover .gallery-overlay {
@@ -780,8 +782,9 @@
             color: #fff;
             font-size: 0.75rem;
             background: rgba(0,0,0,0.6);
-            padding: 2px 10px;
+            padding: 3px 10px;
             border-radius: 12px;
+            backdrop-filter: blur(4px);
         }
 
         .gallery-overlay .gallery-actions {
@@ -795,11 +798,11 @@
             background: rgba(0,0,0,0.7);
             border: none;
             color: #fff;
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
@@ -807,7 +810,7 @@
         }
 
         .gallery-delete-btn {
-            background: rgba(255, 30, 67, 0.8);
+            background: rgba(255, 30, 67, 0.85);
         }
 
         .gallery-replace-btn:hover {
@@ -1626,7 +1629,7 @@
         <div class="section-header">
             <span class="section-subtitle">Nuestros Trabajos</span>
             <h2 class="section-title edit-container">
-                <span class="edit-text" id="galeria_title">Paquetes Disponibles</span>
+                <span class="edit-text" id="galeria_title">Galería de Eventos</span>
                 <button class="edit-btn-overlay" data-key="galeria_title" data-type="text" data-text-target="galeria_title"></button>
             </h2>
             <p class="section-desc edit-container">
@@ -1889,7 +1892,8 @@
         // =============================================================
         window.addEventListener('load', function() {
             setTimeout(function() {
-                document.getElementById('preloader').classList.add('hidden');
+                const p = document.getElementById('preloader');
+                if (p) p.classList.add('hidden');
             }, 1200);
         });
 
@@ -1935,6 +1939,7 @@
         // =============================================================
         (function() {
             const canvas = document.getElementById('particles-canvas');
+            if (!canvas) return;
             const ctx = canvas.getContext('2d');
             let width, height;
             let particles = [];
@@ -2038,6 +2043,7 @@
         (function() {
             const hamburger = document.getElementById('hamburger');
             const navLinks = document.getElementById('nav-links');
+            if (!hamburger || !navLinks) return;
 
             hamburger.addEventListener('click', function() {
                 this.classList.toggle('active');
@@ -2056,7 +2062,7 @@
         })();
 
         // =============================================================
-        // 5. SISTEMA DE EDICIÓN (Firebase + Uploadcare)
+        // 5. SISTEMA DE EDICIÓN Y GESTIÓN DE GALERÍA MULTIMEDIA
         // =============================================================
         (function() {
             const editToggleBtn = document.getElementById('editToggleBtn');
@@ -2073,7 +2079,6 @@
             const modalText3 = document.getElementById('modalText3');
             const modalSpecs = document.getElementById('modalSpecs');
             const modalSpecsSection = document.getElementById('modalSpecsSection');
-            const modalImageSection = document.getElementById('modalImageSection');
             const uploadUploadcareBtn = document.getElementById('uploadUploadcareBtn');
 
             let currentEditKey = null;
@@ -2086,6 +2091,7 @@
             let isEditMode = false;
 
             const dbUrl = CONFIG.FIREBASE_URL + 'contenido.json';
+            const galleryUrl = CONFIG.FIREBASE_URL + 'galeria_items.json';
 
             function loadContentFromFirebase() {
                 return fetch(dbUrl).then(res => res.json()).then(data => data || {}).catch(() => ({}));
@@ -2104,22 +2110,25 @@
                     const entry = content[key];
                     if (!entry) continue;
 
-                    if (key === 'hero_media' && entry.src && entry.type) {
+                    if (key === 'hero_media' && entry.src) {
                         const container = document.getElementById('hero_media_container');
                         if (container) {
                             container.innerHTML = '';
-                            if (entry.type === 'video') {
+                            const isVid = entry.type === 'video' || checkIsVideo(entry.src);
+                            if (isVid) {
                                 const video = document.createElement('video');
                                 video.src = entry.src;
                                 video.autoplay = true;
                                 video.loop = true;
                                 video.muted = true;
                                 video.playsInline = true;
+                                video.setAttribute('webkit-playsinline', 'true');
                                 video.style.width = '100%';
                                 video.style.height = '100%';
                                 video.style.objectFit = 'cover';
                                 video.style.background = '#000';
                                 container.appendChild(video);
+                                video.play().catch(() => {});
                             } else {
                                 const img = document.createElement('img');
                                 img.src = entry.src;
@@ -2186,8 +2195,33 @@
             }
 
             // =========================================================
-            // FUNCIONES PARA LA GALERÍA
+            // LÓGICA DE GALERÍA (IMÁGENES Y VIDEOS CON AUTOPLAY)
             // =========================================================
+            function checkIsVideo(url, mimeType) {
+                if (mimeType && mimeType.startsWith('video/')) return true;
+                if (!url) return false;
+                return /\.(mp4|webm|ogg|mov|m4v|avi|mkv)($|\?)/i.test(url) || url.includes('/video/');
+            }
+
+            function getGalleryItems() {
+                return fetch(galleryUrl)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (!data) return [];
+                        if (Array.isArray(data)) return data.filter(Boolean);
+                        return Object.values(data).filter(Boolean);
+                    })
+                    .catch(() => []);
+            }
+
+            function saveGalleryItems(items) {
+                return fetch(galleryUrl, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(items)
+                }).then(res => res.json());
+            }
+
             function renderGalleryItems(items) {
                 const grid = document.getElementById('gallery-grid');
                 if (!grid) return;
@@ -2196,7 +2230,7 @@
                     grid.innerHTML = `
                         <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--text-muted);">
                             <i class="fa-solid fa-images" style="font-size: 3rem; display: block; margin-bottom: 1rem;"></i>
-                            No hay elementos en la galería. ¡Añade el primero!
+                            No hay elementos en la galería. ¡Añade fotos o videos!
                         </div>
                     `;
                     return;
@@ -2204,22 +2238,22 @@
 
                 let html = '';
                 items.forEach((item, index) => {
-                    const isVideo = item.type === 'video' || (item.src && (item.src.match(/\.(mp4|webm|ogg|mov)$/i) || item.src.includes('video')));
+                    const isVideo = item.type === 'video' || checkIsVideo(item.src, item.mimeType);
                     const mediaTag = isVideo
-                        ? `<video controls loop autoplay muted playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;background:#000;"><source src="${item.src}" type="video/mp4"></video>`
-                        : `<img src="${item.src}" alt="Galería ${index+1}" loading="lazy">`;
+                        ? `<video src="${item.src}" autoplay loop muted playsinline webkit-playsinline preload="auto" style="width:100%;height:100%;object-fit:cover;background:#000;display:block;"></video>`
+                        : `<img src="${item.src}" alt="Galería ${index + 1}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;" />`;
 
                     html += `
-                        <div class="gallery-item gallery-dynamic-item" data-index="${index}">
+                        <div class="gallery-item" data-index="${index}">
                             ${mediaTag}
                             <div class="gallery-overlay">
-                                <span>${isVideo ? '🎬 Video' : '🖼️ Imagen'}</span>
+                                <span>${isVideo ? '<i class="fa-solid fa-video"></i> Video' : '<i class="fa-solid fa-image"></i> Imagen'}</span>
                                 <div class="gallery-actions">
                                     <button class="gallery-replace-btn" data-index="${index}" title="Reemplazar">
                                         <i class="fa-solid fa-rotate"></i>
                                     </button>
                                     <button class="gallery-delete-btn" data-index="${index}" title="Eliminar">
-                                        <i class="fa-solid fa-times"></i>
+                                        <i class="fa-solid fa-trash-can"></i>
                                     </button>
                                 </div>
                             </div>
@@ -2228,6 +2262,12 @@
                 });
 
                 grid.innerHTML = html;
+
+                // Iniciar reproducción de videos de la galería
+                grid.querySelectorAll('video').forEach(v => {
+                    v.play().catch(() => {});
+                });
+
                 if (isEditMode) attachGalleryEvents();
             }
 
@@ -2248,35 +2288,24 @@
                 });
             }
 
-            function getGalleryItems() {
-                return loadContentFromFirebase().then(data => data['galeria_items'] || []);
-            }
-
-            function saveGalleryItems(items) {
-                return loadContentFromFirebase().then(allContent => {
-                    allContent['galeria_items'] = items;
-                    return saveContentToFirebase(allContent);
-                });
-            }
-
             function deleteGalleryItem(index) {
-                if (!confirm('¿Eliminar este elemento de la galería?')) return;
+                if (!confirm('¿Deseas eliminar este elemento de la galería?')) return;
                 getGalleryItems().then(items => {
                     if (!items || index >= items.length) return;
                     items.splice(index, 1);
                     return saveGalleryItems(items);
-                }).then(() => getGalleryItems()).then(items => renderGalleryItems(items))
-                  .catch(err => alert('Error al eliminar: ' + err.message));
+                }).then(() => {
+                    return getGalleryItems();
+                }).then(items => {
+                    renderGalleryItems(items);
+                }).catch(err => alert('Error al eliminar: ' + err.message));
             }
 
             function replaceGalleryItem(index) {
-                if (typeof UPLOADCARE_PUBLIC_KEY === 'undefined') {
-                    alert('La clave pública de Uploadcare no está configurada.');
-                    return;
-                }
                 const dialog = uploadcare.openDialog(null, {
-                    publicKey: UPLOADCARE_PUBLIC_KEY,
-                    multiple: false
+                    publicKey: CONFIG.UPLOADCARE_PUBLIC_KEY,
+                    multiple: false,
+                    imagesOnly: false
                 });
 
                 dialog.done(function(dialogApi) {
@@ -2284,17 +2313,21 @@
                     filePromise.done(function(fileInfo) {
                         const url = fileInfo.cdnUrl;
                         const mimeType = fileInfo.mimeType || '';
-                        const isVideo = mimeType.startsWith('video/') || (fileInfo.name && fileInfo.name.match(/\.(mp4|webm|ogg|mov)$/i));
+                        const isVideo = checkIsVideo(url, mimeType) || (fileInfo.isImage === false);
                         const type = isVideo ? 'video' : 'image';
+
                         getGalleryItems().then(items => {
                             if (!items || index >= items.length) return;
-                            items[index] = { src: url, type: type };
+                            items[index] = { src: url, type: type, mimeType: mimeType };
                             return saveGalleryItems(items);
-                        }).then(() => getGalleryItems()).then(items => renderGalleryItems(items))
-                          .catch(err => alert('Error al reemplazar: ' + err.message));
+                        }).then(() => {
+                            return getGalleryItems();
+                        }).then(items => {
+                            renderGalleryItems(items);
+                        }).catch(err => alert('Error al reemplazar: ' + err.message));
                     }).fail(function(error) {
                         if (error === 'cancel') return;
-                        alert('Error al procesar el archivo: ' + error);
+                        alert('Error al subir: ' + error);
                     });
                 });
             }
@@ -2317,23 +2350,19 @@
                 }).catch(() => renderGalleryItems(defaultItems));
             }
 
-            // Cargar contenido y galería al inicio
+            // Inicialización de la página
             document.addEventListener('DOMContentLoaded', function() {
                 loadContentFromFirebase().then(applyContent);
                 initGallery();
 
-                // Botón Añadir a galería (CORREGIDO PARA UPLOADCARE v3)
+                // Botón Añadir a Galería (Soporte fotos y videos con Uploadcare v3)
                 const addBtn = document.getElementById('addGalleryBtn');
                 if (addBtn) {
                     addBtn.addEventListener('click', function() {
-                        if (typeof UPLOADCARE_PUBLIC_KEY === 'undefined') {
-                            alert('La clave pública de Uploadcare no está configurada.');
-                            return;
-                        }
-
                         const dialog = uploadcare.openDialog(null, {
-                            publicKey: CONFIG.UPLOADCARE_PUBLIC_KEY || UPLOADCARE_PUBLIC_KEY,
-                            multiple: true
+                            publicKey: CONFIG.UPLOADCARE_PUBLIC_KEY,
+                            multiple: true,
+                            imagesOnly: false
                         });
 
                         dialog.done(function(dialogApi) {
@@ -2348,13 +2377,16 @@
                                         fileInfos.forEach(info => {
                                             const url = info.cdnUrl;
                                             const mimeType = info.mimeType || '';
-                                            const isVideo = mimeType.startsWith('video/') || (info.name && info.name.match(/\.(mp4|webm|ogg|mov)$/i));
+                                            const isVideo = checkIsVideo(url, mimeType) || (info.isImage === false);
                                             const type = isVideo ? 'video' : 'image';
-                                            items.push({ src: url, type: type });
+                                            items.push({ src: url, type: type, mimeType: mimeType });
                                         });
                                         return saveGalleryItems(items);
-                                    }).then(() => getGalleryItems()).then(items => renderGalleryItems(items))
-                                      .catch(err => alert('Error al guardar en base de datos: ' + err.message));
+                                    }).then(() => {
+                                        return getGalleryItems();
+                                    }).then(items => {
+                                        renderGalleryItems(items);
+                                    }).catch(err => alert('Error al guardar en base de datos: ' + err.message));
                                 }).catch(function(err) {
                                     console.error('Error al procesar archivos subidos:', err);
                                     alert('Error al procesar uno o más archivos.');
@@ -2453,7 +2485,7 @@
 
                 if (currentEditKey === 'hero_media' && currentImgTarget) {
                     let type = 'image';
-                    if (imgValue.match(/\.(mp4|webm|ogg|mov)$/i) || imgValue.includes('video')) {
+                    if (checkIsVideo(imgValue)) {
                         type = 'video';
                     }
                     entry.src = imgValue;
@@ -2488,15 +2520,12 @@
                 if (e.target === this) closeModal();
             });
 
-            // Subida con Uploadcare en el modal (individual)
+            // Subida con Uploadcare en el modal
             uploadUploadcareBtn.addEventListener('click', function() {
-                if (typeof UPLOADCARE_PUBLIC_KEY === 'undefined') {
-                    alert('La clave pública de Uploadcare no está configurada.');
-                    return;
-                }
                 const dialog = uploadcare.openDialog(null, {
-                    publicKey: CONFIG.UPLOADCARE_PUBLIC_KEY || UPLOADCARE_PUBLIC_KEY,
-                    multiple: false
+                    publicKey: CONFIG.UPLOADCARE_PUBLIC_KEY,
+                    multiple: false,
+                    imagesOnly: false
                 });
 
                 dialog.done(function(dialogApi) {
@@ -2516,7 +2545,7 @@
                 });
             });
 
-            // Carga local (imagen o video)
+            // Carga local
             modalFileInput.addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (!file) return;
@@ -2579,7 +2608,6 @@
                 if (!key) return;
 
                 const finalImgTarget = (key === 'hero_media') ? target : imgTarget;
-
                 openModal(key, type, finalImgTarget, textTarget, textTarget2, textTarget3, specsTarget);
             });
 
@@ -2587,5 +2615,3 @@
     </script>
 </body>
 </html>
-index.html
-Mostrando index.html.
