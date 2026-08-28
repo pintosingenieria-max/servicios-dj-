@@ -3,41 +3,37 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DJ MICHAEL | Eventos Premium, Audio, Iluminación y Pantallas LED</title>
+    <title>DJ MICHAEL | Eventos Premium + Agenda de Reservas</title>
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-    <!-- CLAVE PÚBLICA DE UPLOADCARE -->
+    <!-- Uploadcare Widget -->
     <script>
         UPLOADCARE_PUBLIC_KEY = 'f2d187ae3604f0b7c3fe';
     </script>
-    <!-- Uploadcare Widget (versión 3.x) -->
     <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
-
-    <!-- Open Graph -->
-    <meta property="og:title" content="DJ MICHAEL | Sonido, Iluminación y Pantallas LED para Eventos en Central" />
-    <meta property="og:description" content="Servicio profesional de DJ en Villeta, Central. Cubrimos toda la región con sonido Line Array, iluminación robótica y pantallas LED." />
-    <meta property="og:image" content="dj michael.jpg" />
-    <meta property="og:url" content="https://djmichael.com.py" />
 
     <style>
         :root {
             --bg-dark: #090a0f;
-            --bg-card: rgba(18, 20, 29, 0.7);
-            --bg-card-hover: rgba(28, 32, 48, 0.85);
+            --bg-card: rgba(18, 20, 29, 0.75);
+            --bg-card-hover: rgba(28, 32, 48, 0.9);
             --primary-red: #ff1e43;
             --primary-glow: rgba(255, 30, 67, 0.4);
             --accent-cyan: #00f2fe;
             --text-main: #f1f5f9;
             --text-muted: #94a3b8;
             --border-color: rgba(255, 255, 255, 0.08);
-            --glass-bg: rgba(12, 14, 22, 0.8);
+            --glass-bg: rgba(12, 14, 22, 0.85);
             --font-heading: 'Space Grotesk', sans-serif;
             --font-body: 'Plus Jakarta Sans', sans-serif;
+            --badge-green: #10b981;
+            --badge-yellow: #f59e0b;
         }
 
         * {
@@ -53,49 +49,9 @@
             font-family: var(--font-body);
             overflow-x: hidden;
             line-height: 1.6;
-            position: relative;
+            min-height: 100vh;
         }
 
-        /* Preloader */
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-dark);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.8s ease;
-        }
-        #preloader.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        #preloader img {
-            width: 120px;
-            height: auto;
-            animation: pulse 1.5s ease-in-out infinite;
-            filter: drop-shadow(0 0 30px rgba(255, 30, 67, 0.6));
-        }
-        #preloader .loader-text {
-            margin-top: 1.5rem;
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            font-weight: 500;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.08); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.8; }
-        }
-
-        /* Fondo animado */
         #particles-canvas {
             position: fixed;
             top: 0;
@@ -113,49 +69,31 @@
             width: 100%;
             height: 100%;
             z-index: -2;
-            background: radial-gradient(circle at 20% 30%, rgba(255, 30, 67, 0.08) 0%, rgba(0, 0, 0, 0) 60%),
-                        radial-gradient(circle at 80% 70%, rgba(0, 242, 254, 0.06) 0%, rgba(0, 0, 0, 0) 60%),
+            background: radial-gradient(circle at 15% 20%, rgba(255, 30, 67, 0.09) 0%, rgba(0, 0, 0, 0) 60%),
+                        radial-gradient(circle at 85% 80%, rgba(0, 242, 254, 0.07) 0%, rgba(0, 0, 0, 0) 60%),
                         #090a0f;
-            animation: gradientShift 15s ease-in-out infinite alternate;
         }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 0%; }
-            100% { background-position: 100% 100%; }
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-dark);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #2a2e3d;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-red);
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: #2a2e3d; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary-red); }
 
         h1, h2, h3, h4, .brand-font {
             font-family: var(--font-heading);
             letter-spacing: -0.02em;
         }
-
         .gradient-text {
             background: linear-gradient(135deg, #ffffff 0%, var(--primary-red) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         .gradient-accent {
             background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--primary-red) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* Header */
         header {
             position: fixed;
             top: 0;
@@ -170,9 +108,9 @@
         }
 
         .nav-container {
-            max-width: 1280px;
+            max-width: 1320px;
             margin: 0 auto;
-            padding: 1rem 1.5rem;
+            padding: 0.8rem 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -184,19 +122,18 @@
             gap: 12px;
             text-decoration: none;
         }
-
         .logo-box img {
-            height: 48px;
+            height: 44px;
             width: auto;
             object-fit: contain;
             filter: drop-shadow(0 0 10px rgba(255, 30, 67, 0.4));
         }
-
         .logo-text {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 800;
             color: #fff;
             text-transform: uppercase;
+            font-family: var(--font-heading);
         }
 
         .nav-links {
@@ -205,18 +142,21 @@
             list-style: none;
             align-items: center;
         }
-
         .nav-links a {
             color: var(--text-muted);
             text-decoration: none;
             font-weight: 500;
             font-size: 0.95rem;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
-
-        .nav-links a:hover {
+        .nav-links a:hover,
+        .nav-links a.active {
             color: #fff;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+        .nav-links a.active {
+            border-bottom: 2px solid var(--primary-red);
         }
 
         .hamburger {
@@ -228,7 +168,6 @@
             border: none;
             padding: 5px;
         }
-
         .hamburger span {
             display: block;
             width: 28px;
@@ -236,21 +175,14 @@
             background: #fff;
             transition: all 0.3s ease;
         }
-
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -5px);
-        }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
         .btn-primary {
             background: linear-gradient(135deg, #ff1e43 0%, #d60e2e 100%);
             color: #fff !important;
-            padding: 0.75rem 1.5rem;
+            padding: 0.75rem 1.8rem;
             border-radius: 50px;
             font-weight: 700 !important;
             box-shadow: 0 4px 20px var(--primary-glow);
@@ -261,8 +193,8 @@
             gap: 8px;
             text-decoration: none;
             cursor: pointer;
+            font-family: var(--font-body);
         }
-
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 28px rgba(255, 30, 67, 0.6);
@@ -271,7 +203,7 @@
         .btn-secondary {
             background: rgba(255, 255, 255, 0.05);
             color: #fff;
-            padding: 0.75rem 1.5rem;
+            padding: 0.6rem 1.2rem;
             border-radius: 50px;
             font-weight: 600;
             border: 1px solid var(--border-color);
@@ -281,8 +213,9 @@
             align-items: center;
             gap: 8px;
             text-decoration: none;
+            cursor: pointer;
+            font-family: var(--font-body);
         }
-
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.12);
             border-color: rgba(255, 255, 255, 0.3);
@@ -308,24 +241,29 @@
             text-decoration: none;
             border: none;
         }
-
         .whatsapp-float:hover {
             transform: scale(1.1);
             box-shadow: 0 10px 35px rgba(37, 211, 102, 0.7);
         }
 
-        /* Hero */
+        .section-page {
+            display: none;
+            padding-top: 90px;
+            max-width: 1320px;
+            margin: 0 auto 4rem;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+        .section-page.active { display: block; }
+
         .hero {
-            padding: 180px 1.5rem 100px;
-            max-width: 1280px;
-            margin: 0 auto;
             display: grid;
             grid-template-columns: 1.1fr 0.9fr;
             gap: 3rem;
             align-items: center;
-            min-height: 90vh;
+            min-height: 80vh;
+            padding: 0 0 2rem;
         }
-
         .hero-badge {
             display: inline-flex;
             align-items: center;
@@ -341,21 +279,18 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
         .hero-title {
             font-size: 3.8rem;
             line-height: 1.1;
             font-weight: 800;
             margin-bottom: 1.5rem;
         }
-
         .hero-description {
             font-size: 1.15rem;
             color: var(--text-muted);
             margin-bottom: 2.5rem;
             max-width: 540px;
         }
-
         .location-badge {
             display: inline-flex;
             align-items: center;
@@ -369,17 +304,7 @@
             font-weight: 600;
             margin-bottom: 1.5rem;
         }
-
-        .location-badge i {
-            font-size: 1.1rem;
-        }
-
-        .hero-cta {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
+        .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
         .hero-stats {
             display: flex;
             gap: 2.5rem;
@@ -387,38 +312,16 @@
             padding-top: 2rem;
             border-top: 1px solid var(--border-color);
         }
-
-        .stat-item h3 {
-            font-size: 2rem;
-            color: #fff;
-            font-weight: 800;
-        }
-
-        .stat-item p {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        .hero-media {
-            position: relative;
-        }
-
+        .stat-item h3 { font-size: 2rem; color: #fff; font-weight: 800; }
+        .stat-item p { color: var(--text-muted); font-size: 0.85rem; }
         .hero-main-card {
-            position: relative;
             border-radius: 24px;
             overflow: hidden;
             border: 1px solid var(--border-color);
             box-shadow: 0 20px 50px rgba(0,0,0,0.8);
             background: var(--bg-card);
-            transition: all 0.5s ease;
             aspect-ratio: 16/9;
         }
-
-        .hero-main-card:hover {
-            border-color: rgba(255, 30, 67, 0.5);
-            transform: scale(1.01);
-        }
-
         .hero-main-card video,
         .hero-main-card img {
             width: 100%;
@@ -427,29 +330,21 @@
             display: block;
         }
 
-        /* Features */
         .features-bar {
             background: rgba(15, 17, 26, 0.6);
             border-top: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
             padding: 3rem 1.5rem;
-            margin-bottom: 6rem;
+            margin-bottom: 4rem;
         }
-
         .features-grid {
-            max-width: 1280px;
+            max-width: 1320px;
             margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
         }
-
-        .feature-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-        }
-
+        .feature-item { display: flex; align-items: flex-start; gap: 1rem; }
         .feature-icon {
             width: 48px;
             height: 48px;
@@ -463,25 +358,14 @@
             font-size: 1.2rem;
             flex-shrink: 0;
         }
+        .feature-text h4 { color: #fff; font-size: 1.1rem; margin-bottom: 0.3rem; }
+        .feature-text p { color: var(--text-muted); font-size: 0.88rem; }
 
-        .feature-text h4 {
-            color: #fff;
-            font-size: 1.1rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .feature-text p {
-            color: var(--text-muted);
-            font-size: 0.88rem;
-        }
-
-        /* Section Header */
         .section-header {
             text-align: center;
             max-width: 700px;
-            margin: 0 auto 4rem;
+            margin: 0 auto 3rem;
         }
-
         .section-subtitle {
             color: var(--primary-red);
             font-weight: 700;
@@ -491,31 +375,15 @@
             margin-bottom: 0.8rem;
             display: block;
         }
-
-        .section-title {
-            font-size: 2.8rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-        }
-
-        .section-desc {
-            color: var(--text-muted);
-            font-size: 1.05rem;
-        }
-
-        /* Packages */
-        .packages-section {
-            max-width: 1280px;
-            margin: 0 auto 8rem;
-            padding: 0 1.5rem;
-        }
+        .section-title { font-size: 2.8rem; font-weight: 800; margin-bottom: 1rem; }
+        .section-desc { color: var(--text-muted); font-size: 1.05rem; }
 
         .packages-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 2.5rem;
+            margin-bottom: 4rem;
         }
-
         .package-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -526,19 +394,16 @@
             flex-direction: column;
             position: relative;
         }
-
         .package-card:hover {
             transform: translateY(-10px);
             border-color: rgba(255, 30, 67, 0.4);
             box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
-
         .package-card.featured {
             border-color: var(--primary-red);
             background: rgba(22, 25, 38, 0.95);
             box-shadow: 0 10px 30px rgba(255, 30, 67, 0.2);
         }
-
         .featured-tag {
             position: absolute;
             top: 20px;
@@ -553,38 +418,26 @@
             letter-spacing: 1px;
             z-index: 10;
         }
-
         .package-img {
             height: 220px;
             width: 100%;
             overflow: hidden;
             position: relative;
         }
-
         .package-img img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease;
         }
-
-        .package-card:hover .package-img img {
-            transform: scale(1.08);
-        }
-
+        .package-card:hover .package-img img { transform: scale(1.08); }
         .package-body {
             padding: 2rem;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
         }
-
-        .package-title {
-            font-size: 1.6rem;
-            color: #fff;
-            margin-bottom: 0.5rem;
-        }
-
+        .package-title { font-size: 1.6rem; color: #fff; margin-bottom: 0.5rem; }
         .package-subtitle {
             color: var(--accent-cyan);
             font-size: 0.85rem;
@@ -592,33 +445,28 @@
             margin-bottom: 1.5rem;
             display: block;
         }
-
         .package-price {
             margin-bottom: 1.8rem;
             display: flex;
             align-items: baseline;
             gap: 6px;
         }
-
         .price-amount {
             font-size: 2.4rem;
             font-weight: 800;
             color: #fff;
             font-family: var(--font-heading);
         }
-
         .price-currency {
             color: var(--primary-red);
             font-weight: 700;
             font-size: 1.2rem;
         }
-
         .package-specs {
             list-style: none;
             margin-bottom: 2rem;
             flex-grow: 1;
         }
-
         .package-specs li {
             color: #cbd5e1;
             font-size: 0.95rem;
@@ -627,23 +475,8 @@
             align-items: center;
             gap: 10px;
         }
-
-        .package-specs li i {
-            color: var(--primary-red);
-            font-size: 0.85rem;
-        }
-
-        .package-specs li.highlight {
-            color: #fff;
-            font-weight: 600;
-        }
-
-        /* LED Spotlight */
-        .led-spotlight {
-            max-width: 1280px;
-            margin: 0 auto 8rem;
-            padding: 0 1.5rem;
-        }
+        .package-specs li i { color: var(--primary-red); font-size: 0.85rem; }
+        .package-specs li.highlight { color: #fff; font-weight: 600; }
 
         .led-container {
             background: linear-gradient(135deg, rgba(20, 24, 38, 0.9) 0%, rgba(10, 12, 18, 0.95) 100%);
@@ -654,48 +487,29 @@
             grid-template-columns: 1fr 1fr;
             gap: 3.5rem;
             align-items: center;
-            box-shadow: 0 20px 50px rgba(0, 242, 254, 0.05);
+            margin-bottom: 4rem;
         }
-
-        .led-content h3 {
-            font-size: 2.2rem;
-            color: #fff;
-            margin-bottom: 1rem;
-        }
-
-        .led-content p {
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-            font-size: 1.05rem;
-        }
-
+        .led-content h3 { font-size: 2.2rem; color: #fff; margin-bottom: 1rem; }
+        .led-content p { color: var(--text-muted); margin-bottom: 2rem; font-size: 1.05rem; }
         .led-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1.2rem;
             margin-bottom: 2rem;
         }
-
         .led-spec-box {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border-color);
             padding: 1.2rem;
             border-radius: 16px;
         }
-
         .led-spec-box h5 {
             color: var(--accent-cyan);
             font-size: 1.1rem;
             font-weight: 700;
             margin-bottom: 4px;
         }
-
-        .led-spec-box p {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin: 0;
-        }
-
+        .led-spec-box p { color: var(--text-muted); font-size: 0.85rem; margin: 0; }
         .led-media {
             border-radius: 20px;
             overflow: hidden;
@@ -703,7 +517,6 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.7);
             aspect-ratio: 16/9;
         }
-
         .led-media img {
             width: 100%;
             height: 100%;
@@ -711,19 +524,12 @@
             display: block;
         }
 
-        /* Gallery Dinámica */
-        .gallery-section {
-            max-width: 1280px;
-            margin: 0 auto 8rem;
-            padding: 0 1.5rem;
-        }
-
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
+            margin-bottom: 2rem;
         }
-
         .gallery-item {
             position: relative;
             border-radius: 16px;
@@ -734,12 +540,10 @@
             cursor: default;
             background: #000;
         }
-
         .gallery-item:hover {
             border-color: var(--primary-red);
             transform: scale(1.02);
         }
-
         .gallery-item img,
         .gallery-item video {
             width: 100%;
@@ -749,12 +553,8 @@
             transition: transform 0.5s ease;
             display: block;
         }
-
         .gallery-item:hover img,
-        .gallery-item:hover video {
-            transform: scale(1.06);
-        }
-
+        .gallery-item:hover video { transform: scale(1.06); }
         .gallery-item .gallery-overlay {
             position: absolute;
             bottom: 0;
@@ -771,12 +571,10 @@
             pointer-events: none;
             z-index: 10;
         }
-
         .gallery-item:hover .gallery-overlay {
             opacity: 1;
             pointer-events: auto;
         }
-
         .gallery-overlay span {
             pointer-events: none;
             color: #fff;
@@ -786,13 +584,11 @@
             border-radius: 12px;
             backdrop-filter: blur(4px);
         }
-
         .gallery-overlay .gallery-actions {
             display: flex;
             gap: 0.4rem;
             pointer-events: auto;
         }
-
         .gallery-replace-btn,
         .gallery-delete-btn {
             background: rgba(0,0,0,0.7);
@@ -808,42 +604,23 @@
             align-items: center;
             justify-content: center;
         }
-
-        .gallery-delete-btn {
-            background: rgba(255, 30, 67, 0.85);
-        }
-
-        .gallery-replace-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
-        }
-
-        .gallery-delete-btn:hover {
-            background: var(--primary-red);
-            transform: scale(1.1);
-        }
-
+        .gallery-delete-btn { background: rgba(255, 30, 67, 0.85); }
+        .gallery-replace-btn:hover { background: rgba(255, 255, 255, 0.3); transform: scale(1.1); }
+        .gallery-delete-btn:hover { background: var(--primary-red); transform: scale(1.1); }
         .gallery-cta {
             display: flex;
             justify-content: center;
             gap: 1rem;
             flex-wrap: wrap;
-            margin-top: 2rem;
-        }
-
-        /* Upgrades */
-        .upgrades-section {
-            max-width: 1280px;
-            margin: 0 auto 8rem;
-            padding: 0 1.5rem;
+            margin-top: 1rem;
         }
 
         .upgrades-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
+            margin-bottom: 4rem;
         }
-
         .upgrade-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -856,58 +633,27 @@
             align-items: center;
             gap: 1rem;
         }
-
         .upgrade-card:hover {
             transform: translateY(-8px);
             border-color: var(--accent-cyan);
             box-shadow: 0 15px 40px rgba(0, 242, 254, 0.1);
         }
-
-        .upgrade-icon {
-            font-size: 3rem;
-            color: var(--accent-cyan);
-            margin-bottom: 0.5rem;
-        }
-
-        .upgrade-title {
-            font-size: 1.6rem;
-            color: #fff;
-            font-weight: 700;
-        }
-
+        .upgrade-icon { font-size: 3rem; color: var(--accent-cyan); margin-bottom: 0.5rem; }
+        .upgrade-title { font-size: 1.6rem; color: #fff; font-weight: 700; }
         .upgrade-price {
             font-size: 1.8rem;
             font-weight: 800;
             color: var(--primary-red);
             font-family: var(--font-heading);
         }
-
-        .upgrade-desc {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        .upgrade-card .btn-secondary,
-        .upgrade-card .btn-primary {
-            margin-top: 0.5rem;
-            width: 100%;
-            justify-content: center;
-        }
-
-        /* Testimonials */
-        .testimonials-section {
-            max-width: 1280px;
-            margin: 0 auto 8rem;
-            padding: 0 1.5rem;
-        }
+        .upgrade-desc { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
 
         .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
+            margin-bottom: 4rem;
         }
-
         .testimonial-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -918,18 +664,8 @@
             flex-direction: column;
             gap: 1rem;
         }
-
-        .testimonial-card:hover {
-            border-color: var(--accent-cyan);
-            transform: translateY(-5px);
-        }
-
-        .testimonial-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
+        .testimonial-card:hover { border-color: var(--accent-cyan); transform: translateY(-5px); }
+        .testimonial-header { display: flex; align-items: center; gap: 1rem; }
         .testimonial-avatar {
             width: 50px;
             height: 50px;
@@ -937,78 +673,152 @@
             object-fit: cover;
             border: 2px solid var(--primary-red);
         }
-
-        .testimonial-name {
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .testimonial-role {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .testimonial-text {
-            color: #cbd5e1;
-            font-style: italic;
-            line-height: 1.7;
-        }
-
-        .testimonial-stars {
-            color: #fbbf24;
-            letter-spacing: 2px;
-        }
-
-        /* Experience */
-        .experience-section {
-            max-width: 1280px;
-            margin: 0 auto 8rem;
-            padding: 0 1.5rem;
-        }
+        .testimonial-name { font-weight: 700; color: #fff; }
+        .testimonial-role { font-size: 0.85rem; color: var(--text-muted); }
+        .testimonial-text { color: #cbd5e1; font-style: italic; line-height: 1.7; }
+        .testimonial-stars { color: #fbbf24; letter-spacing: 2px; }
 
         .events-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 1.5rem;
         }
-
         .event-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
+            border-radius: 18px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 1rem;
             transition: all 0.3s ease;
         }
-
         .event-card:hover {
             border-color: var(--accent-cyan);
-            transform: translateY(-5px);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.08);
         }
-
-        .event-icon {
-            font-size: 2.2rem;
+        .event-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        .event-type-badge {
+            background: rgba(0, 242, 254, 0.1);
             color: var(--accent-cyan);
-            margin-bottom: 1rem;
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 20px;
         }
-
-        .event-card h4 {
-            color: #fff;
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+        .event-status {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
         }
-
-        .event-card p {
+        .status-confirmado {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--badge-green);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        .status-pendiente {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--badge-yellow);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        .status-finalizado {
+            background: rgba(148, 163, 184, 0.15);
             color: var(--text-muted);
+            border: 1px solid rgba(148, 163, 184, 0.3);
+        }
+        .event-card-body h3 { font-size: 1.3rem; color: #fff; margin-bottom: 0.5rem; }
+        .event-detail-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.3rem;
         }
+        .event-detail-item i { width: 16px; color: var(--primary-red); }
+        .event-finance {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            padding: 0.8rem;
+            border-radius: 12px;
+            margin-top: 0.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+        .finance-item span { display: block; color: var(--text-muted); font-size: 0.75rem; }
+        .finance-item strong { color: #fff; font-size: 0.95rem; }
+        .finance-saldo strong { color: var(--accent-cyan); }
+        .event-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 0.8rem;
+            border-top: 1px solid var(--border-color);
+        }
+        .btn-delete {
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 6px;
+            transition: transform 0.2s;
+        }
+        .btn-delete:hover { transform: scale(1.2); }
 
-        /* Contact */
-        .contact-section {
-            max-width: 1100px;
-            margin: 0 auto 6rem;
-            padding: 0 1.5rem;
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
         }
+        .search-box { flex: 1; min-width: 250px; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+        .form-group { display: flex; flex-direction: column; gap: 5px; }
+        .form-group label {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .form-group label i { color: var(--primary-red); }
+        .form-control {
+            width: 100%;
+            padding: 0.7rem 0.9rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+            font-family: var(--font-body);
+            font-size: 0.92rem;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 12px rgba(255, 30, 67, 0.25);
+        }
+        select.form-control option { background: #141724; color: #fff; }
 
         .contact-card {
             background: linear-gradient(135deg, rgba(20, 24, 38, 0.95) 0%, rgba(12, 14, 22, 0.98) 100%);
@@ -1019,35 +829,27 @@
             position: relative;
             overflow: hidden;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            margin-bottom: 2rem;
         }
-
-        .contact-card h2 {
-            font-size: 3rem;
-            color: #fff;
-            margin-bottom: 1rem;
-        }
-
+        .contact-card h2 { font-size: 3rem; color: #fff; margin-bottom: 1rem; }
         .contact-card p {
             color: var(--text-muted);
             font-size: 1.1rem;
             max-width: 600px;
             margin: 0 auto 2.5rem;
         }
-
         .contact-actions {
             display: flex;
             justify-content: center;
             gap: 1.5rem;
             flex-wrap: wrap;
         }
-
         .social-links {
             display: flex;
             justify-content: center;
             gap: 1.5rem;
-            margin-top: 3rem;
+            margin-top: 2rem;
         }
-
         .social-btn {
             width: 50px;
             height: 50px;
@@ -1062,7 +864,6 @@
             transition: all 0.3s ease;
             text-decoration: none;
         }
-
         .social-btn:hover {
             background: var(--primary-red);
             border-color: var(--primary-red);
@@ -1070,44 +871,14 @@
             box-shadow: 0 5px 15px var(--primary-glow);
         }
 
-        /* Visitor counter & edit button */
-        .visitor-counter {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            padding: 6px 18px;
-            border-radius: 20px;
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 1.5rem;
+            text-align: center;
+            color: var(--text-muted);
             font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-        }
-
-        .visitor-counter i {
-            color: var(--accent-cyan);
-        }
-
-        .visitor-counter strong {
-            color: #fff;
-            font-size: 1rem;
-        }
-
-        .edit-toggle-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: color 0.3s, transform 0.3s;
-            padding: 0 8px;
-        }
-        .edit-toggle-btn:hover {
-            color: #fff;
-            transform: scale(1.1);
-        }
-        .edit-toggle-btn.active {
-            color: var(--primary-red);
+            background: rgba(6, 7, 10, 0.95);
+            margin-top: 3rem;
         }
 
         .edit-btn-overlay {
@@ -1134,17 +905,9 @@
             transform: scale(1.2);
             background: var(--primary-red);
         }
-        .edit-mode .edit-btn-overlay {
-            display: flex !important;
-        }
-
-        .edit-container {
-            position: relative;
-        }
-        .edit-text {
-            position: relative;
-            display: inline-block;
-        }
+        .edit-mode .edit-btn-overlay { display: flex !important; }
+        .edit-container { position: relative; }
+        .edit-text { position: relative; display: inline-block; }
         .edit-text .edit-btn-overlay {
             top: -8px;
             right: -40px;
@@ -1153,7 +916,32 @@
             font-size: 0.75rem;
         }
 
-        /* Modal */
+        .visitor-counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        .visitor-counter i { color: var(--accent-cyan); }
+        .visitor-counter strong { color: #fff; font-size: 1rem; }
+        .edit-toggle-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.3s, transform 0.3s;
+            padding: 0 8px;
+        }
+        .edit-toggle-btn:hover { color: #fff; transform: scale(1.1); }
+        .edit-toggle-btn.active { color: var(--primary-red); }
+
         .modal-overlay {
             display: none;
             position: fixed;
@@ -1168,9 +956,7 @@
             align-items: center;
             padding: 1rem;
         }
-        .modal-overlay.active {
-            display: flex;
-        }
+        .modal-overlay.active { display: flex; }
         .modal-box {
             background: #1a1a24;
             border: 1px solid var(--border-color);
@@ -1212,10 +998,7 @@
             outline: none;
             border-color: var(--primary-red);
         }
-        .modal-box textarea {
-            min-height: 80px;
-            resize: vertical;
-        }
+        .modal-box textarea { min-height: 80px; resize: vertical; }
         .modal-box .img-preview {
             width: 100%;
             max-height: 200px;
@@ -1239,11 +1022,6 @@
             justify-content: flex-end;
             flex-wrap: wrap;
         }
-        .modal-actions .btn-primary,
-        .modal-actions .btn-secondary {
-            padding: 0.6rem 1.8rem;
-            font-size: 0.95rem;
-        }
         .modal-close {
             position: absolute;
             top: 1rem;
@@ -1255,38 +1033,15 @@
             background: none;
             border: none;
         }
-        .modal-close:hover {
-            color: #fff;
-        }
+        .modal-close:hover { color: #fff; }
 
-        footer {
-            border-top: 1px solid var(--border-color);
-            padding: 3rem 1.5rem;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            background: rgba(6, 7, 10, 0.95);
-        }
-
-        /* Responsive */
         @media (max-width: 992px) {
-            .hero {
-                grid-template-columns: 1fr;
-                padding-top: 140px;
-                text-align: center;
-            }
-            .hero-description {
-                margin: 0 auto 2.5rem;
-            }
-            .hero-cta {
-                justify-content: center;
-            }
-            .hero-stats {
-                justify-content: center;
-            }
-            .led-container {
-                grid-template-columns: 1fr;
-            }
+            .hero { grid-template-columns: 1fr; text-align: center; padding-top: 1rem; }
+            .hero-description { margin: 0 auto 2.5rem; }
+            .hero-cta { justify-content: center; }
+            .hero-stats { justify-content: center; }
+            .led-container { grid-template-columns: 1fr; }
+            .form-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 768px) {
@@ -1303,88 +1058,45 @@
                 border-bottom: 1px solid var(--border-color);
                 gap: 0;
             }
-
-            .nav-links.open {
-                display: flex;
-            }
-
+            .nav-links.open { display: flex; }
             .nav-links li {
                 width: 100%;
                 text-align: center;
                 padding: 0.8rem 0;
                 border-bottom: 1px solid var(--border-color);
             }
-
-            .nav-links li:last-child {
-                border-bottom: none;
-            }
-
-            .nav-links a {
-                font-size: 1.1rem;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-
-            .hero-title {
-                font-size: 2.6rem;
-            }
-            .section-title {
-                font-size: 2.1rem;
-            }
-            .packages-grid {
-                grid-template-columns: 1fr;
-            }
-            .contact-card {
-                padding: 2.5rem 1.5rem;
-            }
-            .contact-card h2 {
-                font-size: 2.2rem;
-            }
-            .gallery-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            .upgrades-grid {
-                grid-template-columns: 1fr;
-            }
+            .nav-links li:last-child { border-bottom: none; }
+            .nav-links a { font-size: 1.1rem; }
+            .hamburger { display: flex; }
+            .hero-title { font-size: 2.6rem; }
+            .section-title { font-size: 2.1rem; }
+            .packages-grid { grid-template-columns: 1fr; }
+            .contact-card { padding: 2.5rem 1.5rem; }
+            .contact-card h2 { font-size: 2.2rem; }
+            .gallery-grid { grid-template-columns: 1fr 1fr; }
+            .upgrades-grid { grid-template-columns: 1fr; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group[style*="span 2"] { grid-column: span 1 !important; }
         }
 
         @media (max-width: 480px) {
-            .gallery-grid {
-                grid-template-columns: 1fr;
-            }
-            .whatsapp-float {
-                width: 50px;
-                height: 50px;
-                font-size: 1.8rem;
-                bottom: 20px;
-                right: 20px;
-            }
+            .gallery-grid { grid-template-columns: 1fr; }
+            .whatsapp-float { width: 50px; height: 50px; font-size: 1.8rem; bottom: 20px; right: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Preloader -->
-    <div id="preloader">
-        <img src="dj michael logo principal.png" alt="DJ Michael Logo" />
-        <div class="loader-text">Cargando...</div>
-    </div>
-
-    <!-- Fondo animado -->
     <div class="bg-animated"></div>
     <canvas id="particles-canvas"></canvas>
 
-    <!-- Floating WhatsApp -->
     <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20cotizar%20mi%20evento" class="whatsapp-float" target="_blank" aria-label="Contactar por WhatsApp">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
-    <!-- Header -->
     <header>
         <div class="nav-container">
-            <a href="#" class="logo-box">
+            <a href="#" class="logo-box" id="logoLink">
                 <img src="dj michael logo principal.png" alt="DJ Michael Logo" loading="lazy" />
                 <span class="logo-text">DJ MICHAEL</span>
             </a>
@@ -1394,15 +1106,9 @@
                 <span></span>
             </button>
             <ul class="nav-links" id="nav-links" role="navigation">
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#paquetes">Paquetes</a></li>
-                <li><a href="#pantalla-led">Pantalla LED</a></li>
-                <li><a href="#galeria">Galería</a></li>
-                <li><a href="#mejora">Mejora tu Evento</a></li>
-                <li><a href="#testimonios">Testimonios</a></li>
-                <li><a href="#contacto">Contacto</a></li>
-                <!-- NUEVO ENLACE A AGENDA -->
-                <li><a href="#" id="agendaLink">📅 Agenda</a></li>
+                <li><a class="active" data-section="inicio">Inicio</a></li>
+                <li><a data-section="agenda">Agenda</a></li>
+                <li><a data-section="contacto">Contacto</a></li>
             </ul>
             <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quisiera%20consultar%20disponibilidad%20para%20un%20evento" class="btn-primary" target="_blank">
                 <i class="fa-brands fa-whatsapp"></i> Reservar Ahora
@@ -1410,426 +1116,473 @@
         </div>
     </header>
 
-    <!-- Hero -->
-    <section class="hero" id="inicio">
-        <div class="hero-content">
-            <div class="hero-badge">
-                <i class="fa-solid fa-bolt"></i> Producción de Eventos Premium
-            </div>
-            <div class="location-badge">
-                <i class="fa-solid fa-location-dot"></i> Villeta · Central · Cubrimos todo el departamento
-            </div>
-            <h1 class="hero-title edit-container">
-                <span class="edit-text" id="hero_title">Tu evento, llevado al <span class="gradient-text">siguiente nivel</span></span>
-                <button class="edit-btn-overlay" data-key="hero_title" data-type="text" data-text-target="hero_title"></button>
-            </h1>
-            <p class="hero-description edit-container" id="hero_desc">
-                <span class="edit-text" id="hero_desc_text">Servicio profesional de DJ, sistemas de sonido Line Array de alta potencia, iluminación robótica Beam y pantallas LED de alta definición para Bodas, XV Años y Quintas.</span>
-                <button class="edit-btn-overlay" data-key="hero_desc" data-type="text" data-text-target="hero_desc_text"></button>
-            </p>
-            <div class="hero-cta">
-                <a href="#mejora" class="btn-primary">
-                    <i class="fa-solid fa-star"></i> Mejora tu Evento
-                </a>
-                <a href="https://wa.me/595994608163" class="btn-secondary" target="_blank">
-                    <i class="fa-brands fa-whatsapp"></i> WhatsApp Directo
-                </a>
-            </div>
-            <div class="hero-stats">
-                <div class="stat-item">
-                    <h3>100%</h3>
-                    <p>Garantía de Fiesta</p>
+    <!-- SECCIÓN: INICIO -->
+    <section class="section-page active" id="page-inicio">
+        <div class="hero">
+            <div class="hero-content">
+                <div class="hero-badge"><i class="fa-solid fa-bolt"></i> Producción de Eventos Premium</div>
+                <div class="location-badge"><i class="fa-solid fa-location-dot"></i> Villeta · Central · Cubrimos todo el departamento</div>
+                <h1 class="hero-title edit-container">
+                    <span class="edit-text" id="hero_title">Tu evento, llevado al <span class="gradient-text">siguiente nivel</span></span>
+                    <button class="edit-btn-overlay" data-key="hero_title" data-type="text" data-text-target="hero_title"><i class="fa-solid fa-pen"></i></button>
+                </h1>
+                <p class="hero-description edit-container">
+                    <span class="edit-text" id="hero_desc_text">Servicio profesional de DJ, sistemas de sonido Line Array de alta potencia, iluminación robótica Beam y pantallas LED de alta definición para Bodas, XV Años y Quintas.</span>
+                    <button class="edit-btn-overlay" data-key="hero_desc" data-type="text" data-text-target="hero_desc_text"><i class="fa-solid fa-pen"></i></button>
+                </p>
+                <div class="hero-cta">
+                    <a href="#mejora" class="btn-primary"><i class="fa-solid fa-star"></i> Mejora tu Evento</a>
+                    <a href="https://wa.me/595994608163" class="btn-secondary" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp Directo</a>
                 </div>
-                <div class="stat-item">
-                    <h3>Line Array</h3>
-                    <p>Sonido Profesional</p>
+                <div class="hero-stats">
+                    <div class="stat-item"><h3>100%</h3><p>Garantía de Fiesta</p></div>
+                    <div class="stat-item"><h3>Line Array</h3><p>Sonido Profesional</p></div>
+                    <div class="stat-item"><h3>LED 3x2</h3><p>Módulos HD</p></div>
                 </div>
-                <div class="stat-item">
-                    <h3>LED 3x2</h3>
-                    <p>Módulos HD</p>
+            </div>
+            <div class="hero-media edit-container">
+                <div class="hero-main-card" id="hero_media_container">
+                    <img src="dj michael.jpg" alt="Hero media" style="width:100%;height:100%;object-fit:cover;" />
                 </div>
+                <button class="edit-btn-overlay" data-key="hero_media" data-type="media" data-target="hero_media_container">
+                    <i class="fa-solid fa-pen"></i>
+                </button>
             </div>
         </div>
 
-        <!-- HERO MEDIA DINÁMICO (imagen o video) -->
-        <div class="hero-media edit-container">
-            <div class="hero-main-card" id="hero_media_container">
-                <!-- Se carga dinámicamente desde Firebase o por defecto -->
-            </div>
-            <button class="edit-btn-overlay" data-key="hero_media" data-type="media" data-target="hero_media_container">
-                <i class="fa-solid fa-pen"></i>
-            </button>
-        </div>
-    </section>
-
-    <!-- Features -->
-    <section class="features-bar">
-        <div class="features-grid">
-            <div class="feature-item edit-container">
-                <div class="feature-icon"><i class="fa-solid fa-sliders"></i></div>
-                <div class="feature-text">
-                    <h4 class="edit-text" id="feature1_title">Sonido de Alta Fidelidad</h4>
-                    <p class="edit-text" id="feature1_desc">Subwoofers de 18" y torres Line Array de máxima nitidez.</p>
-                </div>
-                <button class="edit-btn-overlay" data-key="feature1" data-type="text" data-text-target="feature1_title" data-text-target2="feature1_desc"></button>
-            </div>
-            <div class="feature-item edit-container">
-                <div class="feature-icon"><i class="fa-solid fa-lightbulb"></i></div>
-                <div class="feature-text">
-                    <h4 class="edit-text" id="feature2_title">Iluminación Robótica</h4>
-                    <p class="edit-text" id="feature2_desc">Cabezas móviles Beam, Par LEDs y efectos stroboscópicos.</p>
-                </div>
-                <button class="edit-btn-overlay" data-key="feature2" data-type="text" data-text-target="feature2_title" data-text-target2="feature2_desc"></button>
-            </div>
-            <div class="feature-item edit-container">
-                <div class="feature-icon"><i class="fa-solid fa-tv"></i></div>
-                <div class="feature-text">
-                    <h4 class="edit-text" id="feature3_title">Visuales en Pantalla LED</h4>
-                    <p class="edit-text" id="feature3_desc">Estructuras dinámicas, totems y cabina de DJ con LED.</p>
-                </div>
-                <button class="edit-btn-overlay" data-key="feature3" data-type="text" data-text-target="feature3_title" data-text-target2="feature3_desc"></button>
-            </div>
-            <div class="feature-item edit-container">
-                <div class="feature-icon"><i class="fa-solid fa-clock"></i></div>
-                <div class="feature-text">
-                    <h4 class="edit-text" id="feature4_title">Puntualidad y Respaldo</h4>
-                    <p class="edit-text" id="feature4_desc">Montaje anticipado, operador en vivo y contrato con seña.</p>
-                </div>
-                <button class="edit-btn-overlay" data-key="feature4" data-type="text" data-text-target="feature4_title" data-text-target2="feature4_desc"></button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Packages -->
-    <section class="packages-section" id="paquetes">
-        <div class="section-header">
-            <span class="section-subtitle">Nuestras Propuestas</span>
-            <h2 class="section-title edit-container">
-                <span class="edit-text" id="paquetes_title">Paquetes de Sonido e Iluminación</span>
-                <button class="edit-btn-overlay" data-key="paquetes_title" data-type="text" data-text-target="paquetes_title"></button>
-            </h2>
-            <p class="section-desc edit-container">
-                <span class="edit-text" id="paquetes_desc">Diseñados a la medida de tu espacio y la magnitud de tu celebración.</span>
-                <button class="edit-btn-overlay" data-key="paquetes_desc" data-type="text" data-text-target="paquetes_desc"></button>
-            </p>
-        </div>
-
-        <div class="packages-grid">
-            <!-- Paquete 1 -->
-            <div class="package-card edit-container">
-                <div class="package-img">
-                    <img id="paquete1_img" src="equipo_bassico.jpg" alt="Equipo Básico de Sonido" loading="lazy" />
-                </div>
-                <button class="edit-btn-overlay" data-key="paquete1" data-type="package" data-img-target="paquete1_img" data-text-target="paquete1_titulo" data-text-target2="paquete1_sub" data-specs-target="paquete1_specs"></button>
-                <div class="package-body">
-                    <h3 class="package-title edit-text" id="paquete1_titulo">Equipo Básico</h3>
-                    <span class="package-subtitle edit-text" id="paquete1_sub">Ideal para Salones y Reuniones Sociales</span>
-                    <div class="package-price">
-                        <span class="price-amount">800.000</span>
-                        <span class="price-currency">Gs.</span>
+        <section class="features-bar">
+            <div class="features-grid">
+                <div class="feature-item edit-container">
+                    <div class="feature-icon"><i class="fa-solid fa-sliders"></i></div>
+                    <div class="feature-text">
+                        <h4 class="edit-text" id="feature1_title">Sonido de Alta Fidelidad</h4>
+                        <p class="edit-text" id="feature1_desc">Subwoofers de 18" y torres Line Array de máxima nitidez.</p>
                     </div>
-                    <ul class="package-specs" id="paquete1_specs">
-                        <li class="highlight"><i class="fa-solid fa-check-circle"></i> 2 Subwoofers de 18"</li>
-                        <li class="highlight"><i class="fa-solid fa-check-circle"></i> 2 Módulos Line Array</li>
-                        <li><i class="fa-solid fa-check"></i> Consola de 8 canales profesional</li>
-                        <li><i class="fa-solid fa-check"></i> 2 Luces robóticas Beam</li>
-                        <li><i class="fa-solid fa-check"></i> 2 Luces Par LED</li>
-                        <li><i class="fa-solid fa-clock"></i> <strong>5 Horas de servicio</strong> (Hora adicional 100 mil Gs.)</li>
-                    </ul>
-                    <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20me%20interesa%20el%20Equipo%20B%C3%A1sico%20de%20800.000%20Gs." class="btn-secondary" style="text-align: center; justify-content: center;" target="_blank">
-                        Reservar Paquete
-                    </a>
+                    <button class="edit-btn-overlay" data-key="feature1" data-type="text" data-text-target="feature1_title" data-text-target2="feature1_desc"><i class="fa-solid fa-pen"></i></button>
                 </div>
-            </div>
-
-            <!-- Paquete 2 -->
-            <div class="package-card featured edit-container">
-                <div class="featured-tag">Más Popular</div>
-                <div class="package-img">
-                    <img id="paquete2_img" src="basico_led.jpg" alt="Equipo Básico con Pantalla LED" loading="lazy" />
-                </div>
-                <button class="edit-btn-overlay" data-key="paquete2" data-type="package" data-img-target="paquete2_img" data-text-target="paquete2_titulo" data-text-target2="paquete2_sub" data-specs-target="paquete2_specs"></button>
-                <div class="package-body">
-                    <h3 class="package-title edit-text" id="paquete2_titulo">Básico + Pantalla LED</h3>
-                    <span class="package-subtitle edit-text" id="paquete2_sub">Impacto Visual Completo para XV Años y Bodas</span>
-                    <div class="package-price">
-                        <span class="price-amount">1.100.000</span>
-                        <span class="price-currency">Gs.</span>
+                <div class="feature-item edit-container">
+                    <div class="feature-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                    <div class="feature-text">
+                        <h4 class="edit-text" id="feature2_title">Iluminación Robótica</h4>
+                        <p class="edit-text" id="feature2_desc">Cabezas móviles Beam, Par LEDs y efectos stroboscópicos.</p>
                     </div>
-                    <ul class="package-specs" id="paquete2_specs">
-                        <li class="highlight"><i class="fa-solid fa-check-circle"></i> Pantalla LED Integrada / Totem / Cabina</li>
-                        <li class="highlight"><i class="fa-solid fa-check-circle"></i> Controlador de Video y Mezcla LED</li>
-                        <li><i class="fa-solid fa-check"></i> 2 Subwoofers 18" + 2 Line Array</li>
-                        <li><i class="fa-solid fa-check"></i> 2 Luces robóticas Beam + 2 Par LED</li>
-                        <li><i class="fa-solid fa-check"></i> 2 Máquinas de humo vertical</li>
-                        <li><i class="fa-solid fa-user-gear"></i> Operador DJ en vivo incluido</li>
-                        <li><i class="fa-solid fa-clock"></i> <strong>6 Horas de servicio continuo</strong></li>
-                    </ul>
-                    <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20me%20interesa%20el%20Equipo%20B%C3%A1sico%20con%20Pantalla%20LED%20de%201.100.000%20Gs." class="btn-primary" style="text-align: center; justify-content: center;" target="_blank">
-                        Reservar Este Paquete
-                    </a>
+                    <button class="edit-btn-overlay" data-key="feature2" data-type="text" data-text-target="feature2_title" data-text-target2="feature2_desc"><i class="fa-solid fa-pen"></i></button>
                 </div>
-            </div>
-
-            <!-- Paquete 3 -->
-            <div class="package-card edit-container">
-                <div class="package-img">
-                    <img id="paquete3_img" src="equipo_exterior.jpg" alt="Equipo Para Exterior y Grandes Espacios" loading="lazy" />
-                </div>
-                <button class="edit-btn-overlay" data-key="paquete3" data-type="package" data-img-target="paquete3_img" data-text-target="paquete3_titulo" data-text-target2="paquete3_sub" data-specs-target="paquete3_specs"></button>
-                <div class="package-body">
-                    <h3 class="package-title edit-text" id="paquete3_titulo">Equipo Exterior / Show</h3>
-                    <span class="package-subtitle edit-text" id="paquete3_sub">Potencia Total para Quintas, Festivales y Conciertos</span>
-                    <div class="package-price">
-                        <span class="price-amount">2.800.000</span>
-                        <span class="price-currency">Gs.</span>
+                <div class="feature-item edit-container">
+                    <div class="feature-icon"><i class="fa-solid fa-tv"></i></div>
+                    <div class="feature-text">
+                        <h4 class="edit-text" id="feature3_title">Visuales en Pantalla LED</h4>
+                        <p class="edit-text" id="feature3_desc">Estructuras dinámicas, totems y cabina de DJ con LED.</p>
                     </div>
-                    <ul class="package-specs" id="paquete3_specs">
-                        <li class="highlight"><i class="fa-solid fa-check-circle"></i> 8 Subwoofers de 18" de Altísima Potencia</li>
-                        <li class="highlight"><i class="fa-solid fa-check-circle"></i> 6 Módulos Line Array de Gran Alcance</li>
-                        <li><i class="fa-solid fa-check"></i> 4 Luces Robóticas Beam de Alta Intensidad</li>
-                        <li><i class="fa-solid fa-check"></i> 8 Luces Par LED + Estrobo</li>
-                        <li><i class="fa-solid fa-check"></i> 2 Máquinas de humo vertical de alto flujo</li>
-                        <li><i class="fa-solid fa-microphone"></i> Sistema de Micrófonos Inalámbricos</li>
-                        <li><i class="fa-solid fa-user-gear"></i> Operador DJ + Staff Técnico de Montaje</li>
-                    </ul>
-                    <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20cotizar%20el%20Equipo%20Exterior%20de%202.800.000%20Gs." class="btn-secondary" style="text-align: center; justify-content: center;" target="_blank">
-                        Reservar Show Exterior
-                    </a>
+                    <button class="edit-btn-overlay" data-key="feature3" data-type="text" data-text-target="feature3_title" data-text-target2="feature3_desc"><i class="fa-solid fa-pen"></i></button>
+                </div>
+                <div class="feature-item edit-container">
+                    <div class="feature-icon"><i class="fa-solid fa-clock"></i></div>
+                    <div class="feature-text">
+                        <h4 class="edit-text" id="feature4_title">Puntualidad y Respaldo</h4>
+                        <p class="edit-text" id="feature4_desc">Montaje anticipado, operador en vivo y contrato con seña.</p>
+                    </div>
+                    <button class="edit-btn-overlay" data-key="feature4" data-type="text" data-text-target="feature4_title" data-text-target2="feature4_desc"><i class="fa-solid fa-pen"></i></button>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- LED Spotlight -->
-    <section class="led-spotlight" id="pantalla-led">
-        <div class="led-container">
-            <div class="led-content edit-container">
-                <span class="section-subtitle">Tecnología Visual Premium</span>
-                <h3 class="edit-text" id="led_titulo">Alquiler de Pantalla LED HD</h3>
-                <p class="edit-text" id="led_desc">Transforma la atmósfera de tu evento con nuestro sistema modular de pantallas LED. Configurable como pantalla gigante de 3x2 metros, dos tótems laterales o cabina de DJ iluminada.</p>
-                <div class="led-grid">
-                    <div class="led-spec-box"><h5>3 x 2 Metros</h5><p>12 Módulos HD de 50x100 mm</p></div>
-                    <div class="led-spec-box"><h5>Formato Versátil</h5><p>Opción 2 pantallas de 3x1 o Cabina DJ</p></div>
-                    <div class="led-spec-box"><h5>Estructuras Perimetrales</h5><p>Montaje seguro tipo Tótem en Truss</p></div>
-                    <div class="led-spec-box"><h5>Desde 1.200.000 Gs.</h5><p>Servicio individual o combo</p></div>
-                </div>
-                <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20informaci%C3%B3n%20sobre%20el%20alquiler%20de%20Pantalla%20LED" class="btn-primary" target="_blank">
-                    <i class="fa-solid fa-tv"></i> Consultar Disponibilidad LED
-                </a>
-                <button class="edit-btn-overlay" data-key="led" data-type="image+text" data-img-target="led_img" data-text-target="led_titulo" data-text-target2="led_desc"></button>
+        <!-- PAQUETES -->
+        <section id="paquetes">
+            <div class="section-header">
+                <span class="section-subtitle">Nuestras Propuestas</span>
+                <h2 class="section-title edit-container">
+                    <span class="edit-text" id="paquetes_title">Paquetes de Sonido e Iluminación</span>
+                    <button class="edit-btn-overlay" data-key="paquetes_title" data-type="text" data-text-target="paquetes_title"><i class="fa-solid fa-pen"></i></button>
+                </h2>
+                <p class="section-desc edit-container">
+                    <span class="edit-text" id="paquetes_desc">Diseñados a la medida de tu espacio y la magnitud de tu celebración.</span>
+                    <button class="edit-btn-overlay" data-key="paquetes_desc" data-type="text" data-text-target="paquetes_desc"><i class="fa-solid fa-pen"></i></button>
+                </p>
             </div>
-            <div class="led-media edit-container">
-                <img id="led_img" src="alquiler_led.jpg" alt="Pantalla LED en evento" loading="lazy" />
-                <button class="edit-btn-overlay" data-key="led_img" data-type="image+text" data-img-target="led_img" data-text-target="led_titulo" data-text-target2="led_desc"></button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Gallery -->
-    <section class="gallery-section" id="galeria">
-        <div class="section-header">
-            <span class="section-subtitle">Nuestros Trabajos</span>
-            <h2 class="section-title edit-container">
-                <span class="edit-text" id="galeria_title">Galería de Eventos</span>
-                <button class="edit-btn-overlay" data-key="galeria_title" data-type="text" data-text-target="galeria_title"></button>
-            </h2>
-            <p class="section-desc edit-container">
-                <span class="edit-text" id="galeria_desc">Mira cómo transformamos cada celebración con sonido, luz y pantallas LED.</span>
-                <button class="edit-btn-overlay" data-key="galeria_desc" data-type="text" data-text-target="galeria_desc"></button>
-            </p>
-        </div>
-
-        <div class="gallery-grid" id="gallery-grid"></div>
-
-        <div class="gallery-cta">
-            <button id="addGalleryBtn" class="btn-primary" style="font-size: 1rem; padding: 0.8rem 2rem;">
-                <i class="fa-solid fa-plus-circle"></i> Añadir imagen o video
-            </button>
-            <a href="https://www.instagram.com/michael.pintos" target="_blank" class="btn-secondary">
-                <i class="fa-brands fa-instagram"></i> Ver más en Instagram
-            </a>
-        </div>
-    </section>
-
-    <!-- Upgrades -->
-    <section class="upgrades-section" id="mejora">
-        <div class="section-header">
-            <span class="section-subtitle">Opcionales</span>
-            <h2 class="section-title edit-container">
-                <span class="edit-text" id="upgrades_title">Mejora tu Evento</span>
-                <button class="edit-btn-overlay" data-key="upgrades_title" data-type="text" data-text-target="upgrades_title"></button>
-            </h2>
-            <p class="section-desc edit-container">
-                <span class="edit-text" id="upgrades_desc">Agrega estos servicios extra para una experiencia aún más espectacular.</span>
-                <button class="edit-btn-overlay" data-key="upgrades_desc" data-type="text" data-text-target="upgrades_desc"></button>
-            </p>
-        </div>
-        <div class="upgrades-grid">
-            <div class="upgrade-card edit-container">
-                <div class="upgrade-icon"><i class="fa-regular fa-square"></i></div>
-                <h3 class="upgrade-title edit-text" id="upgrade1_titulo">Pista LED 4x4</h3>
-                <div class="upgrade-price edit-text" id="upgrade1_precio">1.400.000 Gs.</div>
-                <p class="upgrade-desc edit-text" id="upgrade1_desc">Pista de baile iluminada con LED de alta densidad, ideal para darle un toque futurista a tu evento.</p>
-                <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20consultar%20la%20Pista%20LED%204x4%20de%201.400.000%20Gs." class="btn-secondary" target="_blank">
-                    <i class="fa-brands fa-whatsapp"></i> Consultar
-                </a>
-                <button class="edit-btn-overlay" data-key="upgrade1" data-type="text" data-text-target="upgrade1_titulo" data-text-target2="upgrade1_desc" data-text-target3="upgrade1_precio"></button>
-            </div>
-            <div class="upgrade-card edit-container">
-                <div class="upgrade-icon"><i class="fa-regular fa-gem"></i></div>
-                <h3 class="upgrade-title edit-text" id="upgrade2_titulo">Pista Paris</h3>
-                <div class="upgrade-price edit-text" id="upgrade2_precio">1.500.000 Gs.</div>
-                <p class="upgrade-desc edit-text" id="upgrade2_desc">Pista de baile con diseño elegante y luces dinámicas, perfecta para bodas y fiestas de gala.</p>
-                <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20consultar%20la%20Pista%20Paris%20de%201.500.000%20Gs." class="btn-secondary" target="_blank">
-                    <i class="fa-brands fa-whatsapp"></i> Consultar
-                </a>
-                <button class="edit-btn-overlay" data-key="upgrade2" data-type="text" data-text-target="upgrade2_titulo" data-text-target2="upgrade2_desc" data-text-target3="upgrade2_precio"></button>
-            </div>
-            <div class="upgrade-card edit-container">
-                <div class="upgrade-icon"><i class="fa-regular fa-sparkles"></i></div>
-                <h3 class="upgrade-title edit-text" id="upgrade3_titulo">Chispa Fría</h3>
-                <div class="upgrade-price edit-text" id="upgrade3_precio" style="color: var(--accent-cyan);">Consultar</div>
-                <p class="upgrade-desc edit-text" id="upgrade3_desc">Efectos de chispas frías para momentos especiales: entrada, vals, brindis o primer baile.</p>
-                <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20consultar%20el%20efecto%20de%20Chispa%20Fr%C3%ADa%20para%20mi%20evento" class="btn-primary" target="_blank">
-                    <i class="fa-brands fa-whatsapp"></i> Consultar
-                </a>
-                <button class="edit-btn-overlay" data-key="upgrade3" data-type="text" data-text-target="upgrade3_titulo" data-text-target2="upgrade3_desc" data-text-target3="upgrade3_precio"></button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section class="testimonials-section" id="testimonios">
-        <div class="section-header">
-            <span class="section-subtitle">Lo que dicen nuestros clientes</span>
-            <h2 class="section-title edit-container">
-                <span class="edit-text" id="testimonios_title">Testimonios Reales</span>
-                <button class="edit-btn-overlay" data-key="testimonios_title" data-type="text" data-text-target="testimonios_title"></button>
-            </h2>
-            <p class="section-desc edit-container">
-                <span class="edit-text" id="testimonios_desc">Experiencias de quienes confiaron en DJ Michael para su evento.</span>
-                <button class="edit-btn-overlay" data-key="testimonios_desc" data-type="text" data-text-target="testimonios_desc"></button>
-            </p>
-        </div>
-        <div class="testimonials-grid">
-            <div class="testimonial-card edit-container">
-                <div class="testimonial-header">
-                    <img id="testimonio1_avatar" src="avatar1.jpg" alt="Foto de Laura" class="testimonial-avatar" loading="lazy" />
-                    <div>
-                        <div class="testimonial-name edit-text" id="testimonio1_nombre">Laura G.</div>
-                        <div class="testimonial-role edit-text" id="testimonio1_rol">Fiesta de 15 años</div>
+            <div class="packages-grid">
+                <div class="package-card edit-container">
+                    <div class="package-img"><img id="paquete1_img" src="equipo_bassico.jpg" alt="Equipo Básico de Sonido" loading="lazy" /></div>
+                    <button class="edit-btn-overlay" data-key="paquete1" data-type="package" data-img-target="paquete1_img" data-text-target="paquete1_titulo" data-text-target2="paquete1_sub" data-specs-target="paquete1_specs"><i class="fa-solid fa-pen"></i></button>
+                    <div class="package-body">
+                        <h3 class="package-title edit-text" id="paquete1_titulo">Equipo Básico</h3>
+                        <span class="package-subtitle edit-text" id="paquete1_sub">Ideal para Salones y Reuniones Sociales</span>
+                        <div class="package-price"><span class="price-amount">800.000</span><span class="price-currency">Gs.</span></div>
+                        <ul class="package-specs" id="paquete1_specs">
+                            <li class="highlight"><i class="fa-solid fa-check-circle"></i> 2 Subwoofers de 18"</li>
+                            <li class="highlight"><i class="fa-solid fa-check-circle"></i> 2 Módulos Line Array</li>
+                            <li><i class="fa-solid fa-check"></i> Consola de 8 canales profesional</li>
+                            <li><i class="fa-solid fa-check"></i> 2 Luces robóticas Beam</li>
+                            <li><i class="fa-solid fa-check"></i> 2 Luces Par LED</li>
+                            <li><i class="fa-solid fa-clock"></i> <strong>5 Horas de servicio</strong> (Hora adicional 100 mil Gs.)</li>
+                        </ul>
+                        <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20me%20interesa%20el%20Equipo%20B%C3%A1sico%20de%20800.000%20Gs." class="btn-secondary" style="text-align:center;justify-content:center;" target="_blank">Reservar Paquete</a>
                     </div>
                 </div>
-                <div class="testimonial-stars">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                </div>
-                <p class="testimonial-text edit-text" id="testimonio1_texto">"¡Impresionante! La pantalla LED y el sonido hicieron que mi fiesta de 15 fuera inolvidable. Todo el mundo bailó hasta el final."</p>
-                <button class="edit-btn-overlay" data-key="testimonio1" data-type="text" data-img-target="testimonio1_avatar" data-text-target="testimonio1_nombre" data-text-target2="testimonio1_rol" data-text-target3="testimonio1_texto"></button>
-            </div>
-            <div class="testimonial-card edit-container">
-                <div class="testimonial-header">
-                    <img id="testimonio2_avatar" src="avatar2.jpg" alt="Foto de Carlos" class="testimonial-avatar" loading="lazy" />
-                    <div>
-                        <div class="testimonial-name edit-text" id="testimonio2_nombre">Carlos R.</div>
-                        <div class="testimonial-role edit-text" id="testimonio2_rol">Boda</div>
+
+                <div class="package-card featured edit-container">
+                    <div class="featured-tag">Más Popular</div>
+                    <div class="package-img"><img id="paquete2_img" src="basico_led.jpg" alt="Equipo Básico con Pantalla LED" loading="lazy" /></div>
+                    <button class="edit-btn-overlay" data-key="paquete2" data-type="package" data-img-target="paquete2_img" data-text-target="paquete2_titulo" data-text-target2="paquete2_sub" data-specs-target="paquete2_specs"><i class="fa-solid fa-pen"></i></button>
+                    <div class="package-body">
+                        <h3 class="package-title edit-text" id="paquete2_titulo">Básico + Pantalla LED</h3>
+                        <span class="package-subtitle edit-text" id="paquete2_sub">Impacto Visual Completo para XV Años y Bodas</span>
+                        <div class="package-price"><span class="price-amount">1.100.000</span><span class="price-currency">Gs.</span></div>
+                        <ul class="package-specs" id="paquete2_specs">
+                            <li class="highlight"><i class="fa-solid fa-check-circle"></i> Pantalla LED Integrada / Totem / Cabina</li>
+                            <li class="highlight"><i class="fa-solid fa-check-circle"></i> Controlador de Video y Mezcla LED</li>
+                            <li><i class="fa-solid fa-check"></i> 2 Subwoofers 18" + 2 Line Array</li>
+                            <li><i class="fa-solid fa-check"></i> 2 Luces robóticas Beam + 2 Par LED</li>
+                            <li><i class="fa-solid fa-check"></i> 2 Máquinas de humo vertical</li>
+                            <li><i class="fa-solid fa-user-gear"></i> Operador DJ en vivo incluido</li>
+                            <li><i class="fa-solid fa-clock"></i> <strong>6 Horas de servicio continuo</strong></li>
+                        </ul>
+                        <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20me%20interesa%20el%20Equipo%20B%C3%A1sico%20con%20Pantalla%20LED%20de%201.100.000%20Gs." class="btn-primary" style="text-align:center;justify-content:center;" target="_blank">Reservar Este Paquete</a>
                     </div>
                 </div>
-                <div class="testimonial-stars">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                </div>
-                <p class="testimonial-text edit-text" id="testimonio2_texto">"El mejor DJ que pudimos contratar. Muy profesional, puntual y con un equipamiento de primera. La iluminación creó un ambiente mágico."</p>
-                <button class="edit-btn-overlay" data-key="testimonio2" data-type="text" data-img-target="testimonio2_avatar" data-text-target="testimonio2_nombre" data-text-target2="testimonio2_rol" data-text-target3="testimonio2_texto"></button>
-            </div>
-            <div class="testimonial-card edit-container">
-                <div class="testimonial-header">
-                    <img id="testimonio3_avatar" src="avatar3.jpg" alt="Foto de Mariana" class="testimonial-avatar" loading="lazy" />
-                    <div>
-                        <div class="testimonial-name edit-text" id="testimonio3_nombre">Mariana S.</div>
-                        <div class="testimonial-role edit-text" id="testimonio3_rol">Evento Corporativo</div>
+
+                <div class="package-card edit-container">
+                    <div class="package-img"><img id="paquete3_img" src="equipo_exterior.jpg" alt="Equipo Para Exterior y Grandes Espacios" loading="lazy" /></div>
+                    <button class="edit-btn-overlay" data-key="paquete3" data-type="package" data-img-target="paquete3_img" data-text-target="paquete3_titulo" data-text-target2="paquete3_sub" data-specs-target="paquete3_specs"><i class="fa-solid fa-pen"></i></button>
+                    <div class="package-body">
+                        <h3 class="package-title edit-text" id="paquete3_titulo">Equipo Exterior / Show</h3>
+                        <span class="package-subtitle edit-text" id="paquete3_sub">Potencia Total para Quintas, Festivales y Conciertos</span>
+                        <div class="package-price"><span class="price-amount">2.800.000</span><span class="price-currency">Gs.</span></div>
+                        <ul class="package-specs" id="paquete3_specs">
+                            <li class="highlight"><i class="fa-solid fa-check-circle"></i> 8 Subwoofers de 18" de Altísima Potencia</li>
+                            <li class="highlight"><i class="fa-solid fa-check-circle"></i> 6 Módulos Line Array de Gran Alcance</li>
+                            <li><i class="fa-solid fa-check"></i> 4 Luces Robóticas Beam de Alta Intensidad</li>
+                            <li><i class="fa-solid fa-check"></i> 8 Luces Par LED + Estrobo</li>
+                            <li><i class="fa-solid fa-check"></i> 2 Máquinas de humo vertical de alto flujo</li>
+                            <li><i class="fa-solid fa-microphone"></i> Sistema de Micrófonos Inalámbricos</li>
+                            <li><i class="fa-solid fa-user-gear"></i> Operador DJ + Staff Técnico de Montaje</li>
+                        </ul>
+                        <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20cotizar%20el%20Equipo%20Exterior%20de%202.800.000%20Gs." class="btn-secondary" style="text-align:center;justify-content:center;" target="_blank">Reservar Show Exterior</a>
                     </div>
                 </div>
-                <div class="testimonial-stars">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
+            </div>
+        </section>
+
+        <!-- LED SPOTLIGHT -->
+        <section id="pantalla-led">
+            <div class="led-container">
+                <div class="led-content edit-container">
+                    <span class="section-subtitle">Tecnología Visual Premium</span>
+                    <h3 class="edit-text" id="led_titulo">Alquiler de Pantalla LED HD</h3>
+                    <p class="edit-text" id="led_desc">Transforma la atmósfera de tu evento con nuestro sistema modular de pantallas LED. Configurable como pantalla gigante de 3x2 metros, dos tótems laterales o cabina de DJ iluminada.</p>
+                    <div class="led-grid">
+                        <div class="led-spec-box"><h5>3 x 2 Metros</h5><p>12 Módulos HD de 50x100 mm</p></div>
+                        <div class="led-spec-box"><h5>Formato Versátil</h5><p>Opción 2 pantallas de 3x1 o Cabina DJ</p></div>
+                        <div class="led-spec-box"><h5>Estructuras Perimetrales</h5><p>Montaje seguro tipo Tótem en Truss</p></div>
+                        <div class="led-spec-box"><h5>Desde 1.200.000 Gs.</h5><p>Servicio individual o combo</p></div>
+                    </div>
+                    <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20informaci%C3%B3n%20sobre%20el%20alquiler%20de%20Pantalla%20LED" class="btn-primary" target="_blank"><i class="fa-solid fa-tv"></i> Consultar Disponibilidad LED</a>
+                    <button class="edit-btn-overlay" data-key="led" data-type="text" data-text-target="led_titulo" data-text-target2="led_desc"><i class="fa-solid fa-pen"></i></button>
                 </div>
-                <p class="testimonial-text edit-text" id="testimonio3_texto">"Sonido cristalino para las presentaciones y luego una fiesta espectacular. Todos quedaron encantados con la producción. ¡Altamente recomendado!"</p>
-                <button class="edit-btn-overlay" data-key="testimonio3" data-type="text" data-img-target="testimonio3_avatar" data-text-target="testimonio3_nombre" data-text-target2="testimonio3_rol" data-text-target3="testimonio3_texto"></button>
+                <div class="led-media edit-container">
+                    <img id="led_img" src="alquiler_led.jpg" alt="Pantalla LED en evento" loading="lazy" />
+                    <button class="edit-btn-overlay" data-key="led_img" data-type="package" data-img-target="led_img"><i class="fa-solid fa-pen"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALERÍA -->
+        <section id="galeria">
+            <div class="section-header">
+                <span class="section-subtitle">Nuestros Trabajos</span>
+                <h2 class="section-title edit-container">
+                    <span class="edit-text" id="galeria_title">Galería de Eventos</span>
+                    <button class="edit-btn-overlay" data-key="galeria_title" data-type="text" data-text-target="galeria_title"><i class="fa-solid fa-pen"></i></button>
+                </h2>
+                <p class="section-desc edit-container">
+                    <span class="edit-text" id="galeria_desc">Mira cómo transformamos cada celebración con sonido, luz y pantallas LED.</span>
+                    <button class="edit-btn-overlay" data-key="galeria_desc" data-type="text" data-text-target="galeria_desc"><i class="fa-solid fa-pen"></i></button>
+                </p>
+            </div>
+            <div class="gallery-grid" id="gallery-grid"></div>
+            <div class="gallery-cta">
+                <button id="addGalleryBtn" class="btn-primary" style="font-size:1rem;padding:0.8rem 2rem;">
+                    <i class="fa-solid fa-plus-circle"></i> Añadir imagen o video
+                </button>
+                <a href="https://www.instagram.com/michael.pintos" target="_blank" class="btn-secondary"><i class="fa-brands fa-instagram"></i> Ver más en Instagram</a>
+            </div>
+        </section>
+
+        <!-- UPGRADES -->
+        <section id="mejora">
+            <div class="section-header">
+                <span class="section-subtitle">Opcionales</span>
+                <h2 class="section-title edit-container">
+                    <span class="edit-text" id="upgrades_title">Mejora tu Evento</span>
+                    <button class="edit-btn-overlay" data-key="upgrades_title" data-type="text" data-text-target="upgrades_title"><i class="fa-solid fa-pen"></i></button>
+                </h2>
+                <p class="section-desc edit-container">
+                    <span class="edit-text" id="upgrades_desc">Agrega estos servicios extra para una experiencia aún más espectacular.</span>
+                    <button class="edit-btn-overlay" data-key="upgrades_desc" data-type="text" data-text-target="upgrades_desc"><i class="fa-solid fa-pen"></i></button>
+                </p>
+            </div>
+            <div class="upgrades-grid">
+                <div class="upgrade-card edit-container">
+                    <div class="upgrade-icon"><i class="fa-regular fa-square"></i></div>
+                    <h3 class="upgrade-title edit-text" id="upgrade1_titulo">Pista LED 4x4</h3>
+                    <div class="upgrade-price edit-text" id="upgrade1_precio">1.400.000 Gs.</div>
+                    <p class="upgrade-desc edit-text" id="upgrade1_desc">Pista de baile iluminada con LED de alta densidad, ideal para darle un toque futurista a tu evento.</p>
+                    <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20consultar%20la%20Pista%20LED%204x4%20de%201.400.000%20Gs." class="btn-secondary" target="_blank"><i class="fa-brands fa-whatsapp"></i> Consultar</a>
+                    <button class="edit-btn-overlay" data-key="upgrade1" data-type="text" data-text-target="upgrade1_titulo" data-text-target2="upgrade1_desc" data-text-target3="upgrade1_precio"><i class="fa-solid fa-pen"></i></button>
+                </div>
+                <div class="upgrade-card edit-container">
+                    <div class="upgrade-icon"><i class="fa-regular fa-gem"></i></div>
+                    <h3 class="upgrade-title edit-text" id="upgrade2_titulo">Pista Paris</h3>
+                    <div class="upgrade-price edit-text" id="upgrade2_precio">1.500.000 Gs.</div>
+                    <p class="upgrade-desc edit-text" id="upgrade2_desc">Pista de baile con diseño elegante y luces dinámicas, perfecta para bodas y fiestas de gala.</p>
+                    <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20consultar%20la%20Pista%20Paris%20de%201.500.000%20Gs." class="btn-secondary" target="_blank"><i class="fa-brands fa-whatsapp"></i> Consultar</a>
+                    <button class="edit-btn-overlay" data-key="upgrade2" data-type="text" data-text-target="upgrade2_titulo" data-text-target2="upgrade2_desc" data-text-target3="upgrade2_precio"><i class="fa-solid fa-pen"></i></button>
+                </div>
+                <div class="upgrade-card edit-container">
+                    <div class="upgrade-icon"><i class="fa-regular fa-sparkles"></i></div>
+                    <h3 class="upgrade-title edit-text" id="upgrade3_titulo">Chispa Fría</h3>
+                    <div class="upgrade-price edit-text" id="upgrade3_precio" style="color:var(--accent-cyan);">Consultar</div>
+                    <p class="upgrade-desc edit-text" id="upgrade3_desc">Efectos de chispas frías para momentos especiales: entrada, vals, brindis o primer baile.</p>
+                    <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20consultar%20el%20efecto%20de%20Chispa%20Fr%C3%ADa%20para%20mi%20evento" class="btn-primary" target="_blank"><i class="fa-brands fa-whatsapp"></i> Consultar</a>
+                    <button class="edit-btn-overlay" data-key="upgrade3" data-type="text" data-text-target="upgrade3_titulo" data-text-target2="upgrade3_desc" data-text-target3="upgrade3_precio"><i class="fa-solid fa-pen"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIOS -->
+        <section id="testimonios">
+            <div class="section-header">
+                <span class="section-subtitle">Lo que dicen nuestros clientes</span>
+                <h2 class="section-title edit-container">
+                    <span class="edit-text" id="testimonios_title">Testimonios Reales</span>
+                    <button class="edit-btn-overlay" data-key="testimonios_title" data-type="text" data-text-target="testimonios_title"><i class="fa-solid fa-pen"></i></button>
+                </h2>
+                <p class="section-desc edit-container">
+                    <span class="edit-text" id="testimonios_desc">Experiencias de quienes confiaron en DJ Michael para su evento.</span>
+                    <button class="edit-btn-overlay" data-key="testimonios_desc" data-type="text" data-text-target="testimonios_desc"><i class="fa-solid fa-pen"></i></button>
+                </p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card edit-container">
+                    <div class="testimonial-header">
+                        <img id="testimonio1_avatar" src="avatar1.jpg" alt="Foto de Laura" class="testimonial-avatar" loading="lazy" />
+                        <div>
+                            <div class="testimonial-name edit-text" id="testimonio1_nombre">Laura G.</div>
+                            <div class="testimonial-role edit-text" id="testimonio1_rol">Fiesta de 15 años</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <p class="testimonial-text edit-text" id="testimonio1_texto">"¡Impresionante! La pantalla LED y el sonido hicieron que mi fiesta de 15 fuera inolvidable. Todo el mundo bailó hasta el final."</p>
+                    <button class="edit-btn-overlay" data-key="testimonio1" data-type="package" data-img-target="testimonio1_avatar" data-text-target="testimonio1_nombre" data-text-target2="testimonio1_rol" data-text-target3="testimonio1_texto"><i class="fa-solid fa-pen"></i></button>
+                </div>
+                <div class="testimonial-card edit-container">
+                    <div class="testimonial-header">
+                        <img id="testimonio2_avatar" src="avatar2.jpg" alt="Foto de Carlos" class="testimonial-avatar" loading="lazy" />
+                        <div>
+                            <div class="testimonial-name edit-text" id="testimonio2_nombre">Carlos R.</div>
+                            <div class="testimonial-role edit-text" id="testimonio2_rol">Boda</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <p class="testimonial-text edit-text" id="testimonio2_texto">"El mejor DJ que pudimos contratar. Muy profesional, puntual y con un equipamiento de primera. La iluminación creó un ambiente mágico."</p>
+                    <button class="edit-btn-overlay" data-key="testimonio2" data-type="package" data-img-target="testimonio2_avatar" data-text-target="testimonio2_nombre" data-text-target2="testimonio2_rol" data-text-target3="testimonio2_texto"><i class="fa-solid fa-pen"></i></button>
+                </div>
+                <div class="testimonial-card edit-container">
+                    <div class="testimonial-header">
+                        <img id="testimonio3_avatar" src="avatar3.jpg" alt="Foto de Mariana" class="testimonial-avatar" loading="lazy" />
+                        <div>
+                            <div class="testimonial-name edit-text" id="testimonio3_nombre">Mariana S.</div>
+                            <div class="testimonial-role edit-text" id="testimonio3_rol">Evento Corporativo</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <p class="testimonial-text edit-text" id="testimonio3_texto">"Sonido cristalino para las presentaciones y luego una fiesta espectacular. Todos quedaron encantados con la producción. ¡Altamente recomendado!"</p>
+                    <button class="edit-btn-overlay" data-key="testimonio3" data-type="package" data-img-target="testimonio3_avatar" data-text-target="testimonio3_nombre" data-text-target2="testimonio3_rol" data-text-target3="testimonio3_texto"><i class="fa-solid fa-pen"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICIOS EXTRA -->
+        <section>
+            <div class="section-header">
+                <span class="section-subtitle">Especialistas en la Pista</span>
+                <h2 class="section-title edit-container">
+                    <span class="edit-text" id="experience_title">Servicios para Cada Ocasión</span>
+                    <button class="edit-btn-overlay" data-key="experience_title" data-type="text" data-text-target="experience_title"><i class="fa-solid fa-pen"></i></button>
+                </h2>
+            </div>
+            <div class="events-grid" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr));">
+                <div class="event-card edit-container">
+                    <div class="event-icon" style="font-size:2.2rem;color:var(--accent-cyan);"><i class="fa-solid fa-crown"></i></div>
+                    <h4 class="edit-text" id="evento1_titulo">Fiestas de 15 Años</h4>
+                    <p class="edit-text" id="evento1_desc">Luces impactantes, tandas bailables ultra dinámicas, visuales personalizados y los éxitos del momento.</p>
+                    <button class="edit-btn-overlay" data-key="evento1" data-type="text" data-text-target="evento1_titulo" data-text-target2="evento1_desc"><i class="fa-solid fa-pen"></i></button>
+                </div>
+                <div class="event-card edit-container">
+                    <div class="event-icon" style="font-size:2.2rem;color:var(--accent-cyan);"><i class="fa-solid fa-heart"></i></div>
+                    <h4 class="edit-text" id="evento2_titulo">Bodas & Casamientos</h4>
+                    <p class="edit-text" id="evento2_desc">Ambientación elegante para la recepción, protocolo de entrada imponente y fiesta total sin pausa.</p>
+                    <button class="edit-btn-overlay" data-key="evento2" data-type="text" data-text-target="evento2_titulo" data-text-target2="evento2_desc"><i class="fa-solid fa-pen"></i></button>
+                </div>
+                <div class="event-card edit-container">
+                    <div class="event-icon" style="font-size:2.2rem;color:var(--accent-cyan);"><i class="fa-solid fa-tree"></i></div>
+                    <h4 class="edit-text" id="evento3_titulo">Fiestas en Quintas</h4>
+                    <p class="edit-text" id="evento3_desc">Equipos reforzados con graves profundos para cubrir áreas abiertas y jardines sin perder potencia.</p>
+                    <button class="edit-btn-overlay" data-key="evento3" data-type="text" data-text-target="evento3_titulo" data-text-target2="evento3_desc"><i class="fa-solid fa-pen"></i></button>
+                </div>
+                <div class="event-card edit-container">
+                    <div class="event-icon" style="font-size:2.2rem;color:var(--accent-cyan);"><i class="fa-solid fa-building"></i></div>
+                    <h4 class="edit-text" id="evento4_titulo">Eventos Corporativos</h4>
+                    <p class="edit-text" id="evento4_desc">Sonido nítido para discursos, micrófonos profesionales e iluminación de realce para salones.</p>
+                    <button class="edit-btn-overlay" data-key="evento4" data-type="text" data-text-target="evento4_titulo" data-text-target2="evento4_desc"><i class="fa-solid fa-pen"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACTO -->
+        <section id="contacto-inicio">
+            <div class="contact-card edit-container">
+                <h2 class="edit-text" id="contacto_titulo">¿Listo para hacer vibrar tu evento?</h2>
+                <p class="edit-text" id="contacto_desc">Reserva con anticipación mediante seña y asegura la fecha de tu fiesta con el mejor equipamiento visual y de sonido.</p>
+                <div class="contact-actions">
+                    <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quisiera%20reservar%20mi%20fecha" class="btn-primary" target="_blank" style="font-size:1.1rem;padding:1rem 2.5rem;"><i class="fa-brands fa-whatsapp"></i> Hablar al 0994 608 163</a>
+                    <a href="tel:0992311266" class="btn-secondary" style="font-size:1.1rem;padding:1rem 2.5rem;"><i class="fa-solid fa-phone"></i> Llama al 0992 311 266</a>
+                </div>
+                <div class="social-links">
+                    <a href="https://facebook.com/michael.pintos" class="social-btn" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="https://instagram.com/michael.pintos" class="social-btn" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://wa.me/595994608163" class="social-btn" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+                <button class="edit-btn-overlay" data-key="contacto" data-type="text" data-text-target="contacto_titulo" data-text-target2="contacto_desc"><i class="fa-solid fa-pen"></i></button>
+            </div>
+        </section>
+    </section>
+
+    <!-- SECCIÓN: AGENDA -->
+    <section class="section-page" id="page-agenda">
+        <div class="page-header" style="margin-bottom:2rem;">
+            <h1 style="font-size:2.2rem;font-family:var(--font-heading);font-weight:800;">Gestor de <span class="gradient-text">Eventos & Fechas</span></h1>
+            <p style="color:var(--text-muted);">Registra contrataciones, señas y coordina la logística de tus shows.</p>
+        </div>
+
+        <div class="card" style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:20px;backdrop-filter:blur(12px);padding:1.5rem 2rem;margin-bottom:2.5rem;box-shadow:0 15px 40px rgba(0,0,0,0.5);">
+            <div class="card-header" style="display:flex;align-items:center;gap:12px;margin-bottom:1.2rem;padding-bottom:0.8rem;border-bottom:1px solid var(--border-color);">
+                <i class="fa-solid fa-calendar-plus" style="color:var(--primary-red);font-size:1.3rem;"></i>
+                <h2 style="font-size:1.4rem;color:#fff;font-family:var(--font-heading);">Registrar Nuevo Evento</h2>
+            </div>
+            <form id="eventForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="clientName"><i class="fa-solid fa-user"></i> Nombre del Cliente</label>
+                        <input type="text" id="clientName" class="form-control" placeholder="Ej. Juan Pérez" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="clientPhone"><i class="fa-brands fa-whatsapp"></i> Teléfono / WhatsApp</label>
+                        <input type="tel" id="clientPhone" class="form-control" placeholder="Ej. 0994608163" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="eventDate"><i class="fa-regular fa-calendar"></i> Fecha del Evento</label>
+                        <input type="date" id="eventDate" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="eventTime"><i class="fa-regular fa-clock"></i> Hora de Inicio</label>
+                        <input type="time" id="eventTime" class="form-control" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="eventType"><i class="fa-solid fa-champagne-glasses"></i> Tipo de Evento</label>
+                        <select id="eventType" class="form-control" required>
+                            <option value="15 Años">Fiesta de 15 Años</option>
+                            <option value="Boda">Boda / Casamiento</option>
+                            <option value="Quinta / Privado">Fiesta en Quinta / Privado</option>
+                            <option value="Cumpleaños">Cumpleaños Infantil / Adulto</option>
+                            <option value="Corporativo">Evento Corporativo</option>
+                            <option value="Alquiler Pantalla LED">Alquiler de Pantalla LED</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="packageSelected"><i class="fa-solid fa-box-archive"></i> Paquete / Servicio</label>
+                        <select id="packageSelected" class="form-control" required>
+                            <option value="Básico (800.000 Gs.)">Equipo Básico</option>
+                            <option value="Básico + LED (1.100.000 Gs.)">Básico + Pantalla LED</option>
+                            <option value="Show Exterior (2.800.000 Gs.)">Equipo Exterior / Show</option>
+                            <option value="Solo Pantalla LED">Solo Pantalla LED</option>
+                            <option value="Personalizado">Paquete Personalizado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventLocation"><i class="fa-solid fa-location-dot"></i> Lugar / Local / Quinta</label>
+                        <input type="text" id="eventLocation" class="form-control" placeholder="Ej. Quinta Las Palmas, Villeta" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="eventStatus"><i class="fa-solid fa-tag"></i> Estado</label>
+                        <select id="eventStatus" class="form-control">
+                            <option value="Confirmado">Confirmado (Con Seña)</option>
+                            <option value="Pendiente">Pendiente de Reserva</option>
+                            <option value="Finalizado">Finalizado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="totalCost"><i class="fa-solid fa-money-bill-wave"></i> Costo Total (Gs.)</label>
+                        <input type="number" id="totalCost" class="form-control" placeholder="1100000" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="depositAmount"><i class="fa-solid fa-hand-holding-dollar"></i> Seña Abonada (Gs.)</label>
+                        <input type="number" id="depositAmount" class="form-control" placeholder="300000" value="0" required />
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label for="eventNotes"><i class="fa-solid fa-clipboard-list"></i> Observaciones / Requisitos</label>
+                        <input type="text" id="eventNotes" class="form-control" placeholder="Detalles de sonido, montaje, horarios..." />
+                    </div>
+                </div>
+                <div style="margin-top:1.2rem;text-align:right;">
+                    <button type="submit" class="btn-primary" id="saveBtn"><i class="fa-solid fa-floppy-disk"></i> Guardar en Firebase</button>
+                </div>
+            </form>
+        </div>
+
+        <div>
+            <div class="card-header" style="border:none;padding:0;margin-bottom:1rem;">
+                <i class="fa-solid fa-list-check" style="color:var(--primary-red);"></i>
+                <h2 style="font-size:1.4rem;color:#fff;font-family:var(--font-heading);">Agenda de Eventos</h2>
+            </div>
+            <div class="filter-bar">
+                <div class="search-box">
+                    <input type="text" id="searchInput" class="form-control" placeholder="🔍 Buscar por cliente o lugar..." />
+                </div>
+                <select id="statusFilter" class="form-control" style="width:auto;min-width:180px;">
+                    <option value="TODOS">Todos los Estados</option>
+                    <option value="Confirmado">Confirmados</option>
+                    <option value="Pendiente">Pendientes</option>
+                    <option value="Finalizado">Finalizados</option>
+                </select>
+            </div>
+            <div class="events-grid" id="eventsContainer">
+                <div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:3rem;">
+                    <i class="fa-solid fa-spinner fa-spin" style="font-size:2rem;"></i>
+                    <p style="margin-top:1rem;">Cargando agenda de eventos...</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Experience -->
-    <section class="experience-section">
-        <div class="section-header">
-            <span class="section-subtitle">Especialistas en la Pista</span>
-            <h2 class="section-title edit-container">
-                <span class="edit-text" id="experience_title">Servicios para Cada Ocasión</span>
-                <button class="edit-btn-overlay" data-key="experience_title" data-type="text" data-text-target="experience_title"></button>
-            </h2>
-        </div>
-        <div class="events-grid">
-            <div class="event-card edit-container">
-                <div class="event-icon"><i class="fa-solid fa-crown"></i></div>
-                <h4 class="edit-text" id="evento1_titulo">Fiestas de 15 Años</h4>
-                <p class="edit-text" id="evento1_desc">Luces impactantes, tandas bailables ultra dinámicas, visuales personalizados y los éxitos del momento.</p>
-                <button class="edit-btn-overlay" data-key="evento1" data-type="text" data-text-target="evento1_titulo" data-text-target2="evento1_desc"></button>
-            </div>
-            <div class="event-card edit-container">
-                <div class="event-icon"><i class="fa-solid fa-heart"></i></div>
-                <h4 class="edit-text" id="evento2_titulo">Bodas & Casamientos</h4>
-                <p class="edit-text" id="evento2_desc">Ambientación elegante para la recepción, protocolo de entrada imponente y fiesta total sin pausa.</p>
-                <button class="edit-btn-overlay" data-key="evento2" data-type="text" data-text-target="evento2_titulo" data-text-target2="evento2_desc"></button>
-            </div>
-            <div class="event-card edit-container">
-                <div class="event-icon"><i class="fa-solid fa-tree"></i></div>
-                <h4 class="edit-text" id="evento3_titulo">Fiestas en Quintas</h4>
-                <p class="edit-text" id="evento3_desc">Equipos reforzados con graves profundos para cubrir áreas abiertas y jardines sin perder potencia.</p>
-                <button class="edit-btn-overlay" data-key="evento3" data-type="text" data-text-target="evento3_titulo" data-text-target2="evento3_desc"></button>
-            </div>
-            <div class="event-card edit-container">
-                <div class="event-icon"><i class="fa-solid fa-building"></i></div>
-                <h4 class="edit-text" id="evento4_titulo">Eventos Corporativos</h4>
-                <p class="edit-text" id="evento4_desc">Sonido nítido para discursos, micrófonos profesionales e iluminación de realce para salones.</p>
-                <button class="edit-btn-overlay" data-key="evento4" data-type="text" data-text-target="evento4_titulo" data-text-target2="evento4_desc"></button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact -->
-    <section class="contact-section" id="contacto">
-        <div class="contact-card edit-container">
-            <h2 class="edit-text" id="contacto_titulo">¿Listo para hacer vibrar tu evento?</h2>
-            <p class="edit-text" id="contacto_desc">Reserva con anticipación mediante seña y asegura la fecha de tu fiesta con el mejor equipamiento visual y de sonido.</p>
+    <!-- SECCIÓN: CONTACTO -->
+    <section class="section-page" id="page-contacto">
+        <div class="contact-card" style="margin-top:2rem;">
+            <h2>¿Listo para hacer vibrar tu evento?</h2>
+            <p>Reserva con anticipación mediante seña y asegura la fecha de tu fiesta con el mejor equipamiento visual y de sonido.</p>
             <div class="contact-actions">
-                <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quisiera%20reservar%20mi%20fecha" class="btn-primary" target="_blank" style="font-size: 1.1rem; padding: 1rem 2.5rem;">
-                    <i class="fa-brands fa-whatsapp"></i> Hablar al 0994 608 163
-                </a>
-                <a href="tel:0992311266" class="btn-secondary" style="font-size: 1.1rem; padding: 1rem 2.5rem;">
-                    <i class="fa-solid fa-phone"></i> Llama al 0992 311 266
-                </a>
+                <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quisiera%20reservar%20mi%20fecha" class="btn-primary" target="_blank" style="font-size:1.1rem;padding:1rem 2.5rem;"><i class="fa-brands fa-whatsapp"></i> Hablar al 0994 608 163</a>
+                <a href="tel:0992311266" class="btn-secondary" style="font-size:1.1rem;padding:1rem 2.5rem;"><i class="fa-solid fa-phone"></i> Llama al 0992 311 266</a>
             </div>
             <div class="social-links">
                 <a href="https://facebook.com/michael.pintos" class="social-btn" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
                 <a href="https://instagram.com/michael.pintos" class="social-btn" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
                 <a href="https://wa.me/595994608163" class="social-btn" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
             </div>
-            <button class="edit-btn-overlay" data-key="contacto" data-type="text" data-text-target="contacto_titulo" data-text-target2="contacto_desc"></button>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer>
         <div class="visitor-counter">
             <i class="fa-solid fa-eye"></i>
@@ -1839,11 +1592,10 @@
             </button>
         </div>
         <p class="edit-text" id="footer_copyright">&copy; 2026 DJ MICHAEL / GS Producciones & Eventos. Todos los derechos reservados.</p>
-        <p style="margin-top: 0.5rem; font-size: 0.8rem;" class="edit-text" id="footer_ubicacion">Villeta, Central · Cubrimos todo el departamento</p>
-        <button class="edit-btn-overlay" data-key="footer" data-type="text" data-text-target="footer_copyright" data-text-target2="footer_ubicacion" style="position: relative; display: none; margin: 0 auto;"></button>
+        <p style="margin-top:0.5rem;font-size:0.8rem;" class="edit-text" id="footer_ubicacion">Villeta, Central · Cubrimos todo el departamento</p>
     </footer>
 
-    <!-- ===== MODAL DE EDICIÓN ===== -->
+    <!-- MODAL DE EDICIÓN -->
     <div class="modal-overlay" id="editModal">
         <div class="modal-box">
             <button class="modal-close" id="modalCloseBtn">&times;</button>
@@ -1854,91 +1606,122 @@
                 <label for="modalImgUrl">URL del medio (imagen o video)</label>
                 <input type="text" id="modalImgUrl" placeholder="https://..." />
                 <div class="file-input-wrap">
-                    <button id="uploadUploadcareBtn" class="btn-primary" style="font-size:0.9rem; padding:0.5rem 1.2rem; width:100%;">
-                        <i class="fa-solid fa-cloud-upload-alt"></i> Subir con Uploadcare
+                    <button type="button" id="uploadUploadcareBtn" class="btn-primary" style="font-size:0.9rem;padding:0.5rem 1.2rem;width:100%;justify-content:center;">
+                        <i class="fa-solid fa-cloud-upload-alt"></i> Subir imagen con Uploadcare
                     </button>
                 </div>
-                <div style="margin: 0.5rem 0; text-align:center; color:var(--text-muted);">— o —</div>
-                <input type="file" id="modalFileInput" accept="image/*,video/*" style="width:100%; padding:0.5rem;" />
             </div>
-            <label for="modalText1">Texto principal</label>
-            <input type="text" id="modalText1" placeholder="Escribe el texto..." />
-            <label for="modalText2">Texto secundario (descripción)</label>
-            <textarea id="modalText2" placeholder="Escribe la descripción..."></textarea>
-            <label for="modalText3">Texto terciario (precio o adicional)</label>
-            <input type="text" id="modalText3" placeholder="Escribe el texto adicional..." />
+            <div id="modalTextSection">
+                <label for="modalText1">Texto principal / Título</label>
+                <input type="text" id="modalText1" placeholder="Escribe el texto..." />
+                <label for="modalText2">Texto secundario / Descripción</label>
+                <textarea id="modalText2" placeholder="Escribe la descripción..."></textarea>
+                <label for="modalText3">Texto terciario / Precio</label>
+                <input type="text" id="modalText3" placeholder="Escribe el texto adicional..." />
+            </div>
             <div id="modalSpecsSection" style="display:none;">
                 <label for="modalSpecs">Características (una por línea)</label>
                 <textarea id="modalSpecs" placeholder="Escribe cada característica en una línea..."></textarea>
             </div>
             <div class="modal-actions">
-                <button class="btn-secondary" id="modalCancelBtn">Cancelar</button>
-                <button class="btn-primary" id="modalSaveBtn">Guardar cambios</button>
+                <button type="button" class="btn-secondary" id="modalCancelBtn">Cancelar</button>
+                <button type="button" class="btn-primary" id="modalSaveBtn">Guardar cambios</button>
             </div>
         </div>
     </div>
 
-    <!-- ===== SCRIPTS ===== -->
+    <!-- SCRIPTS -->
     <script>
-        // =============================================================
-        // CONFIGURACIÓN
-        // =============================================================
         const CONFIG = {
             FIREBASE_URL: 'https://pagina-mp-default-rtdb.asia-southeast1.firebasedatabase.app/',
             UPLOADCARE_PUBLIC_KEY: 'f2d187ae3604f0b7c3fe',
             PASSWORD: '12345'
         };
 
-        // =============================================================
-        // 1. PRELOADER
-        // =============================================================
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                const p = document.getElementById('preloader');
-                if (p) p.classList.add('hidden');
-            }, 1200);
-        });
+        // 1. NAVEGACIÓN
+        (function() {
+            const navLinks = document.querySelectorAll('.nav-links a[data-section]');
+            const sections = {
+                inicio: document.getElementById('page-inicio'),
+                agenda: document.getElementById('page-agenda'),
+                contacto: document.getElementById('page-contacto')
+            };
 
-        // =============================================================
-        // 2. CONTADOR DE VISITAS
-        // =============================================================
-        function updateVisitCounter() {
+            function showSection(sectionId) {
+                Object.keys(sections).forEach(id => {
+                    const sec = sections[id];
+                    if (sec) sec.classList.toggle('active', id === sectionId);
+                });
+                navLinks.forEach(a => {
+                    a.classList.toggle('active', a.dataset.section === sectionId);
+                });
+                const hamburger = document.getElementById('hamburger');
+                const nav = document.getElementById('nav-links');
+                if (hamburger && nav) {
+                    hamburger.classList.remove('active');
+                    nav.classList.remove('open');
+                    hamburger.setAttribute('aria-expanded', 'false');
+                }
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            navLinks.forEach(a => {
+                a.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showSection(this.dataset.section);
+                });
+            });
+
+            document.getElementById('logoLink')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                showSection('inicio');
+            });
+        })();
+
+        // 2. MENÚ HAMBURGUESA
+        (function() {
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.getElementById('nav-links');
+            if (!hamburger || !navLinks) return;
+            hamburger.addEventListener('click', function() {
+                this.classList.toggle('active');
+                navLinks.classList.toggle('open');
+                this.setAttribute('aria-expanded', this.classList.contains('active'));
+            });
+        })();
+
+        // 3. CONTADOR DE VISITAS
+        (function() {
             const url = CONFIG.FIREBASE_URL + 'visitas.json';
             const countElement = document.getElementById('visit-count');
 
-            if (sessionStorage.getItem('visitCounted')) {
-                fetch(url).then(res => res.json()).then(data => {
-                    if (countElement) countElement.innerText = data ? data.toLocaleString() : '0';
-                }).catch(() => {
-                    if (countElement) countElement.innerText = '?';
-                });
-                return;
+            function updateCounter() {
+                if (sessionStorage.getItem('visitCounted')) {
+                    fetch(url).then(res => res.json()).then(data => {
+                        if (countElement) countElement.innerText = (data || 0).toLocaleString();
+                    }).catch(() => { if (countElement) countElement.innerText = '?'; });
+                    return;
+                }
+                fetch(url)
+                    .then(res => res.json())
+                    .then(data => {
+                        const newCount = (data || 0) + 1;
+                        return fetch(url, {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(newCount)
+                        }).then(() => newCount);
+                    })
+                    .then(newCount => {
+                        if (countElement) countElement.innerText = newCount.toLocaleString();
+                        sessionStorage.setItem('visitCounted', 'true');
+                    })
+                    .catch(() => { if (countElement) countElement.innerText = '?'; });
             }
+            document.addEventListener('DOMContentLoaded', updateCounter);
+        })();
 
-            fetch(url)
-                .then(res => res.json())
-                .then(data => {
-                    const current = data || 0;
-                    const newCount = current + 1;
-                    return fetch(url, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(newCount)
-                    }).then(() => newCount);
-                })
-                .then(newCount => {
-                    if (countElement) countElement.innerText = newCount.toLocaleString();
-                    sessionStorage.setItem('visitCounted', 'true');
-                })
-                .catch(() => {
-                    if (countElement) countElement.innerText = '?';
-                });
-        }
-        document.addEventListener('DOMContentLoaded', updateVisitCounter);
-
-        // =============================================================
-        // 3. PARTÍCULAS
-        // =============================================================
+        // 4. PARTÍCULAS
         (function() {
             const canvas = document.getElementById('particles-canvas');
             if (!canvas) return;
@@ -1971,10 +1754,7 @@
                     this.y += this.speedY;
                     this.x += this.speedX + Math.sin(this.y * 0.01) * 0.2;
                     this.rotation += this.rotSpeed;
-                    if (this.y > height + 20) {
-                        this.reset();
-                        this.y = -20;
-                    }
+                    if (this.y > height + 20) { this.reset(); this.y = -20; }
                     if (this.x < -20) this.x = width + 20;
                     if (this.x > width + 20) this.x = -20;
                 }
@@ -1989,7 +1769,7 @@
                         ctx.arc(0, 0, this.size, 0, Math.PI * 2);
                         ctx.fill();
                     } else {
-                        ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
+                        ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
                     }
                     ctx.shadowColor = this.color;
                     ctx.shadowBlur = 15;
@@ -1998,92 +1778,21 @@
                 }
             }
 
-            for (let i = 0; i < 120; i++) {
+            for (let i = 0; i < 100; i++) {
                 const p = new Particle();
                 p.y = Math.random() * height;
                 particles.push(p);
             }
 
-            let stars = [];
-            for (let i = 0; i < 60; i++) {
-                stars.push({
-                    x: Math.random() * width,
-                    y: Math.random() * height,
-                    size: Math.random() * 2 + 1,
-                    opacity: Math.random() * 0.5 + 0.1,
-                    twinkleSpeed: Math.random() * 0.02 + 0.01,
-                    phase: Math.random() * Math.PI * 2
-                });
-            }
-
-            function drawStars() {
-                stars.forEach(s => {
-                    s.phase += s.twinkleSpeed;
-                    const alpha = s.opacity * (0.6 + 0.4 * Math.sin(s.phase));
-                    ctx.beginPath();
-                    ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-                    ctx.fill();
-                });
-            }
-
             function animate() {
                 ctx.clearRect(0, 0, width, height);
-                particles.forEach(p => {
-                    p.update();
-                    p.draw(ctx);
-                });
-                drawStars();
+                particles.forEach(p => { p.update(); p.draw(ctx); });
                 requestAnimationFrame(animate);
             }
             animate();
         })();
 
-        // =============================================================
-        // 4. MENÚ HAMBURGUESA
-        // =============================================================
-        (function() {
-            const hamburger = document.getElementById('hamburger');
-            const navLinks = document.getElementById('nav-links');
-            if (!hamburger || !navLinks) return;
-
-            hamburger.addEventListener('click', function() {
-                this.classList.toggle('active');
-                navLinks.classList.toggle('open');
-                const expanded = this.classList.contains('active');
-                this.setAttribute('aria-expanded', expanded);
-            });
-
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('open');
-                    hamburger.setAttribute('aria-expanded', 'false');
-                });
-            });
-        })();
-
-        // =============================================================
-        // 5. ACCESO A LA AGENDA
-        // =============================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            const agendaLink = document.getElementById('agendaLink');
-            if (agendaLink) {
-                agendaLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const password = prompt('Ingresa la contraseña para acceder a la agenda:');
-                    if (password === '12345') {
-                        window.location.href = 'https://pintosingenieria-max.github.io/fechas-/';
-                    } else if (password !== null) {
-                        alert('Contraseña incorrecta. Acceso denegado.');
-                    }
-                });
-            }
-        });
-
-        // =============================================================
-        // 6. SISTEMA DE EDICIÓN Y GESTIÓN DE GALERÍA MULTIMEDIA
-        // =============================================================
+        // 5. EDICIÓN DINÁMICA, FIREBASE Y GALERÍA UPLOADCARE
         (function() {
             const editToggleBtn = document.getElementById('editToggleBtn');
             const modalOverlay = document.getElementById('editModal');
@@ -2091,9 +1800,9 @@
             const modalCancelBtn = document.getElementById('modalCancelBtn');
             const modalSaveBtn = document.getElementById('modalSaveBtn');
             const modalTitle = document.getElementById('modalTitle');
+            const modalImageSection = document.getElementById('modalImageSection');
             const modalImgPreview = document.getElementById('modalImgPreview');
             const modalImgUrl = document.getElementById('modalImgUrl');
-            const modalFileInput = document.getElementById('modalFileInput');
             const modalText1 = document.getElementById('modalText1');
             const modalText2 = document.getElementById('modalText2');
             const modalText3 = document.getElementById('modalText3');
@@ -2112,6 +1821,12 @@
 
             const dbUrl = CONFIG.FIREBASE_URL + 'contenido.json';
             const galleryUrl = CONFIG.FIREBASE_URL + 'galeria_items.json';
+
+            function checkIsVideo(url, mimeType) {
+                if (mimeType && mimeType.startsWith('video/')) return true;
+                if (!url) return false;
+                return /\.(mp4|webm|ogg|mov|m4v|avi|mkv)($|\?)/i.test(url) || url.includes('/video/');
+            }
 
             function loadContentFromFirebase() {
                 return fetch(dbUrl).then(res => res.json()).then(data => data || {}).catch(() => ({}));
@@ -2146,7 +1861,6 @@
                                 video.style.width = '100%';
                                 video.style.height = '100%';
                                 video.style.objectFit = 'cover';
-                                video.style.background = '#000';
                                 container.appendChild(video);
                                 video.play().catch(() => {});
                             } else {
@@ -2166,29 +1880,18 @@
                         const imgEl = document.getElementById(entry.imgTarget);
                         if (imgEl) imgEl.src = entry.img;
                     }
-
                     if (entry.text1 && entry.textTarget1) {
                         const el = document.getElementById(entry.textTarget1);
-                        if (el) {
-                            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.value = entry.text1;
-                            else el.innerText = entry.text1;
-                        }
+                        if (el) el.innerText = entry.text1;
                     }
                     if (entry.text2 && entry.textTarget2) {
                         const el2 = document.getElementById(entry.textTarget2);
-                        if (el2) {
-                            if (el2.tagName === 'INPUT' || el2.tagName === 'TEXTAREA') el2.value = entry.text2;
-                            else el2.innerText = entry.text2;
-                        }
+                        if (el2) el2.innerText = entry.text2;
                     }
                     if (entry.text3 && entry.textTarget3) {
                         const el3 = document.getElementById(entry.textTarget3);
-                        if (el3) {
-                            if (el3.tagName === 'INPUT' || el3.tagName === 'TEXTAREA') el3.value = entry.text3;
-                            else el3.innerText = entry.text3;
-                        }
+                        if (el3) el3.innerText = entry.text3;
                     }
-
                     if (entry.specs && entry.specsTarget) {
                         const ul = document.getElementById(entry.specsTarget);
                         if (ul) {
@@ -2214,15 +1917,7 @@
                 }
             }
 
-            // =========================================================
-            // LÓGICA DE GALERÍA (IMÁGENES Y VIDEOS CON AUTOPLAY)
-            // =========================================================
-            function checkIsVideo(url, mimeType) {
-                if (mimeType && mimeType.startsWith('video/')) return true;
-                if (!url) return false;
-                return /\.(mp4|webm|ogg|mov|m4v|avi|mkv)($|\?)/i.test(url) || url.includes('/video/');
-            }
-
+            // GALERÍA
             function getGalleryItems() {
                 return fetch(galleryUrl)
                     .then(res => res.json())
@@ -2245,80 +1940,63 @@
             function renderGalleryItems(items) {
                 const grid = document.getElementById('gallery-grid');
                 if (!grid) return;
-
                 if (!items || items.length === 0) {
                     grid.innerHTML = `
-                        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--text-muted);">
-                            <i class="fa-solid fa-images" style="font-size: 3rem; display: block; margin-bottom: 1rem;"></i>
+                        <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);">
+                            <i class="fa-solid fa-images" style="font-size:3rem;display:block;margin-bottom:1rem;"></i>
                             No hay elementos en la galería. ¡Añade fotos o videos!
                         </div>
                     `;
                     return;
                 }
-
                 let html = '';
                 items.forEach((item, index) => {
                     const isVideo = item.type === 'video' || checkIsVideo(item.src, item.mimeType);
                     const mediaTag = isVideo
-                        ? `<video src="${item.src}" autoplay loop muted playsinline webkit-playsinline preload="auto" style="width:100%;height:100%;object-fit:cover;background:#000;display:block;"></video>`
-                        : `<img src="${item.src}" alt="Galería ${index + 1}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;" />`;
-
+                        ? `<video src="${item.src}" autoplay loop muted playsinline webkit-playsinline style="width:100%;height:100%;object-fit:cover;background:#000;display:block;"></video>`
+                        : `<img src="${item.src}" alt="Galería ${index+1}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;" />`;
                     html += `
                         <div class="gallery-item" data-index="${index}">
                             ${mediaTag}
                             <div class="gallery-overlay">
                                 <span>${isVideo ? '<i class="fa-solid fa-video"></i> Video' : '<i class="fa-solid fa-image"></i> Imagen'}</span>
                                 <div class="gallery-actions">
-                                    <button class="gallery-replace-btn" data-index="${index}" title="Reemplazar">
-                                        <i class="fa-solid fa-rotate"></i>
-                                    </button>
-                                    <button class="gallery-delete-btn" data-index="${index}" title="Eliminar">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </button>
+                                    <button class="gallery-replace-btn" data-index="${index}" title="Reemplazar"><i class="fa-solid fa-rotate"></i></button>
+                                    <button class="gallery-delete-btn" data-index="${index}" title="Eliminar"><i class="fa-solid fa-trash-can"></i></button>
                                 </div>
                             </div>
                         </div>
                     `;
                 });
-
                 grid.innerHTML = html;
-
-                // Iniciar reproducción de videos de la galería
-                grid.querySelectorAll('video').forEach(v => {
-                    v.play().catch(() => {});
-                });
-
-                if (isEditMode) attachGalleryEvents();
+                grid.querySelectorAll('video').forEach(v => v.play().catch(() => {}));
+                attachGalleryEvents();
             }
 
             function attachGalleryEvents() {
                 document.querySelectorAll('.gallery-delete-btn').forEach(btn => {
-                    btn.addEventListener('click', function(e) {
+                    btn.onclick = function(e) {
                         e.stopPropagation();
                         const index = parseInt(this.dataset.index);
                         deleteGalleryItem(index);
-                    });
+                    };
                 });
                 document.querySelectorAll('.gallery-replace-btn').forEach(btn => {
-                    btn.addEventListener('click', function(e) {
+                    btn.onclick = function(e) {
                         e.stopPropagation();
                         const index = parseInt(this.dataset.index);
                         replaceGalleryItem(index);
-                    });
+                    };
                 });
             }
 
             function deleteGalleryItem(index) {
                 if (!confirm('¿Deseas eliminar este elemento de la galería?')) return;
                 getGalleryItems().then(items => {
-                    if (!items || index >= items.length) return;
                     items.splice(index, 1);
                     return saveGalleryItems(items);
-                }).then(() => {
-                    return getGalleryItems();
-                }).then(items => {
-                    renderGalleryItems(items);
-                }).catch(err => alert('Error al eliminar: ' + err.message));
+                }).then(() => getGalleryItems()).then(renderGalleryItems)
+                  .catch(err => alert('Error al eliminar: ' + err.message));
             }
 
             function replaceGalleryItem(index) {
@@ -2327,7 +2005,6 @@
                     multiple: false,
                     imagesOnly: false
                 });
-
                 dialog.done(function(dialogApi) {
                     const filePromise = dialogApi.promise ? dialogApi.promise() : dialogApi;
                     filePromise.done(function(fileInfo) {
@@ -2335,94 +2012,47 @@
                         const mimeType = fileInfo.mimeType || '';
                         const isVideo = checkIsVideo(url, mimeType) || (fileInfo.isImage === false);
                         const type = isVideo ? 'video' : 'image';
-
                         getGalleryItems().then(items => {
-                            if (!items || index >= items.length) return;
                             items[index] = { src: url, type: type, mimeType: mimeType };
                             return saveGalleryItems(items);
-                        }).then(() => {
-                            return getGalleryItems();
-                        }).then(items => {
-                            renderGalleryItems(items);
-                        }).catch(err => alert('Error al reemplazar: ' + err.message));
-                    }).fail(function(error) {
-                        if (error === 'cancel') return;
-                        alert('Error al subir: ' + error);
+                        }).then(() => getGalleryItems()).then(renderGalleryItems)
+                          .catch(err => alert('Error al reemplazar: ' + err.message));
                     });
                 });
             }
 
-            function initGallery() {
-                const defaultItems = [
-                    { src: 'alquiler_led.jpg', type: 'image' },
-                    { src: 'dj michael.jpg', type: 'image' },
-                    { src: 'basico_led.jpg', type: 'image' },
-                    { src: 'equipo_bassico.jpg', type: 'image' },
-                    { src: 'basico_led.jpg', type: 'image' },
-                    { src: 'equipo_exterior.jpg', type: 'image' }
-                ];
-                getGalleryItems().then(items => {
-                    if (!items || items.length === 0) {
-                        saveGalleryItems(defaultItems).then(() => renderGalleryItems(defaultItems));
-                    } else {
-                        renderGalleryItems(items);
-                    }
-                }).catch(() => renderGalleryItems(defaultItems));
-            }
-
-            // Inicialización de la página
-            document.addEventListener('DOMContentLoaded', function() {
-                loadContentFromFirebase().then(applyContent);
-                initGallery();
-
-                // Botón Añadir a Galería (Soporte fotos y videos con Uploadcare v3)
-                const addBtn = document.getElementById('addGalleryBtn');
-                if (addBtn) {
-                    addBtn.addEventListener('click', function() {
-                        const dialog = uploadcare.openDialog(null, {
-                            publicKey: CONFIG.UPLOADCARE_PUBLIC_KEY,
-                            multiple: true,
-                            imagesOnly: false
-                        });
-
-                        dialog.done(function(dialogApi) {
-                            const groupPromise = dialogApi.promise ? dialogApi.promise() : dialogApi;
-                            groupPromise.done(function(fileGroup) {
-                                const fileList = (fileGroup && typeof fileGroup.files === 'function') ? fileGroup.files() : [fileGroup];
-                                const promises = fileList.map(f => f.done());
-
-                                Promise.all(promises).then(function(fileInfos) {
-                                    getGalleryItems().then(items => {
-                                        if (!items) items = [];
-                                        fileInfos.forEach(info => {
-                                            const url = info.cdnUrl;
-                                            const mimeType = info.mimeType || '';
-                                            const isVideo = checkIsVideo(url, mimeType) || (info.isImage === false);
-                                            const type = isVideo ? 'video' : 'image';
-                                            items.push({ src: url, type: type, mimeType: mimeType });
-                                        });
-                                        return saveGalleryItems(items);
-                                    }).then(() => {
-                                        return getGalleryItems();
-                                    }).then(items => {
-                                        renderGalleryItems(items);
-                                    }).catch(err => alert('Error al guardar en base de datos: ' + err.message));
-                                }).catch(function(err) {
-                                    console.error('Error al procesar archivos subidos:', err);
-                                    alert('Error al procesar uno o más archivos.');
+            // BOTÓN AÑADIR A GALERÍA DIRECTO CON UPLOADCARE
+            document.getElementById('addGalleryBtn')?.addEventListener('click', function() {
+                const dialog = uploadcare.openDialog(null, {
+                    publicKey: CONFIG.UPLOADCARE_PUBLIC_KEY,
+                    multiple: true,
+                    imagesOnly: false
+                });
+                dialog.done(function(dialogApi) {
+                    const groupPromise = dialogApi.promise ? dialogApi.promise() : dialogApi;
+                    groupPromise.done(function(fileGroup) {
+                        const fileList = (fileGroup && typeof fileGroup.files === 'function') ? fileGroup.files() : [fileGroup];
+                        const promises = fileList.map(f => (typeof f.done === 'function' ? f.done() : f));
+                        
+                        Promise.all(promises).then(function(fileInfos) {
+                            getGalleryItems().then(items => {
+                                fileInfos.forEach(info => {
+                                    if (!info || !info.cdnUrl) return;
+                                    const url = info.cdnUrl;
+                                    const mimeType = info.mimeType || '';
+                                    const isVideo = checkIsVideo(url, mimeType) || (info.isImage === false);
+                                    const type = isVideo ? 'video' : 'image';
+                                    items.push({ src: url, type: type, mimeType: mimeType });
                                 });
-                            }).fail(function(err) {
-                                if (err === 'cancel') return;
-                                console.error('Error en carga de archivos:', err);
-                            });
+                                return saveGalleryItems(items);
+                            }).then(() => getGalleryItems()).then(renderGalleryItems)
+                              .catch(err => alert('Error al guardar: ' + err.message));
                         });
                     });
-                }
+                });
             });
 
-            // =========================================================
             // MODAL DE EDICIÓN
-            // =========================================================
             function openModal(key, type, imgTarget, textTarget1, textTarget2, textTarget3, specsTarget) {
                 currentEditKey = key;
                 currentEditType = type;
@@ -2438,22 +2068,16 @@
                     if (el) {
                         if (el.tagName === 'IMG' || el.tagName === 'VIDEO') currentImg = el.src;
                     }
+                } else if (key === 'hero_media') {
+                    const container = document.getElementById('hero_media_container');
+                    const media = container?.querySelector('img, video');
+                    if (media) currentImg = media.src;
                 }
-                let currentText1 = '';
-                if (textTarget1) {
-                    const el = document.getElementById(textTarget1);
-                    if (el) currentText1 = el.innerText || el.value || '';
-                }
-                let currentText2 = '';
-                if (textTarget2) {
-                    const el = document.getElementById(textTarget2);
-                    if (el) currentText2 = el.innerText || el.value || '';
-                }
-                let currentText3 = '';
-                if (textTarget3) {
-                    const el = document.getElementById(textTarget3);
-                    if (el) currentText3 = el.innerText || el.value || '';
-                }
+
+                let currentText1 = textTarget1 ? document.getElementById(textTarget1)?.innerText || '' : '';
+                let currentText2 = textTarget2 ? document.getElementById(textTarget2)?.innerText || '' : '';
+                let currentText3 = textTarget3 ? document.getElementById(textTarget3)?.innerText || '' : '';
+
                 let currentSpecs = '';
                 if (specsTarget) {
                     const ul = document.getElementById(specsTarget);
@@ -2463,19 +2087,15 @@
                     }
                 }
 
-                modalImgPreview.src = currentImg || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%231a1a24%22/%3E%3Ctext x=%2250%22 y=%22110%22 font-family=%22Arial%22 font-size=%2220%22 fill=%22%23666%22%3ESin medio%3C/text%3E%3C/svg%3E';
-                modalImgUrl.value = currentImg;
-                modalFileInput.value = '';
+                modalImageSection.style.display = (imgTarget || key === 'hero_media' || type === 'package' || type === 'media') ? 'block' : 'none';
+                modalImgPreview.src = currentImg || '';
+                modalImgUrl.value = currentImg || '';
                 modalText1.value = currentText1;
                 modalText2.value = currentText2;
                 modalText3.value = currentText3;
 
-                if (specsTarget && (type === 'package')) {
-                    modalSpecsSection.style.display = 'block';
-                    modalSpecs.value = currentSpecs;
-                } else {
-                    modalSpecsSection.style.display = 'none';
-                }
+                modalSpecsSection.style.display = (specsTarget && type === 'package') ? 'block' : 'none';
+                modalSpecs.value = currentSpecs;
 
                 modalTitle.innerText = 'Editar: ' + key;
                 modalOverlay.classList.add('active');
@@ -2484,13 +2104,6 @@
             function closeModal() {
                 modalOverlay.classList.remove('active');
                 currentEditKey = null;
-                currentEditType = null;
-                currentImgTarget = null;
-                currentTextTarget1 = null;
-                currentTextTarget2 = null;
-                currentTextTarget3 = null;
-                currentSpecsTarget = null;
-                modalFileInput.value = '';
             }
 
             function saveCurrentEdit() {
@@ -2502,20 +2115,12 @@
                 const specsValue = modalSpecs.value.trim();
 
                 const entry = {};
-
-                if (currentEditKey === 'hero_media' && currentImgTarget) {
-                    let type = 'image';
-                    if (checkIsVideo(imgValue)) {
-                        type = 'video';
-                    }
+                if (currentEditKey === 'hero_media') {
                     entry.src = imgValue;
-                    entry.type = type;
-                    entry.target = currentImgTarget;
+                    entry.type = checkIsVideo(imgValue) ? 'video' : 'image';
+                    entry.target = 'hero_media_container';
                 } else {
-                    if (imgValue && currentImgTarget) {
-                        entry.img = imgValue;
-                        entry.imgTarget = currentImgTarget;
-                    }
+                    if (imgValue && currentImgTarget) { entry.img = imgValue; entry.imgTarget = currentImgTarget; }
                     if (text1 && currentTextTarget1) { entry.text1 = text1; entry.textTarget1 = currentTextTarget1; }
                     if (text2 && currentTextTarget2) { entry.text2 = text2; entry.textTarget2 = currentTextTarget2; }
                     if (text3 && currentTextTarget3) { entry.text3 = text3; entry.textTarget3 = currentTextTarget3; }
@@ -2536,62 +2141,34 @@
             modalCloseBtn.addEventListener('click', closeModal);
             modalCancelBtn.addEventListener('click', closeModal);
             modalSaveBtn.addEventListener('click', saveCurrentEdit);
-            modalOverlay.addEventListener('click', function(e) {
-                if (e.target === this) closeModal();
-            });
 
-            // Subida con Uploadcare en el modal
             uploadUploadcareBtn.addEventListener('click', function() {
                 const dialog = uploadcare.openDialog(null, {
                     publicKey: CONFIG.UPLOADCARE_PUBLIC_KEY,
                     multiple: false,
                     imagesOnly: false
                 });
-
                 dialog.done(function(dialogApi) {
                     const filePromise = dialogApi.promise ? dialogApi.promise() : dialogApi;
                     filePromise.done(function(fileInfo) {
-                        const cdnUrl = fileInfo.cdnUrl;
-                        if (cdnUrl) {
-                            modalImgPreview.src = cdnUrl;
-                            modalImgUrl.value = cdnUrl;
-                        } else {
-                            alert('No se pudo obtener la URL del archivo.');
+                        if (fileInfo && fileInfo.cdnUrl) {
+                            modalImgPreview.src = fileInfo.cdnUrl;
+                            modalImgUrl.value = fileInfo.cdnUrl;
                         }
-                    }).fail(function(error) {
-                        if (error === 'cancel') return;
-                        console.error('Error en Uploadcare:', error);
                     });
                 });
             });
 
-            // Carga local
-            modalFileInput.addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (!file) return;
-                const reader = new FileReader();
-                reader.onload = function(ev) {
-                    const base64 = ev.target.result;
-                    modalImgPreview.src = base64;
-                    modalImgUrl.value = base64;
-                };
-                reader.readAsDataURL(file);
-            });
-
             modalImgUrl.addEventListener('input', function() {
-                modalImgPreview.src = this.value || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%231a1a24%22/%3E%3Ctext x=%2250%22 y=%22110%22 font-family=%22Arial%22 font-size=%2220%22 fill=%22%23666%22%3ESin medio%3C/text%3E%3C/svg%3E';
+                modalImgPreview.src = this.value;
             });
 
-            // =========================================================
-            // ACTIVAR/DESACTIVAR MODO EDICIÓN
-            // =========================================================
             editToggleBtn.addEventListener('click', function() {
                 if (isEditMode) {
                     document.body.classList.remove('edit-mode');
                     editToggleBtn.classList.remove('active');
                     isEditMode = false;
                     editToggleBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
-                    editToggleBtn.title = 'Editar página (contraseña: 12345)';
                 } else {
                     const pass = prompt('Introduce la contraseña para editar:');
                     if (pass === CONFIG.PASSWORD) {
@@ -2599,38 +2176,224 @@
                         editToggleBtn.classList.add('active');
                         isEditMode = true;
                         editToggleBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
-                        editToggleBtn.title = 'Desactivar modo edición';
-                        attachGalleryEvents();
                     } else if (pass !== null) {
                         alert('Contraseña incorrecta.');
                     }
                 }
             });
 
-            // Escuchar clics en botones de edición
             document.addEventListener('click', function(e) {
                 const btn = e.target.closest('.edit-btn-overlay');
                 if (!btn) return;
                 if (!isEditMode) {
-                    alert('Primero activa el modo edición con el lápiz del footer (contraseña: 12345).');
+                    alert('Primero activa el modo edición con el lápiz del pie de página.');
                     return;
                 }
                 e.preventDefault();
-
-                const key = btn.dataset.key;
-                const type = btn.dataset.type || 'text';
-                const imgTarget = btn.dataset.imgTarget || null;
-                const textTarget = btn.dataset.textTarget || null;
-                const textTarget2 = btn.dataset.textTarget2 || null;
-                const textTarget3 = btn.dataset.textTarget3 || null;
-                const specsTarget = btn.dataset.specsTarget || null;
-                const target = btn.dataset.target || null;
-                if (!key) return;
-
-                const finalImgTarget = (key === 'hero_media') ? target : imgTarget;
-                openModal(key, type, finalImgTarget, textTarget, textTarget2, textTarget3, specsTarget);
+                openModal(
+                    btn.dataset.key,
+                    btn.dataset.type || 'text',
+                    btn.dataset.imgTarget || btn.dataset.target,
+                    btn.dataset.textTarget,
+                    btn.dataset.textTarget2,
+                    btn.dataset.textTarget3,
+                    btn.dataset.specsTarget
+                );
             });
 
+            document.addEventListener('DOMContentLoaded', function() {
+                loadContentFromFirebase().then(applyContent);
+                getGalleryItems().then(renderGalleryItems);
+            });
+        })();
+
+        // 6. GESTIÓN DE EVENTOS (AGENDA)
+        (function() {
+            const eventForm = document.getElementById('eventForm');
+            const eventsContainer = document.getElementById('eventsContainer');
+            const searchInput = document.getElementById('searchInput');
+            const statusFilter = document.getElementById('statusFilter');
+            let localEvents = {};
+
+            function fetchEvents() {
+                fetch(CONFIG.FIREBASE_URL + 'eventos.json')
+                    .then(res => res.json())
+                    .then(data => {
+                        localEvents = data || {};
+                        renderEvents();
+                    })
+                    .catch(() => {
+                        eventsContainer.innerHTML =
+                            `<div style="grid-column:1/-1;text-align:center;color:#ef4444;">Error al conectar con la base de datos.</div>`;
+                    });
+            }
+
+            function renderEvents() {
+                const query = searchInput.value.toLowerCase().trim();
+                const filter = statusFilter.value;
+                const keys = Object.keys(localEvents);
+
+                if (keys.length === 0) {
+                    eventsContainer.innerHTML = `
+                        <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);">
+                            <i class="fa-solid fa-calendar-xmark" style="font-size:3rem;margin-bottom:1rem;display:block;"></i>
+                            No hay eventos registrados en la agenda.
+                        </div>
+                    `;
+                    return;
+                }
+
+                let filteredKeys = keys.filter(k => {
+                    const ev = localEvents[k];
+                    if (!ev) return false;
+                    const client = (ev.clientName || '').toLowerCase();
+                    const location = (ev.eventLocation || '').toLowerCase();
+                    const matchSearch = client.includes(query) || location.includes(query);
+                    const matchFilter = (filter === 'TODOS') || (ev.eventStatus === filter);
+                    return matchSearch && matchFilter;
+                });
+
+                filteredKeys.sort((a, b) => new Date(localEvents[a].eventDate) - new Date(localEvents[b].eventDate));
+
+                if (filteredKeys.length === 0) {
+                    eventsContainer.innerHTML =
+                        `<div style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--text-muted);">No coinciden eventos con tu búsqueda.</div>`;
+                    return;
+                }
+
+                let html = '';
+                filteredKeys.forEach(key => {
+                    const ev = localEvents[key];
+                    const total = Number(ev.totalCost) || 0;
+                    const deposit = Number(ev.depositAmount) || 0;
+                    const saldo = total - deposit;
+                    let statusClass = 'status-pendiente';
+                    if (ev.eventStatus === 'Confirmado') statusClass = 'status-confirmado';
+                    if (ev.eventStatus === 'Finalizado') statusClass = 'status-finalizado';
+
+                    html += `
+                        <div class="event-card">
+                            <div>
+                                <div class="event-card-header">
+                                    <span class="event-type-badge">${ev.eventType || 'Evento'}</span>
+                                    <span class="event-status ${statusClass}">${ev.eventStatus || 'Pendiente'}</span>
+                                </div>
+                                <div class="event-card-body" style="margin-top:0.8rem;">
+                                    <h3>${ev.clientName || 'Sin Nombre'}</h3>
+                                    <div class="event-detail-item">
+                                        <i class="fa-regular fa-calendar"></i>
+                                        <span>${formatDate(ev.eventDate)} · ${ev.eventTime || '--:--'} hs.</span>
+                                    </div>
+                                    <div class="event-detail-item">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <span>${ev.eventLocation || 'No especificado'}</span>
+                                    </div>
+                                    <div class="event-detail-item">
+                                        <i class="fa-solid fa-cube"></i>
+                                        <span>${ev.packageSelected || 'Paquete'}</span>
+                                    </div>
+                                    ${ev.eventNotes ? `
+                                    <div class="event-detail-item" style="align-items:flex-start;">
+                                        <i class="fa-solid fa-note-sticky" style="margin-top:4px;"></i>
+                                        <span style="font-size:0.85rem;color:#cbd5e1;">${ev.eventNotes}</span>
+                                    </div>` : ''}
+                                </div>
+                            </div>
+                            <div>
+                                <div class="event-finance">
+                                    <div class="finance-item">
+                                        <span>Total</span>
+                                        <strong>${total.toLocaleString('es-PY')} Gs.</strong>
+                                    </div>
+                                    <div class="finance-item">
+                                        <span>Seña</span>
+                                        <strong style="color:#10b981;">${deposit.toLocaleString('es-PY')} Gs.</strong>
+                                    </div>
+                                    <div class="finance-item finance-saldo" style="grid-column:1/-1;border-top:1px solid var(--border-color);padding-top:4px;">
+                                        <span>Saldo Pendiente</span>
+                                        <strong>${saldo.toLocaleString('es-PY')} Gs.</strong>
+                                    </div>
+                                </div>
+                                <div class="event-actions">
+                                    <a href="https://wa.me/595${cleanPhone(ev.clientPhone)}?text=Hola%20${encodeURIComponent(ev.clientName || '')},%20te%20contacto%20de%20DJ%20Michael%20por%20tu%20evento%20del%20${formatDate(ev.eventDate)}" target="_blank" class="btn-secondary">
+                                        <i class="fa-brands fa-whatsapp" style="color:#25d366;"></i> WhatsApp
+                                    </a>
+                                    <button class="btn-delete" onclick="deleteEvent('${key}')" title="Eliminar Evento">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                eventsContainer.innerHTML = html;
+            }
+
+            window.deleteEvent = function(key) {
+                if (!confirm('¿Estás seguro de eliminar este evento de la base de datos?')) return;
+                fetch(`${CONFIG.FIREBASE_URL}eventos/${key}.json`, { method: 'DELETE' })
+                    .then(() => {
+                        delete localEvents[key];
+                        renderEvents();
+                    })
+                    .catch(err => alert('Error al eliminar: ' + err.message));
+            };
+
+            function cleanPhone(phone) {
+                if (!phone) return '';
+                return String(phone).replace(/\D/g, '').replace(/^0/, '');
+            }
+
+            function formatDate(str) {
+                if (!str) return '';
+                const parts = String(str).split('-');
+                if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`;
+                return str;
+            }
+
+            eventForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const submitBtn = document.getElementById('saveBtn');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Guardando...';
+
+                const newEvent = {
+                    clientName: document.getElementById('clientName').value.trim(),
+                    clientPhone: document.getElementById('clientPhone').value.trim(),
+                    eventDate: document.getElementById('eventDate').value,
+                    eventTime: document.getElementById('eventTime').value,
+                    eventType: document.getElementById('eventType').value,
+                    packageSelected: document.getElementById('packageSelected').value,
+                    eventLocation: document.getElementById('eventLocation').value.trim(),
+                    totalCost: Number(document.getElementById('totalCost').value),
+                    depositAmount: Number(document.getElementById('depositAmount').value),
+                    eventStatus: document.getElementById('eventStatus').value,
+                    eventNotes: document.getElementById('eventNotes').value.trim(),
+                    createdAt: new Date().toISOString()
+                };
+
+                fetch(CONFIG.FIREBASE_URL + 'eventos.json', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newEvent)
+                })
+                .then(res => res.json())
+                .then(() => {
+                    eventForm.reset();
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar en Firebase';
+                    fetchEvents();
+                })
+                .catch(err => {
+                    alert('Error al guardar: ' + err.message);
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar en Firebase';
+                });
+            });
+
+            searchInput.addEventListener('input', renderEvents);
+            statusFilter.addEventListener('change', renderEvents);
+            document.addEventListener('DOMContentLoaded', fetchEvents);
         })();
     </script>
 </body>
