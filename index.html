@@ -88,11 +88,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .gradient-accent {
-            background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--primary-red) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
 
         header {
             position: fixed;
@@ -585,9 +580,12 @@
             backdrop-filter: blur(4px);
         }
         .gallery-overlay .gallery-actions {
-            display: flex;
+            display: none;
             gap: 0.4rem;
             pointer-events: auto;
+        }
+        .edit-mode .gallery-overlay .gallery-actions {
+            display: flex !important;
         }
         .gallery-replace-btn,
         .gallery-delete-btn {
@@ -908,12 +906,14 @@
         .edit-mode .edit-btn-overlay { display: flex !important; }
         .edit-container { position: relative; }
         .edit-text { position: relative; display: inline-block; }
-        .edit-text .edit-btn-overlay {
-            top: -8px;
-            right: -40px;
-            width: 30px;
-            height: 30px;
-            font-size: 0.75rem;
+
+        .footer-admin-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
         }
 
         .visitor-counter {
@@ -922,25 +922,13 @@
             gap: 8px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border-color);
-            padding: 6px 18px;
-            border-radius: 20px;
+            padding: 8px 20px;
+            border-radius: 30px;
             font-size: 0.9rem;
             color: var(--text-muted);
-            margin-bottom: 1rem;
         }
         .visitor-counter i { color: var(--accent-cyan); }
         .visitor-counter strong { color: #fff; font-size: 1rem; }
-        .edit-toggle-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: color 0.3s, transform 0.3s;
-            padding: 0 8px;
-        }
-        .edit-toggle-btn:hover { color: #fff; transform: scale(1.1); }
-        .edit-toggle-btn.active { color: var(--primary-red); }
 
         .modal-overlay {
             display: none;
@@ -1107,7 +1095,7 @@
             </button>
             <ul class="nav-links" id="nav-links" role="navigation">
                 <li><a class="active" data-section="inicio">Inicio</a></li>
-                <li><a data-section="agenda">Agenda</a></li>
+                <li><a data-section="agenda">Agenda <i class="fa-solid fa-lock" style="font-size:0.75rem;"></i></a></li>
                 <li><a data-section="contacto">Contacto</a></li>
             </ul>
             <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quisiera%20consultar%20disponibilidad%20para%20un%20evento" class="btn-primary" target="_blank">
@@ -1301,9 +1289,6 @@
             </div>
             <div class="gallery-grid" id="gallery-grid"></div>
             <div class="gallery-cta">
-                <button id="addGalleryBtn" class="btn-primary" style="font-size:1rem;padding:0.8rem 2rem;">
-                    <i class="fa-solid fa-plus-circle"></i> Añadir imagen o video
-                </button>
                 <a href="https://www.instagram.com/michael.pintos" target="_blank" class="btn-secondary"><i class="fa-brands fa-instagram"></i> Ver más en Instagram</a>
             </div>
         </section>
@@ -1584,11 +1569,16 @@
 
     <!-- FOOTER -->
     <footer>
-        <div class="visitor-counter">
-            <i class="fa-solid fa-eye"></i>
-            <span>Visitas: <strong id="visit-count">Cargando...</strong></span>
-            <button class="edit-toggle-btn" id="editToggleBtn" aria-label="Editar" title="Editar página (contraseña: 12345)">
-                <i class="fa-solid fa-pen"></i>
+        <div class="footer-admin-bar">
+            <div class="visitor-counter">
+                <i class="fa-solid fa-eye"></i>
+                <span>Visitas: <strong id="visit-count">Cargando...</strong></span>
+            </div>
+            <button id="addGalleryBtn" class="btn-secondary" style="font-size:0.85rem;padding:0.5rem 1.2rem;">
+                <i class="fa-solid fa-plus-circle"></i> Añadir foto/video
+            </button>
+            <button class="btn-secondary" id="editToggleBtn" style="font-size:0.85rem;padding:0.5rem 1.2rem;">
+                <i class="fa-solid fa-pen"></i> Modo Edición
             </button>
         </div>
         <p class="edit-text" id="footer_copyright">&copy; 2026 DJ MICHAEL / GS Producciones & Eventos. Todos los derechos reservados.</p>
@@ -1638,6 +1628,24 @@
             PASSWORD: '12345'
         };
 
+        let isAuthorized = false;
+
+        function requirePassword(callback) {
+            if (isAuthorized) {
+                if (typeof callback === 'function') callback();
+                return true;
+            }
+            const pass = prompt('Introduce la contraseña de administración:');
+            if (pass === CONFIG.PASSWORD) {
+                isAuthorized = true;
+                if (typeof callback === 'function') callback();
+                return true;
+            } else if (pass !== null) {
+                alert('Contraseña incorrecta.');
+            }
+            return false;
+        }
+
         // 1. NAVEGACIÓN
         (function() {
             const navLinks = document.querySelectorAll('.nav-links a[data-section]');
@@ -1668,7 +1676,14 @@
             navLinks.forEach(a => {
                 a.addEventListener('click', function(e) {
                     e.preventDefault();
-                    showSection(this.dataset.section);
+                    const targetSection = this.dataset.section;
+                    if (targetSection === 'agenda') {
+                        requirePassword(() => {
+                            showSection('agenda');
+                        });
+                    } else {
+                        showSection(targetSection);
+                    }
                 });
             });
 
@@ -1822,6 +1837,15 @@
             const dbUrl = CONFIG.FIREBASE_URL + 'contenido.json';
             const galleryUrl = CONFIG.FIREBASE_URL + 'galeria_items.json';
 
+            function formatUploadcareUrl(url) {
+                if (!url) return '';
+                let cleanUrl = String(url).trim();
+                if (cleanUrl.includes('ucarecdn.com') && !cleanUrl.endsWith('/')) {
+                    cleanUrl += '/';
+                }
+                return cleanUrl;
+            }
+
             function checkIsVideo(url, mimeType) {
                 if (mimeType && mimeType.startsWith('video/')) return true;
                 if (!url) return false;
@@ -1849,10 +1873,11 @@
                         const container = document.getElementById('hero_media_container');
                         if (container) {
                             container.innerHTML = '';
-                            const isVid = entry.type === 'video' || checkIsVideo(entry.src);
+                            const src = formatUploadcareUrl(entry.src);
+                            const isVid = entry.type === 'video' || checkIsVideo(src);
                             if (isVid) {
                                 const video = document.createElement('video');
-                                video.src = entry.src;
+                                video.src = src;
                                 video.autoplay = true;
                                 video.loop = true;
                                 video.muted = true;
@@ -1865,7 +1890,7 @@
                                 video.play().catch(() => {});
                             } else {
                                 const img = document.createElement('img');
-                                img.src = entry.src;
+                                img.src = src;
                                 img.alt = 'Hero media';
                                 img.style.width = '100%';
                                 img.style.height = '100%';
@@ -1878,7 +1903,7 @@
 
                     if (entry.img && entry.imgTarget) {
                         const imgEl = document.getElementById(entry.imgTarget);
-                        if (imgEl) imgEl.src = entry.img;
+                        if (imgEl) imgEl.src = formatUploadcareUrl(entry.img);
                     }
                     if (entry.text1 && entry.textTarget1) {
                         const el = document.getElementById(entry.textTarget1);
@@ -1951,10 +1976,12 @@
                 }
                 let html = '';
                 items.forEach((item, index) => {
-                    const isVideo = item.type === 'video' || checkIsVideo(item.src, item.mimeType);
+                    if (!item || !item.src) return;
+                    const validSrc = formatUploadcareUrl(item.src);
+                    const isVideo = item.type === 'video' || checkIsVideo(validSrc, item.mimeType);
                     const mediaTag = isVideo
-                        ? `<video src="${item.src}" autoplay loop muted playsinline webkit-playsinline style="width:100%;height:100%;object-fit:cover;background:#000;display:block;"></video>`
-                        : `<img src="${item.src}" alt="Galería ${index+1}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;" />`;
+                        ? `<video src="${validSrc}" autoplay loop muted playsinline webkit-playsinline style="width:100%;height:100%;object-fit:cover;background:#000;display:block;"></video>`
+                        : `<img src="${validSrc}" alt="Galería ${index+1}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.src='dj michael.jpg';" />`;
                     html += `
                         <div class="gallery-item" data-index="${index}">
                             ${mediaTag}
@@ -1977,15 +2004,19 @@
                 document.querySelectorAll('.gallery-delete-btn').forEach(btn => {
                     btn.onclick = function(e) {
                         e.stopPropagation();
-                        const index = parseInt(this.dataset.index);
-                        deleteGalleryItem(index);
+                        requirePassword(() => {
+                            const index = parseInt(btn.dataset.index);
+                            deleteGalleryItem(index);
+                        });
                     };
                 });
                 document.querySelectorAll('.gallery-replace-btn').forEach(btn => {
                     btn.onclick = function(e) {
                         e.stopPropagation();
-                        const index = parseInt(this.dataset.index);
-                        replaceGalleryItem(index);
+                        requirePassword(() => {
+                            const index = parseInt(btn.dataset.index);
+                            replaceGalleryItem(index);
+                        });
                     };
                 });
             }
@@ -2006,9 +2037,9 @@
                     imagesOnly: false
                 });
                 dialog.done(function(dialogApi) {
-                    const filePromise = dialogApi.promise ? dialogApi.promise() : dialogApi;
+                    const filePromise = typeof dialogApi.promise === 'function' ? dialogApi.promise() : dialogApi;
                     filePromise.done(function(fileInfo) {
-                        const url = fileInfo.cdnUrl;
+                        const url = formatUploadcareUrl(fileInfo.cdnUrl);
                         const mimeType = fileInfo.mimeType || '';
                         const isVideo = checkIsVideo(url, mimeType) || (fileInfo.isImage === false);
                         const type = isVideo ? 'video' : 'image';
@@ -2021,32 +2052,52 @@
                 });
             }
 
-            // BOTÓN AÑADIR A GALERÍA DIRECTO CON UPLOADCARE
+            // BOTÓN DE AÑADIR AL FINAL (CON CONTRASEÑA)
             document.getElementById('addGalleryBtn')?.addEventListener('click', function() {
-                const dialog = uploadcare.openDialog(null, {
-                    publicKey: CONFIG.UPLOADCARE_PUBLIC_KEY,
-                    multiple: true,
-                    imagesOnly: false
-                });
-                dialog.done(function(dialogApi) {
-                    const groupPromise = dialogApi.promise ? dialogApi.promise() : dialogApi;
-                    groupPromise.done(function(fileGroup) {
-                        const fileList = (fileGroup && typeof fileGroup.files === 'function') ? fileGroup.files() : [fileGroup];
-                        const promises = fileList.map(f => (typeof f.done === 'function' ? f.done() : f));
+                requirePassword(() => {
+                    const dialog = uploadcare.openDialog(null, {
+                        publicKey: CONFIG.UPLOADCARE_PUBLIC_KEY,
+                        multiple: true,
+                        imagesOnly: false
+                    });
+
+                    dialog.done(function(dialogApi) {
+                        const groupPromise = typeof dialogApi.promise === 'function' ? dialogApi.promise() : dialogApi;
                         
-                        Promise.all(promises).then(function(fileInfos) {
-                            getGalleryItems().then(items => {
-                                fileInfos.forEach(info => {
-                                    if (!info || !info.cdnUrl) return;
-                                    const url = info.cdnUrl;
-                                    const mimeType = info.mimeType || '';
-                                    const isVideo = checkIsVideo(url, mimeType) || (info.isImage === false);
-                                    const type = isVideo ? 'video' : 'image';
-                                    items.push({ src: url, type: type, mimeType: mimeType });
+                        groupPromise.done(function(fileGroup) {
+                            const fileList = (fileGroup && typeof fileGroup.files === 'function') ? fileGroup.files() : [fileGroup];
+                            
+                            const promises = fileList.map(f => {
+                                return new Promise((resolve, reject) => {
+                                    const p = typeof f.done === 'function' ? f : (typeof f.promise === 'function' ? f.promise() : null);
+                                    if (p && typeof p.done === 'function') {
+                                        p.done(resolve).fail(reject);
+                                    } else {
+                                        resolve(f);
+                                    }
                                 });
-                                return saveGalleryItems(items);
-                            }).then(() => getGalleryItems()).then(renderGalleryItems)
-                              .catch(err => alert('Error al guardar: ' + err.message));
+                            });
+
+                            Promise.all(promises).then(fileInfos => {
+                                return getGalleryItems().then(items => {
+                                    fileInfos.forEach(info => {
+                                        if (!info || !info.cdnUrl) return;
+                                        const url = formatUploadcareUrl(info.cdnUrl);
+                                        const mimeType = info.mimeType || '';
+                                        const isVideo = checkIsVideo(url, mimeType) || (info.isImage === false);
+                                        const type = isVideo ? 'video' : 'image';
+                                        items.push({ src: url, type: type, mimeType: mimeType });
+                                    });
+                                    return saveGalleryItems(items);
+                                });
+                            }).then(() => {
+                                return getGalleryItems();
+                            }).then(items => {
+                                renderGalleryItems(items);
+                            }).catch(err => {
+                                console.error('Error al guardar archivos:', err);
+                                alert('Error al guardar en Firebase: ' + err.message);
+                            });
                         });
                     });
                 });
@@ -2108,7 +2159,7 @@
 
             function saveCurrentEdit() {
                 if (!currentEditKey) return;
-                const imgValue = modalImgUrl.value.trim();
+                const imgValue = formatUploadcareUrl(modalImgUrl.value.trim());
                 const text1 = modalText1.value.trim();
                 const text2 = modalText2.value.trim();
                 const text3 = modalText3.value.trim();
@@ -2149,56 +2200,50 @@
                     imagesOnly: false
                 });
                 dialog.done(function(dialogApi) {
-                    const filePromise = dialogApi.promise ? dialogApi.promise() : dialogApi;
+                    const filePromise = typeof dialogApi.promise === 'function' ? dialogApi.promise() : dialogApi;
                     filePromise.done(function(fileInfo) {
                         if (fileInfo && fileInfo.cdnUrl) {
-                            modalImgPreview.src = fileInfo.cdnUrl;
-                            modalImgUrl.value = fileInfo.cdnUrl;
+                            const formattedUrl = formatUploadcareUrl(fileInfo.cdnUrl);
+                            modalImgPreview.src = formattedUrl;
+                            modalImgUrl.value = formattedUrl;
                         }
                     });
                 });
             });
 
             modalImgUrl.addEventListener('input', function() {
-                modalImgPreview.src = this.value;
+                modalImgPreview.src = formatUploadcareUrl(this.value);
             });
 
             editToggleBtn.addEventListener('click', function() {
                 if (isEditMode) {
                     document.body.classList.remove('edit-mode');
-                    editToggleBtn.classList.remove('active');
                     isEditMode = false;
-                    editToggleBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
+                    editToggleBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Modo Edición';
                 } else {
-                    const pass = prompt('Introduce la contraseña para editar:');
-                    if (pass === CONFIG.PASSWORD) {
+                    requirePassword(() => {
                         document.body.classList.add('edit-mode');
-                        editToggleBtn.classList.add('active');
                         isEditMode = true;
-                        editToggleBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
-                    } else if (pass !== null) {
-                        alert('Contraseña incorrecta.');
-                    }
+                        editToggleBtn.innerHTML = '<i class="fa-solid fa-check"></i> Salir Edición';
+                    });
                 }
             });
 
             document.addEventListener('click', function(e) {
                 const btn = e.target.closest('.edit-btn-overlay');
                 if (!btn) return;
-                if (!isEditMode) {
-                    alert('Primero activa el modo edición con el lápiz del pie de página.');
-                    return;
-                }
                 e.preventDefault();
-                openModal(
-                    btn.dataset.key,
-                    btn.dataset.type || 'text',
-                    btn.dataset.imgTarget || btn.dataset.target,
-                    btn.dataset.textTarget,
-                    btn.dataset.textTarget2,
-                    btn.dataset.textTarget3,
-                    btn.dataset.specsTarget
-                );
+                requirePassword(() => {
+                    openModal(
+                        btn.dataset.key,
+                        btn.dataset.type || 'text',
+                        btn.dataset.imgTarget || btn.dataset.target,
+                        btn.dataset.textTarget,
+                        btn.dataset.textTarget2,
+                        btn.dataset.textTarget3,
+                        btn.dataset.specsTarget
+                    );
+                });
             });
 
             document.addEventListener('DOMContentLoaded', function() {
@@ -2330,13 +2375,15 @@
             }
 
             window.deleteEvent = function(key) {
-                if (!confirm('¿Estás seguro de eliminar este evento de la base de datos?')) return;
-                fetch(`${CONFIG.FIREBASE_URL}eventos/${key}.json`, { method: 'DELETE' })
-                    .then(() => {
-                        delete localEvents[key];
-                        renderEvents();
-                    })
-                    .catch(err => alert('Error al eliminar: ' + err.message));
+                requirePassword(() => {
+                    if (!confirm('¿Estás seguro de eliminar este evento de la base de datos?')) return;
+                    fetch(`${CONFIG.FIREBASE_URL}eventos/${key}.json`, { method: 'DELETE' })
+                        .then(() => {
+                            delete localEvents[key];
+                            renderEvents();
+                        })
+                        .catch(err => alert('Error al eliminar: ' + err.message));
+                });
             };
 
             function cleanPhone(phone) {
@@ -2353,41 +2400,43 @@
 
             eventForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-                const submitBtn = document.getElementById('saveBtn');
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Guardando...';
+                requirePassword(() => {
+                    const submitBtn = document.getElementById('saveBtn');
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Guardando...';
 
-                const newEvent = {
-                    clientName: document.getElementById('clientName').value.trim(),
-                    clientPhone: document.getElementById('clientPhone').value.trim(),
-                    eventDate: document.getElementById('eventDate').value,
-                    eventTime: document.getElementById('eventTime').value,
-                    eventType: document.getElementById('eventType').value,
-                    packageSelected: document.getElementById('packageSelected').value,
-                    eventLocation: document.getElementById('eventLocation').value.trim(),
-                    totalCost: Number(document.getElementById('totalCost').value),
-                    depositAmount: Number(document.getElementById('depositAmount').value),
-                    eventStatus: document.getElementById('eventStatus').value,
-                    eventNotes: document.getElementById('eventNotes').value.trim(),
-                    createdAt: new Date().toISOString()
-                };
+                    const newEvent = {
+                        clientName: document.getElementById('clientName').value.trim(),
+                        clientPhone: document.getElementById('clientPhone').value.trim(),
+                        eventDate: document.getElementById('eventDate').value,
+                        eventTime: document.getElementById('eventTime').value,
+                        eventType: document.getElementById('eventType').value,
+                        packageSelected: document.getElementById('packageSelected').value,
+                        eventLocation: document.getElementById('eventLocation').value.trim(),
+                        totalCost: Number(document.getElementById('totalCost').value),
+                        depositAmount: Number(document.getElementById('depositAmount').value),
+                        eventStatus: document.getElementById('eventStatus').value,
+                        eventNotes: document.getElementById('eventNotes').value.trim(),
+                        createdAt: new Date().toISOString()
+                    };
 
-                fetch(CONFIG.FIREBASE_URL + 'eventos.json', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(newEvent)
-                })
-                .then(res => res.json())
-                .then(() => {
-                    eventForm.reset();
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar en Firebase';
-                    fetchEvents();
-                })
-                .catch(err => {
-                    alert('Error al guardar: ' + err.message);
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar en Firebase';
+                    fetch(CONFIG.FIREBASE_URL + 'eventos.json', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(newEvent)
+                    })
+                    .then(res => res.json())
+                    .then(() => {
+                        eventForm.reset();
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar en Firebase';
+                        fetchEvents();
+                    })
+                    .catch(err => {
+                        alert('Error al guardar: ' + err.message);
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar en Firebase';
+                    });
                 });
             });
 
