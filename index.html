@@ -1646,7 +1646,7 @@
             return false;
         }
 
-        // 1. NAVEGACIÓN (MODIFICADA: Agenda redirige a URL externa)
+        // 1. NAVEGACIÓN (MODIFICADA: Agenda pide contraseña y redirige)
         (function() {
             const navLinks = document.querySelectorAll('.nav-links a[data-section]');
             const sections = {
@@ -1678,8 +1678,10 @@
                     e.preventDefault();
                     const targetSection = this.dataset.section;
                     if (targetSection === 'agenda') {
-                        // REDIRECCIÓN EXTERNA
-                        window.location.href = 'https://pintosingenieria-max.github.io/servicios-dj-/';
+                        // Solicita contraseña y redirige a la URL
+                        requirePassword(() => {
+                            window.location.href = 'https://pintosingenieria-max.github.io/fechas-/';
+                        });
                     } else {
                         showSection(targetSection);
                     }
