@@ -19,7 +19,7 @@
     <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
 
     <style>
-        /* ====== TODOS LOS ESTILOS PREVIOS ====== */
+        /* ========== ESTILOS ========== */
         :root {
             --bg-dark: #090a0f;
             --bg-card: rgba(18, 20, 29, 0.75);
@@ -53,7 +53,7 @@
             min-height: 100vh;
         }
 
-        /* ---- MODAL DE CONTRASEÑA ---- */
+        /* --- MODAL DE CONTRASEÑA PERSONALIZADO --- */
         .password-modal-overlay {
             display: none;
             position: fixed;
@@ -144,7 +144,6 @@
             display: none;
         }
 
-        /* ---- RESTO DE ESTILOS (igual que antes) ---- */
         #particles-canvas {
             position: fixed;
             top: 0;
@@ -154,6 +153,7 @@
             z-index: -1;
             pointer-events: none;
         }
+
         .bg-animated {
             position: fixed;
             top: 0;
@@ -165,6 +165,7 @@
                         radial-gradient(circle at 85% 80%, rgba(0, 242, 254, 0.07) 0%, rgba(0, 0, 0, 0) 60%),
                         #090a0f;
         }
+
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-dark); }
         ::-webkit-scrollbar-thumb { background: #2a2e3d; border-radius: 4px; }
@@ -192,6 +193,7 @@
             border-bottom: 1px solid var(--border-color);
             transition: all 0.3s ease;
         }
+
         .nav-container {
             max-width: 1320px;
             margin: 0 auto;
@@ -200,6 +202,7 @@
             justify-content: space-between;
             align-items: center;
         }
+
         .logo-box {
             display: flex;
             align-items: center;
@@ -219,6 +222,7 @@
             text-transform: uppercase;
             font-family: var(--font-heading);
         }
+
         .nav-links {
             display: flex;
             gap: 2rem;
@@ -241,6 +245,7 @@
         .nav-links a.active {
             border-bottom: 2px solid var(--primary-red);
         }
+
         .hamburger {
             display: none;
             flex-direction: column;
@@ -281,6 +286,7 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 28px rgba(255, 30, 67, 0.6);
         }
+
         .btn-secondary {
             background: rgba(255, 255, 255, 0.05);
             color: #fff;
@@ -302,6 +308,7 @@
             border-color: rgba(255, 255, 255, 0.3);
             transform: translateY(-2px);
         }
+
         .whatsapp-float {
             position: fixed;
             bottom: 30px;
@@ -325,6 +332,7 @@
             transform: scale(1.1);
             box-shadow: 0 10px 35px rgba(37, 211, 102, 0.7);
         }
+
         .section-page {
             display: none;
             padding-top: 90px;
@@ -1115,6 +1123,7 @@
             .led-container { grid-template-columns: 1fr; }
             .form-grid { grid-template-columns: repeat(2, 1fr); }
         }
+
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
@@ -1149,6 +1158,7 @@
             .form-grid { grid-template-columns: 1fr; }
             .form-group[style*="span 2"] { grid-column: span 1 !important; }
         }
+
         @media (max-width: 480px) {
             .gallery-grid { grid-template-columns: 1fr; }
             .whatsapp-float { width: 50px; height: 50px; font-size: 1.8rem; bottom: 20px; right: 20px; }
@@ -1186,7 +1196,7 @@
         </div>
     </header>
 
-    <!-- ====== SECCIÓN INICIO ====== -->
+    <!-- ===================== SECCIÓN INICIO ===================== -->
     <section class="section-page active" id="page-inicio">
         <div class="hero">
             <div class="hero-content">
@@ -1220,6 +1230,7 @@
             </div>
         </div>
 
+        <!-- Features -->
         <section class="features-bar">
             <div class="features-grid">
                 <div class="feature-item edit-container">
@@ -1271,6 +1282,7 @@
                 </p>
             </div>
             <div class="packages-grid">
+                <!-- Paquete 1 -->
                 <div class="package-card edit-container">
                     <div class="package-img"><img id="paquete1_img" src="equipo_bassico.jpg" alt="Equipo Básico de Sonido" loading="lazy" /></div>
                     <button class="edit-btn-overlay" data-key="paquete1" data-type="package" data-img-target="paquete1_img" data-text-target="paquete1_titulo" data-text-target2="paquete1_sub" data-specs-target="paquete1_specs"><i class="fa-solid fa-pen"></i></button>
@@ -1289,7 +1301,7 @@
                         <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20me%20interesa%20el%20Equipo%20B%C3%A1sico%20de%20800.000%20Gs." class="btn-secondary" style="text-align:center;justify-content:center;" target="_blank">Reservar Paquete</a>
                     </div>
                 </div>
-
+                <!-- Paquete 2 (destacado) -->
                 <div class="package-card featured edit-container">
                     <div class="featured-tag">Más Popular</div>
                     <div class="package-img"><img id="paquete2_img" src="basico_led.jpg" alt="Equipo Básico con Pantalla LED" loading="lazy" /></div>
@@ -1310,7 +1322,7 @@
                         <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20me%20interesa%20el%20Equipo%20B%C3%A1sico%20con%20Pantalla%20LED%20de%201.100.000%20Gs." class="btn-primary" style="text-align:center;justify-content:center;" target="_blank">Reservar Este Paquete</a>
                     </div>
                 </div>
-
+                <!-- Paquete 3 -->
                 <div class="package-card edit-container">
                     <div class="package-img"><img id="paquete3_img" src="equipo_exterior.jpg" alt="Equipo Para Exterior y Grandes Espacios" loading="lazy" /></div>
                     <button class="edit-btn-overlay" data-key="paquete3" data-type="package" data-img-target="paquete3_img" data-text-target="paquete3_titulo" data-text-target2="paquete3_sub" data-specs-target="paquete3_specs"><i class="fa-solid fa-pen"></i></button>
@@ -1432,7 +1444,7 @@
             <div class="testimonials-grid">
                 <div class="testimonial-card edit-container">
                     <div class="testimonial-header">
-                        <img id="testimonio1_avatar" src="avatar1.jpg" alt="Foto de Laura" class="testimonial-avatar" loading="lazy" />
+                        <img src="https://ui-avatars.com/api/?name=Laura+G.&background=ff1e43&color=fff&size=50" alt="Laura" class="testimonial-avatar" loading="lazy" id="testimonio1_avatar" />
                         <div>
                             <div class="testimonial-name edit-text" id="testimonio1_nombre">Laura G.</div>
                             <div class="testimonial-role edit-text" id="testimonio1_rol">Fiesta de 15 años</div>
@@ -1444,7 +1456,7 @@
                 </div>
                 <div class="testimonial-card edit-container">
                     <div class="testimonial-header">
-                        <img id="testimonio2_avatar" src="avatar2.jpg" alt="Foto de Carlos" class="testimonial-avatar" loading="lazy" />
+                        <img src="https://ui-avatars.com/api/?name=Carlos+R.&background=ff1e43&color=fff&size=50" alt="Carlos" class="testimonial-avatar" loading="lazy" id="testimonio2_avatar" />
                         <div>
                             <div class="testimonial-name edit-text" id="testimonio2_nombre">Carlos R.</div>
                             <div class="testimonial-role edit-text" id="testimonio2_rol">Boda</div>
@@ -1456,7 +1468,7 @@
                 </div>
                 <div class="testimonial-card edit-container">
                     <div class="testimonial-header">
-                        <img id="testimonio3_avatar" src="avatar3.jpg" alt="Foto de Mariana" class="testimonial-avatar" loading="lazy" />
+                        <img src="https://ui-avatars.com/api/?name=Mariana+S.&background=ff1e43&color=fff&size=50" alt="Mariana" class="testimonial-avatar" loading="lazy" id="testimonio3_avatar" />
                         <div>
                             <div class="testimonial-name edit-text" id="testimonio3_nombre">Mariana S.</div>
                             <div class="testimonial-role edit-text" id="testimonio3_rol">Evento Corporativo</div>
@@ -1525,7 +1537,7 @@
         </section>
     </section>
 
-    <!-- ====== SECCIÓN AGENDA ====== -->
+    <!-- ===================== SECCIÓN AGENDA ===================== -->
     <section class="section-page" id="page-agenda">
         <div class="page-header" style="margin-bottom:2rem;">
             <h1 style="font-size:2.2rem;font-family:var(--font-heading);font-weight:800;">Gestor de <span class="gradient-text">Eventos & Fechas</span></h1>
@@ -1632,7 +1644,7 @@
         </div>
     </section>
 
-    <!-- ====== SECCIÓN CONTACTO ====== -->
+    <!-- ===================== SECCIÓN CONTACTO ===================== -->
     <section class="section-page" id="page-contacto">
         <div class="contact-card" style="margin-top:2rem;">
             <h2>¿Listo para hacer vibrar tu evento?</h2>
@@ -1649,7 +1661,7 @@
         </div>
     </section>
 
-    <!-- ====== FOOTER ====== -->
+    <!-- ===================== FOOTER ===================== -->
     <footer>
         <div class="footer-admin-bar">
             <div class="visitor-counter">
@@ -1667,7 +1679,7 @@
         <p style="margin-top:0.5rem;font-size:0.8rem;" class="edit-text" id="footer_ubicacion">Villeta, Central · Cubrimos todo el departamento</p>
     </footer>
 
-    <!-- ====== MODAL DE CONTRASEÑA ====== -->
+    <!-- MODAL DE CONTRASEÑA -->
     <div class="password-modal-overlay" id="passwordModal">
         <div class="password-modal-box">
             <h3>🔐 Acceso restringido</h3>
@@ -1681,7 +1693,7 @@
         </div>
     </div>
 
-    <!-- ====== MODAL DE EDICIÓN ====== -->
+    <!-- MODAL DE EDICIÓN -->
     <div class="modal-overlay" id="editModal">
         <div class="modal-box">
             <button class="modal-close" id="modalCloseBtn">&times;</button>
@@ -1716,17 +1728,23 @@
         </div>
     </div>
 
-    <!-- ====== SCRIPTS ====== -->
+    <!-- ===================== SCRIPTS ===================== -->
     <script>
         const CONFIG = {
+            // 🔥 URL CORRECTA DE FIREBASE (proporcionada por ti)
             FIREBASE_URL: 'https://pagina-mp-default-rtdb.asia-southeast1.firebasedatabase.app/',
             UPLOADCARE_PUBLIC_KEY: 'f2d187ae3604f0b7c3fe',
             PASSWORD: '12345'
         };
 
+        // Asegurar que la URL termine con '/'
+        if (!CONFIG.FIREBASE_URL.endsWith('/')) {
+            CONFIG.FIREBASE_URL += '/';
+        }
+
         let isAuthorized = false;
 
-        // ---- MODAL DE CONTRASEÑA PERSONALIZADO ----
+        // --- MODAL DE CONTRASEÑA PERSONALIZADO ---
         const passwordModal = document.getElementById('passwordModal');
         const passwordInput = document.getElementById('passwordInput');
         const passwordError = document.getElementById('passwordError');
@@ -1780,7 +1798,6 @@
             }
         });
 
-        // ---- FUNCIÓN requirePassword CON MODAL ----
         function requirePassword(callback) {
             if (isAuthorized) {
                 if (typeof callback === 'function') callback();
@@ -1790,9 +1807,7 @@
             return false;
         }
 
-        // ============================================================
         // 1. NAVEGACIÓN
-        // ============================================================
         (function() {
             const navLinks = document.querySelectorAll('.nav-links a[data-section]');
             const sections = {
@@ -1824,9 +1839,7 @@
                     e.preventDefault();
                     const targetSection = this.dataset.section;
                     if (targetSection === 'agenda') {
-                        requirePassword(() => {
-                            showSection('agenda');
-                        });
+                        requirePassword(() => showSection('agenda'));
                     } else {
                         showSection(targetSection);
                     }
@@ -1839,9 +1852,7 @@
             });
         })();
 
-        // ============================================================
         // 2. MENÚ HAMBURGUESA
-        // ============================================================
         (function() {
             const hamburger = document.getElementById('hamburger');
             const navLinks = document.getElementById('nav-links');
@@ -1853,35 +1864,20 @@
             });
         })();
 
-        // ============================================================
         // 3. CONTADOR DE VISITAS
-        // ============================================================
         (function() {
             const url = CONFIG.FIREBASE_URL + 'visitas.json';
             const countElement = document.getElementById('visit-count');
 
             function updateCounter() {
                 if (sessionStorage.getItem('visitCounted')) {
-                    fetch(url)
-                        .then(res => {
-                            if (!res.ok) throw new Error('Error al obtener visitas');
-                            return res.json();
-                        })
-                        .then(data => {
-                            if (countElement) countElement.innerText = (data || 0).toLocaleString();
-                        })
-                        .catch(err => {
-                            console.error('Error contador visitas:', err);
-                            if (countElement) countElement.innerText = '?';
-                        });
+                    fetch(url).then(res => res.json()).then(data => {
+                        if (countElement) countElement.innerText = (data || 0).toLocaleString();
+                    }).catch(() => { if (countElement) countElement.innerText = '?'; });
                     return;
                 }
-
                 fetch(url)
-                    .then(res => {
-                        if (!res.ok) throw new Error('Error al obtener visitas');
-                        return res.json();
-                    })
+                    .then(res => res.json())
                     .then(data => {
                         const newCount = (data || 0) + 1;
                         return fetch(url, {
@@ -1894,17 +1890,12 @@
                         if (countElement) countElement.innerText = newCount.toLocaleString();
                         sessionStorage.setItem('visitCounted', 'true');
                     })
-                    .catch(err => {
-                        console.error('Error actualizando contador:', err);
-                        if (countElement) countElement.innerText = '?';
-                    });
+                    .catch(() => { if (countElement) countElement.innerText = '?'; });
             }
             document.addEventListener('DOMContentLoaded', updateCounter);
         })();
 
-        // ============================================================
-        // 4. PARTÍCULAS (sin cambios)
-        // ============================================================
+        // 4. PARTÍCULAS
         (function() {
             const canvas = document.getElementById('particles-canvas');
             if (!canvas) return;
@@ -1975,9 +1966,7 @@
             animate();
         })();
 
-        // ============================================================
-        // 5. EDICIÓN, CONTENIDO Y GALERÍA (con mejor manejo de errores)
-        // ============================================================
+        // 5. EDICIÓN DINÁMICA, FIREBASE Y GALERÍA
         (function() {
             const editToggleBtn = document.getElementById('editToggleBtn');
             const modalOverlay = document.getElementById('editModal');
@@ -2022,19 +2011,8 @@
                 return /\.(mp4|webm|ogg|mov|m4v|avi|mkv)($|\?)/i.test(url) || url.includes('/video/');
             }
 
-            // ---- CONTENIDO (textos/imágenes editables) ----
             function loadContentFromFirebase() {
-                return fetch(dbUrl)
-                    .then(res => {
-                        if (!res.ok) throw new Error('Error al cargar contenido: ' + res.status);
-                        return res.json();
-                    })
-                    .then(data => data || {})
-                    .catch(err => {
-                        console.error('Error en loadContentFromFirebase:', err);
-                        alert('No se pudo cargar el contenido desde Firebase. Revisa la consola.');
-                        return {};
-                    });
+                return fetch(dbUrl).then(res => res.json()).then(data => data || {}).catch(() => ({}));
             }
 
             function saveContentToFirebase(data) {
@@ -2042,16 +2020,7 @@
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
-                })
-                .then(res => {
-                    if (!res.ok) throw new Error('Error al guardar contenido: ' + res.status);
-                    return res.json();
-                })
-                .catch(err => {
-                    console.error('Error en saveContentToFirebase:', err);
-                    alert('No se pudo guardar el contenido en Firebase. Revisa la consola.');
-                    throw err;
-                });
+                }).then(res => res.json());
             }
 
             function applyContent(content) {
@@ -2132,23 +2101,16 @@
                 }
             }
 
-            // ---- GALERÍA ----
+            // GALERÍA
             function getGalleryItems() {
                 return fetch(galleryUrl)
-                    .then(res => {
-                        if (!res.ok) throw new Error('Error al obtener galería: ' + res.status);
-                        return res.json();
-                    })
+                    .then(res => res.json())
                     .then(data => {
                         if (!data) return [];
                         if (Array.isArray(data)) return data.filter(Boolean);
                         return Object.values(data).filter(Boolean);
                     })
-                    .catch(err => {
-                        console.error('Error en getGalleryItems:', err);
-                        alert('No se pudo cargar la galería. Revisa la consola.');
-                        return [];
-                    });
+                    .catch(() => []);
             }
 
             function saveGalleryItems(items) {
@@ -2156,16 +2118,7 @@
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(items)
-                })
-                .then(res => {
-                    if (!res.ok) throw new Error('Error al guardar galería: ' + res.status);
-                    return res.json();
-                })
-                .catch(err => {
-                    console.error('Error en saveGalleryItems:', err);
-                    alert('No se pudo guardar la galería. Revisa la consola.');
-                    throw err;
-                });
+                }).then(res => res.json());
             }
 
             function renderGalleryItems(items) {
@@ -2229,14 +2182,11 @@
 
             function deleteGalleryItem(index) {
                 if (!confirm('¿Deseas eliminar este elemento de la galería?')) return;
-                getGalleryItems()
-                    .then(items => {
-                        items.splice(index, 1);
-                        return saveGalleryItems(items);
-                    })
-                    .then(() => getGalleryItems())
-                    .then(renderGalleryItems)
-                    .catch(err => alert('Error al eliminar: ' + err.message));
+                getGalleryItems().then(items => {
+                    items.splice(index, 1);
+                    return saveGalleryItems(items);
+                }).then(() => getGalleryItems()).then(renderGalleryItems)
+                  .catch(err => alert('Error al eliminar: ' + err.message));
             }
 
             function replaceGalleryItem(index) {
@@ -2251,19 +2201,16 @@
                         const mimeType = fileInfo.mimeType || '';
                         const isVideo = checkIsVideo(url, mimeType) || (fileInfo.isImage === false);
                         const type = isVideo ? 'video' : 'image';
-                        getGalleryItems()
-                            .then(items => {
-                                items[index] = { src: url, type: type, mimeType: mimeType };
-                                return saveGalleryItems(items);
-                            })
-                            .then(() => getGalleryItems())
-                            .then(renderGalleryItems)
-                            .catch(err => alert('Error al reemplazar: ' + err.message));
+                        getGalleryItems().then(items => {
+                            items[index] = { src: url, type: type, mimeType: mimeType };
+                            return saveGalleryItems(items);
+                        }).then(() => getGalleryItems()).then(renderGalleryItems)
+                          .catch(err => alert('Error al reemplazar: ' + err.message));
                     }
                 });
             }
 
-            // ---- BOTÓN AÑADIR FOTO/VIDEO ----
+            // BOTÓN DE AÑADIR AL FINAL
             document.getElementById('addGalleryBtn')?.addEventListener('click', function() {
                 requirePassword(() => {
                     const dialog = uploadcare.openDialog(null, {
@@ -2303,7 +2250,7 @@
                                 });
                             })
                             .then(() => getGalleryItems())
-                            .then(renderGalleryItems)
+                            .then(items => renderGalleryItems(items))
                             .catch(err => {
                                 console.error('Error al guardar archivos:', err);
                                 alert('Error al guardar en Firebase: ' + err.message);
@@ -2312,7 +2259,7 @@
                 });
             });
 
-            // ---- MODAL DE EDICIÓN ----
+            // MODAL DE EDICIÓN
             function openModal(key, type, imgTarget, textTarget1, textTarget2, textTarget3, specsTarget) {
                 currentEditKey = key;
                 currentEditType = type;
@@ -2387,25 +2334,21 @@
                     if (specsValue && currentSpecsTarget) { entry.specs = specsValue; entry.specsTarget = currentSpecsTarget; }
                 }
 
-                loadContentFromFirebase()
-                    .then(allContent => {
-                        allContent[currentEditKey] = entry;
-                        return saveContentToFirebase(allContent);
-                    })
-                    .then(() => {
-                        const singleObj = {};
-                        singleObj[currentEditKey] = entry;
-                        applyContent(singleObj);
-                        closeModal();
-                    })
-                    .catch(err => alert('Error al guardar: ' + err.message));
+                loadContentFromFirebase().then(allContent => {
+                    allContent[currentEditKey] = entry;
+                    return saveContentToFirebase(allContent);
+                }).then(() => {
+                    const singleObj = {};
+                    singleObj[currentEditKey] = entry;
+                    applyContent(singleObj);
+                    closeModal();
+                }).catch(err => alert('Error al guardar: ' + err.message));
             }
 
             modalCloseBtn.addEventListener('click', closeModal);
             modalCancelBtn.addEventListener('click', closeModal);
             modalSaveBtn.addEventListener('click', saveCurrentEdit);
 
-            // ---- Botón subir imagen en modal ----
             uploadUploadcareBtn.addEventListener('click', function() {
                 const dialog = uploadcare.openDialog(null, {
                     publicKey: CONFIG.UPLOADCARE_PUBLIC_KEY,
@@ -2425,7 +2368,6 @@
                 modalImgPreview.src = formatUploadcareUrl(this.value);
             });
 
-            // ---- Botón Modo Edición ----
             editToggleBtn.addEventListener('click', function() {
                 if (isEditMode) {
                     document.body.classList.remove('edit-mode');
@@ -2440,7 +2382,6 @@
                 }
             });
 
-            // ---- Clic en botones de edición ----
             document.addEventListener('click', function(e) {
                 const btn = e.target.closest('.edit-btn-overlay');
                 if (!btn) return;
@@ -2458,16 +2399,13 @@
                 });
             });
 
-            // ---- Carga inicial ----
             document.addEventListener('DOMContentLoaded', function() {
                 loadContentFromFirebase().then(applyContent);
                 getGalleryItems().then(renderGalleryItems);
             });
         })();
 
-        // ============================================================
-        // 6. GESTIÓN DE EVENTOS (AGENDA) con mejor manejo de errores
-        // ============================================================
+        // 6. GESTIÓN DE EVENTOS (AGENDA)
         (function() {
             const eventForm = document.getElementById('eventForm');
             const eventsContainer = document.getElementById('eventsContainer');
@@ -2477,22 +2415,14 @@
 
             function fetchEvents() {
                 fetch(CONFIG.FIREBASE_URL + 'eventos.json')
-                    .then(res => {
-                        if (!res.ok) throw new Error('Error al obtener eventos: ' + res.status);
-                        return res.json();
-                    })
+                    .then(res => res.json())
                     .then(data => {
                         localEvents = data || {};
                         renderEvents();
                     })
-                    .catch(err => {
-                        console.error('Error en fetchEvents:', err);
+                    .catch(() => {
                         eventsContainer.innerHTML =
-                            `<div style="grid-column:1/-1;text-align:center;color:#ef4444;padding:2rem;">
-                                <i class="fa-solid fa-circle-exclamation" style="font-size:2rem;display:block;margin-bottom:1rem;"></i>
-                                Error al cargar la agenda. Revisa la consola.
-                                <br><small>${err.message}</small>
-                            </div>`;
+                            `<div style="grid-column:1/-1;text-align:center;color:#ef4444;">Error al conectar con la base de datos.</div>`;
                     });
             }
 
@@ -2601,8 +2531,7 @@
                 requirePassword(() => {
                     if (!confirm('¿Estás seguro de eliminar este evento de la base de datos?')) return;
                     fetch(`${CONFIG.FIREBASE_URL}eventos/${key}.json`, { method: 'DELETE' })
-                        .then(res => {
-                            if (!res.ok) throw new Error('Error al eliminar evento: ' + res.status);
+                        .then(() => {
                             delete localEvents[key];
                             renderEvents();
                         })
@@ -2649,10 +2578,7 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(newEvent)
                     })
-                    .then(res => {
-                        if (!res.ok) throw new Error('Error al guardar evento: ' + res.status);
-                        return res.json();
-                    })
+                    .then(res => res.json())
                     .then(() => {
                         eventForm.reset();
                         submitBtn.disabled = false;
