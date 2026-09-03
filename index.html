@@ -3,22 +3,19 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DJ MICHAEL | Eventos Premium + Agenda de Reservas</title>
-
+    <title>DJ MICHAEL | Gestión de Eventos & Agenda</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-    <!-- Uploadcare Widget -->
-    <script>
-        UPLOADCARE_PUBLIC_KEY = 'f2d187ae3604f0b7c3fe';
-    </script>
-    <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
+    <!-- html2canvas + jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
+        /* ====== ESTILOS GENERALES ====== */
         :root {
             --bg-dark: #090a0f;
             --bg-card: rgba(18, 20, 29, 0.75);
@@ -74,21 +71,6 @@
                         #090a0f;
         }
 
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-dark); }
-        ::-webkit-scrollbar-thumb { background: #2a2e3d; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--primary-red); }
-
-        h1, h2, h3, h4, .brand-font {
-            font-family: var(--font-heading);
-            letter-spacing: -0.02em;
-        }
-        .gradient-text {
-            background: linear-gradient(135deg, #ffffff 0%, var(--primary-red) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
         header {
             position: fixed;
             top: 0;
@@ -97,15 +79,13 @@
             z-index: 1000;
             background: var(--glass-bg);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border-color);
-            transition: all 0.3s ease;
         }
 
         .nav-container {
             max-width: 1320px;
             margin: 0 auto;
-            padding: 0.8rem 1.5rem;
+            padding: 1rem 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -117,79 +97,147 @@
             gap: 12px;
             text-decoration: none;
         }
+
         .logo-box img {
             height: 44px;
             width: auto;
             object-fit: contain;
             filter: drop-shadow(0 0 10px rgba(255, 30, 67, 0.4));
         }
+
         .logo-text {
             font-size: 1.3rem;
             font-weight: 800;
             color: #fff;
             text-transform: uppercase;
             font-family: var(--font-heading);
+            letter-spacing: -0.02em;
         }
 
-        .nav-links {
+        .main-container {
+            max-width: 1320px;
+            margin: 110px auto 4rem;
+            padding: 0 1.5rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
             display: flex;
-            gap: 2rem;
-            list-style: none;
+            justify-content: space-between;
             align-items: center;
-        }
-        .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: #fff;
-            text-shadow: 0 0 10px rgba(255,255,255,0.3);
-        }
-        .nav-links a.active {
-            border-bottom: 2px solid var(--primary-red);
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        .hamburger {
-            display: none;
+        .page-header h1 {
+            font-size: 2.2rem;
+            font-family: var(--font-heading);
+            font-weight: 800;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, var(--primary-red) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            backdrop-filter: blur(12px);
+            padding: 1.5rem 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-header i {
+            color: var(--primary-red);
+            font-size: 1.3rem;
+        }
+
+        .card-header h2 {
+            font-size: 1.4rem;
+            color: #fff;
+            font-family: var(--font-heading);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
             flex-direction: column;
             gap: 5px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            padding: 5px;
         }
-        .hamburger span {
-            display: block;
-            width: 28px;
-            height: 2px;
-            background: #fff;
+
+        .form-group label {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .form-group label i {
+            color: var(--primary-red);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.7rem 0.9rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+            font-family: var(--font-body);
+            font-size: 0.92rem;
             transition: all 0.3s ease;
         }
-        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-        .hamburger.active span:nth-child(2) { opacity: 0; }
-        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 12px rgba(255, 30, 67, 0.25);
+        }
+
+        select.form-control option {
+            background: #141724;
+            color: #fff;
+        }
 
         .btn-primary {
             background: linear-gradient(135deg, #ff1e43 0%, #d60e2e 100%);
-            color: #fff !important;
+            color: #fff;
             padding: 0.75rem 1.8rem;
             border-radius: 50px;
-            font-weight: 700 !important;
+            font-weight: 700;
             box-shadow: 0 4px 20px var(--primary-glow);
-            transition: all 0.3s ease !important;
+            transition: all 0.3s ease;
             border: 1px solid rgba(255,255,255,0.2);
+            cursor: pointer;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             text-decoration: none;
-            cursor: pointer;
             font-family: var(--font-body);
         }
+
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 28px rgba(255, 30, 67, 0.6);
@@ -202,485 +250,47 @@
             border-radius: 50px;
             font-weight: 600;
             border: 1px solid var(--border-color);
-            backdrop-filter: blur(10px);
             transition: all 0.3s ease;
+            cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             text-decoration: none;
-            cursor: pointer;
-            font-family: var(--font-body);
+            font-size: 0.85rem;
         }
+
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.12);
             border-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
         }
 
-        .whatsapp-float {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 999;
-            background: #25D366;
-            color: #fff;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.2rem;
-            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
+        .btn-cancel {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            border: 1px solid rgba(239, 68, 68, 0.3);
             transition: all 0.3s ease;
-            text-decoration: none;
-            border: none;
-        }
-        .whatsapp-float:hover {
-            transform: scale(1.1);
-            box-shadow: 0 10px 35px rgba(37, 211, 102, 0.7);
-        }
-
-        .section-page {
-            display: none;
-            padding-top: 90px;
-            max-width: 1320px;
-            margin: 0 auto 4rem;
-            padding-left: 1.5rem;
-            padding-right: 1.5rem;
-        }
-        .section-page.active { display: block; }
-
-        .hero {
-            display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 3rem;
-            align-items: center;
-            min-height: 80vh;
-            padding: 0 0 2rem;
-        }
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255, 30, 67, 0.1);
-            border: 1px solid rgba(255, 30, 67, 0.3);
-            color: var(--primary-red);
-            padding: 6px 16px;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .hero-title {
-            font-size: 3.8rem;
-            line-height: 1.1;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-        }
-        .hero-description {
-            font-size: 1.15rem;
-            color: var(--text-muted);
-            margin-bottom: 2.5rem;
-            max-width: 540px;
-        }
-        .location-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(0, 242, 254, 0.1);
-            border: 1px solid rgba(0, 242, 254, 0.3);
-            color: var(--accent-cyan);
-            padding: 10px 20px;
-            border-radius: 40px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-        }
-        .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
-        .hero-stats {
-            display: flex;
-            gap: 2.5rem;
-            margin-top: 3.5rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border-color);
-        }
-        .stat-item h3 { font-size: 2rem; color: #fff; font-weight: 800; }
-        .stat-item p { color: var(--text-muted); font-size: 0.85rem; }
-        .hero-main-card {
-            border-radius: 24px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-            background: var(--bg-card);
-            aspect-ratio: 16/9;
-        }
-        .hero-main-card video,
-        .hero-main-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .features-bar {
-            background: rgba(15, 17, 26, 0.6);
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-            padding: 3rem 1.5rem;
-            margin-bottom: 4rem;
-        }
-        .features-grid {
-            max-width: 1320px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-        .feature-item { display: flex; align-items: flex-start; gap: 1rem; }
-        .feature-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            background: rgba(255, 30, 67, 0.1);
-            border: 1px solid rgba(255, 30, 67, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-red);
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-        .feature-text h4 { color: #fff; font-size: 1.1rem; margin-bottom: 0.3rem; }
-        .feature-text p { color: var(--text-muted); font-size: 0.88rem; }
-
-        .section-header {
-            text-align: center;
-            max-width: 700px;
-            margin: 0 auto 3rem;
-        }
-        .section-subtitle {
-            color: var(--primary-red);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.85rem;
-            margin-bottom: 0.8rem;
-            display: block;
-        }
-        .section-title { font-size: 2.8rem; font-weight: 800; margin-bottom: 1rem; }
-        .section-desc { color: var(--text-muted); font-size: 1.05rem; }
-
-        .packages-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 2.5rem;
-            margin-bottom: 4rem;
-        }
-        .package-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            overflow: hidden;
-            transition: all 0.4s ease;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-        .package-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(255, 30, 67, 0.4);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-        }
-        .package-card.featured {
-            border-color: var(--primary-red);
-            background: rgba(22, 25, 38, 0.95);
-            box-shadow: 0 10px 30px rgba(255, 30, 67, 0.2);
-        }
-        .featured-tag {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: var(--primary-red);
-            color: #fff;
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            z-index: 10;
-        }
-        .package-img {
-            height: 220px;
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-        }
-        .package-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        .package-card:hover .package-img img { transform: scale(1.08); }
-        .package-body {
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-        .package-title { font-size: 1.6rem; color: #fff; margin-bottom: 0.5rem; }
-        .package-subtitle {
-            color: var(--accent-cyan);
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            display: block;
-        }
-        .package-price {
-            margin-bottom: 1.8rem;
-            display: flex;
-            align-items: baseline;
-            gap: 6px;
-        }
-        .price-amount {
-            font-size: 2.4rem;
-            font-weight: 800;
-            color: #fff;
-            font-family: var(--font-heading);
-        }
-        .price-currency {
-            color: var(--primary-red);
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-        .package-specs {
-            list-style: none;
-            margin-bottom: 2rem;
-            flex-grow: 1;
-        }
-        .package-specs li {
-            color: #cbd5e1;
-            font-size: 0.95rem;
-            margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .package-specs li i { color: var(--primary-red); font-size: 0.85rem; }
-        .package-specs li.highlight { color: #fff; font-weight: 600; }
-
-        .led-container {
-            background: linear-gradient(135deg, rgba(20, 24, 38, 0.9) 0%, rgba(10, 12, 18, 0.95) 100%);
-            border: 1px solid rgba(0, 242, 254, 0.2);
-            border-radius: 30px;
-            padding: 3.5rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3.5rem;
-            align-items: center;
-            margin-bottom: 4rem;
-        }
-        .led-content h3 { font-size: 2.2rem; color: #fff; margin-bottom: 1rem; }
-        .led-content p { color: var(--text-muted); margin-bottom: 2rem; font-size: 1.05rem; }
-        .led-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.2rem;
-            margin-bottom: 2rem;
-        }
-        .led-spec-box {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-color);
-            padding: 1.2rem;
-            border-radius: 16px;
-        }
-        .led-spec-box h5 {
-            color: var(--accent-cyan);
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-        .led-spec-box p { color: var(--text-muted); font-size: 0.85rem; margin: 0; }
-        .led-media {
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-            aspect-ratio: 16/9;
-        }
-        .led-media img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .gallery-item {
-            position: relative;
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-            aspect-ratio: 1/1;
-            cursor: default;
-            background: #000;
-        }
-        .gallery-item:hover {
-            border-color: var(--primary-red);
-            transform: scale(1.02);
-        }
-        .gallery-item img,
-        .gallery-item video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            background: #000;
-            transition: transform 0.5s ease;
-            display: block;
-        }
-        .gallery-item:hover img,
-        .gallery-item:hover video { transform: scale(1.06); }
-        .gallery-item .gallery-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            top: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.85), transparent 60%);
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding: 0.8rem;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-            z-index: 10;
-        }
-        .gallery-item:hover .gallery-overlay {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .gallery-overlay span {
-            pointer-events: none;
-            color: #fff;
-            font-size: 0.75rem;
-            background: rgba(0,0,0,0.6);
-            padding: 3px 10px;
-            border-radius: 12px;
-            backdrop-filter: blur(4px);
-        }
-        .gallery-overlay .gallery-actions {
-            display: none;
-            gap: 0.4rem;
-            pointer-events: auto;
-        }
-        .edit-mode .gallery-overlay .gallery-actions {
-            display: flex !important;
-        }
-        .gallery-replace-btn,
-        .gallery-delete-btn {
-            background: rgba(0,0,0,0.7);
-            border: none;
-            color: #fff;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
             cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
             font-size: 0.85rem;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .gallery-delete-btn { background: rgba(255, 30, 67, 0.85); }
-        .gallery-replace-btn:hover { background: rgba(255, 255, 255, 0.3); transform: scale(1.1); }
-        .gallery-delete-btn:hover { background: var(--primary-red); transform: scale(1.1); }
-        .gallery-cta {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 1rem;
         }
 
-        .upgrades-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
+        .btn-cancel:hover {
+            background: rgba(239, 68, 68, 0.25);
+            border-color: rgba(239, 68, 68, 0.5);
         }
-        .upgrade-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 2.5rem 2rem;
-            text-align: center;
-            transition: all 0.4s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-        }
-        .upgrade-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent-cyan);
-            box-shadow: 0 15px 40px rgba(0, 242, 254, 0.1);
-        }
-        .upgrade-icon { font-size: 3rem; color: var(--accent-cyan); margin-bottom: 0.5rem; }
-        .upgrade-title { font-size: 1.6rem; color: #fff; font-weight: 700; }
-        .upgrade-price {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--primary-red);
-            font-family: var(--font-heading);
-        }
-        .upgrade-desc { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-        .testimonial-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        .testimonial-card:hover { border-color: var(--accent-cyan); transform: translateY(-5px); }
-        .testimonial-header { display: flex; align-items: center; gap: 1rem; }
-        .testimonial-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--primary-red);
-        }
-        .testimonial-name { font-weight: 700; color: #fff; }
-        .testimonial-role { font-size: 0.85rem; color: var(--text-muted); }
-        .testimonial-text { color: #cbd5e1; font-style: italic; line-height: 1.7; }
-        .testimonial-stars { color: #fbbf24; letter-spacing: 2px; }
 
         .events-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 1.5rem;
         }
+
         .event-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
@@ -691,18 +301,22 @@
             justify-content: space-between;
             gap: 1rem;
             transition: all 0.3s ease;
+            position: relative;
         }
+
         .event-card:hover {
             border-color: var(--accent-cyan);
             transform: translateY(-4px);
             box-shadow: 0 10px 30px rgba(0, 242, 254, 0.08);
         }
+
         .event-card-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             gap: 0.5rem;
         }
+
         .event-type-badge {
             background: rgba(0, 242, 254, 0.1);
             color: var(--accent-cyan);
@@ -713,28 +327,38 @@
             padding: 3px 10px;
             border-radius: 20px;
         }
+
         .event-status {
             font-size: 0.75rem;
             font-weight: 700;
             padding: 3px 10px;
             border-radius: 20px;
         }
+
         .status-confirmado {
             background: rgba(16, 185, 129, 0.15);
             color: var(--badge-green);
             border: 1px solid rgba(16, 185, 129, 0.3);
         }
+
         .status-pendiente {
             background: rgba(245, 158, 11, 0.15);
             color: var(--badge-yellow);
             border: 1px solid rgba(245, 158, 11, 0.3);
         }
+
         .status-finalizado {
             background: rgba(148, 163, 184, 0.15);
             color: var(--text-muted);
             border: 1px solid rgba(148, 163, 184, 0.3);
         }
-        .event-card-body h3 { font-size: 1.3rem; color: #fff; margin-bottom: 0.5rem; }
+
+        .event-card-body h3 {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
         .event-detail-item {
             display: flex;
             align-items: center;
@@ -743,7 +367,12 @@
             color: var(--text-muted);
             margin-bottom: 0.3rem;
         }
-        .event-detail-item i { width: 16px; color: var(--primary-red); }
+
+        .event-detail-item i {
+            width: 16px;
+            color: var(--primary-red);
+        }
+
         .event-finance {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border-color);
@@ -755,16 +384,32 @@
             gap: 0.5rem;
             font-size: 0.85rem;
         }
-        .finance-item span { display: block; color: var(--text-muted); font-size: 0.75rem; }
-        .finance-item strong { color: #fff; font-size: 0.95rem; }
-        .finance-saldo strong { color: var(--accent-cyan); }
+
+        .finance-item span {
+            display: block;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        .finance-item strong {
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .finance-saldo strong {
+            color: var(--accent-cyan);
+        }
+
         .event-actions {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
             padding-top: 0.8rem;
             border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
+
         .btn-delete {
             background: none;
             border: none;
@@ -773,8 +418,12 @@
             font-size: 1rem;
             padding: 6px;
             transition: transform 0.2s;
+            margin-left: auto;
         }
-        .btn-delete:hover { transform: scale(1.2); }
+
+        .btn-delete:hover {
+            transform: scale(1.2);
+        }
 
         .filter-bar {
             display: flex;
@@ -782,156 +431,28 @@
             margin-bottom: 1.5rem;
             flex-wrap: wrap;
         }
-        .search-box { flex: 1; min-width: 250px; }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
+        .search-box {
+            flex: 1;
+            min-width: 250px;
         }
-        .form-group { display: flex; flex-direction: column; gap: 5px; }
-        .form-group label {
-            font-size: 0.82rem;
-            color: var(--text-muted);
+
+        /* Indicador de modo edición */
+        .editing-indicator {
+            color: var(--accent-cyan);
+            font-size: 0.9rem;
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .form-group label i { color: var(--primary-red); }
-        .form-control {
-            width: 100%;
-            padding: 0.7rem 0.9rem;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            background: rgba(255, 255, 255, 0.04);
-            color: #fff;
-            font-family: var(--font-body);
-            font-size: 0.92rem;
-            transition: all 0.3s ease;
-        }
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary-red);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 12px rgba(255, 30, 67, 0.25);
-        }
-        select.form-control option { background: #141724; color: #fff; }
-
-        .contact-card {
-            background: linear-gradient(135deg, rgba(20, 24, 38, 0.95) 0%, rgba(12, 14, 22, 0.98) 100%);
-            border: 1px solid rgba(255, 30, 67, 0.3);
-            border-radius: 30px;
-            padding: 4rem 3rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-            margin-bottom: 2rem;
-        }
-        .contact-card h2 { font-size: 3rem; color: #fff; margin-bottom: 1rem; }
-        .contact-card p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto 2.5rem;
-        }
-        .contact-actions {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-        }
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-        .social-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-        .social-btn:hover {
-            background: var(--primary-red);
-            border-color: var(--primary-red);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px var(--primary-glow);
-        }
-
-        footer {
-            border-top: 1px solid var(--border-color);
-            padding: 3rem 1.5rem;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            background: rgba(6, 7, 10, 0.95);
-            margin-top: 3rem;
-        }
-
-        .edit-btn-overlay {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            border: 2px solid var(--primary-red);
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
             display: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 50;
-            backdrop-filter: blur(4px);
-            box-shadow: 0 0 15px rgba(255, 30, 67, 0.3);
-        }
-        .edit-btn-overlay:hover {
-            transform: scale(1.2);
-            background: var(--primary-red);
-        }
-        .edit-mode .edit-btn-overlay { display: flex !important; }
-        .edit-container { position: relative; }
-        .edit-text { position: relative; display: inline-block; }
-
-        .footer-admin-bar {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-bottom: 1.5rem;
-        }
-
-        .visitor-counter {
-            display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            color: var(--text-muted);
+            margin-left: 12px;
         }
-        .visitor-counter i { color: var(--accent-cyan); }
-        .visitor-counter strong { color: #fff; font-size: 1rem; }
+        .editing-indicator i {
+            color: var(--accent-cyan);
+        }
 
+        /* ====== MODALES ====== */
         .modal-overlay {
-            display: none;
             position: fixed;
             top: 0;
             left: 0;
@@ -939,137 +460,164 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(8px);
-            z-index: 2000;
+            z-index: 99999;
+            display: none;
             justify-content: center;
             align-items: center;
-            padding: 1rem;
+            padding: 20px;
         }
-        .modal-overlay.active { display: flex; }
+        .modal-overlay.active {
+            display: flex;
+        }
         .modal-box {
-            background: #1a1a24;
-            border: 1px solid var(--border-color);
-            border-radius: 28px;
-            max-width: 550px;
+            background: #fff;
+            border-radius: 20px;
+            max-width: 820px;
             width: 100%;
-            padding: 2.5rem;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
-            position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        .modal-box h3 {
-            color: #fff;
-            font-size: 1.6rem;
-            margin-bottom: 1.5rem;
-            font-family: var(--font-heading);
-        }
-        .modal-box label {
-            color: var(--text-muted);
-            font-weight: 600;
-            display: block;
-            margin: 1.2rem 0 0.4rem;
-        }
-        .modal-box input[type="text"],
-        .modal-box textarea {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            font-family: var(--font-body);
-            font-size: 1rem;
-            transition: border 0.3s;
-        }
-        .modal-box input[type="text"]:focus,
-        .modal-box textarea:focus {
-            outline: none;
-            border-color: var(--primary-red);
-        }
-        .modal-box textarea { min-height: 80px; resize: vertical; }
-        .modal-box .img-preview {
-            width: 100%;
-            max-height: 200px;
-            object-fit: contain;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            margin: 0.5rem 0 1rem;
-            background: #0a0a10;
-        }
-        .modal-box .file-input-wrap {
+            max-height: 95vh;
             display: flex;
-            gap: 0.8rem;
+            flex-direction: column;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+            animation: fadeInUp 0.3s ease;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: scale(0.96) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .modal-header {
+            padding: 18px 24px;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            margin: 0.5rem 0;
+            background: #f8fafc;
+            border-radius: 20px 20px 0 0;
+            flex-shrink: 0;
         }
-        .modal-actions {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-            justify-content: flex-end;
-            flex-wrap: wrap;
+        .modal-header h3 {
+            font-size: 1.3rem;
+            color: #0f172a;
+            font-weight: 700;
         }
-        .modal-close {
-            position: absolute;
-            top: 1rem;
-            right: 1.5rem;
-            font-size: 1.8rem;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: color 0.3s;
+        .modal-header button {
             background: none;
             border: none;
+            font-size: 1.8rem;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: 0.2s;
+            line-height: 1;
         }
-        .modal-close:hover { color: #fff; }
+        .modal-header button:hover {
+            color: #ef4444;
+            transform: rotate(90deg);
+        }
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+            background: #f1f5f9;
+        }
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            background: #f8fafc;
+            border-radius: 0 0 20px 20px;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+        }
+        .modal-footer .btn-primary {
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            box-shadow: 0 4px 15px rgba(22, 163, 74, 0.4);
+        }
+        .modal-footer .btn-primary:hover {
+            box-shadow: 0 6px 25px rgba(22, 163, 74, 0.6);
+        }
+        .modal-footer .btn-secondary {
+            background: #e2e8f0;
+            color: #1e293b;
+            border-color: #cbd5e1;
+        }
+        .modal-footer .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+
+        /* Estilo del contenido dentro del modal (recibo y reserva) */
+        .preview-content {
+            background: white;
+            padding: 30px 35px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            max-width: 700px;
+            margin: 0 auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            font-family: Arial, Helvetica, sans-serif;
+            color: #1e293b;
+        }
+        .preview-content .editable-input {
+            border: 1px dashed #94a3b8;
+            background: #f8fafc;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: inherit;
+            font-family: inherit;
+            color: inherit;
+            width: 140px;
+            text-align: right;
+        }
+        .preview-content .editable-input:focus {
+            outline: 2px solid #dc2626;
+            border-color: transparent;
+            background: #fff;
+        }
+        .preview-content .editable-input-sm {
+            width: 100px;
+        }
+        .preview-content table .editable-input {
+            width: 90px;
+            font-size: 13px;
+            padding: 2px 6px;
+        }
+
+        .btn-recalc {
+            background: #e2e8f0;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-weight: 600;
+            color: #1e293b;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.85rem;
+        }
+        .btn-recalc:hover {
+            background: #cbd5e1;
+        }
 
         @media (max-width: 992px) {
-            .hero { grid-template-columns: 1fr; text-align: center; padding-top: 1rem; }
-            .hero-description { margin: 0 auto 2.5rem; }
-            .hero-cta { justify-content: center; }
-            .hero-stats { justify-content: center; }
-            .led-container { grid-template-columns: 1fr; }
-            .form-grid { grid-template-columns: repeat(2, 1fr); }
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                flex-direction: column;
-                width: 100%;
-                background: var(--glass-bg);
-                backdrop-filter: blur(16px);
-                padding: 1rem 0;
-                position: absolute;
-                top: 70px;
-                left: 0;
-                border-bottom: 1px solid var(--border-color);
-                gap: 0;
+        @media (max-width: 576px) {
+            .form-grid {
+                grid-template-columns: 1fr;
             }
-            .nav-links.open { display: flex; }
-            .nav-links li {
-                width: 100%;
-                text-align: center;
-                padding: 0.8rem 0;
-                border-bottom: 1px solid var(--border-color);
+            .form-group[style*="span 2"] {
+                grid-column: span 1 !important;
             }
-            .nav-links li:last-child { border-bottom: none; }
-            .nav-links a { font-size: 1.1rem; }
-            .hamburger { display: flex; }
-            .hero-title { font-size: 2.6rem; }
-            .section-title { font-size: 2.1rem; }
-            .packages-grid { grid-template-columns: 1fr; }
-            .contact-card { padding: 2.5rem 1.5rem; }
-            .contact-card h2 { font-size: 2.2rem; }
-            .gallery-grid { grid-template-columns: 1fr 1fr; }
-            .upgrades-grid { grid-template-columns: 1fr; }
-            .form-grid { grid-template-columns: 1fr; }
-            .form-group[style*="span 2"] { grid-column: span 1 !important; }
-        }
-
-        @media (max-width: 480px) {
-            .gallery-grid { grid-template-columns: 1fr; }
-            .whatsapp-float { width: 50px; height: 50px; font-size: 1.8rem; bottom: 20px; right: 20px; }
+            .modal-box {
+                max-height: 98vh;
+                border-radius: 12px;
+            }
+            .preview-content {
+                padding: 16px;
+            }
         }
     </style>
 </head>
@@ -1078,382 +626,34 @@
     <div class="bg-animated"></div>
     <canvas id="particles-canvas"></canvas>
 
-    <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20cotizar%20mi%20evento" class="whatsapp-float" target="_blank" aria-label="Contactar por WhatsApp">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
-
     <header>
         <div class="nav-container">
-            <a href="#" class="logo-box" id="logoLink">
-                <img src="dj michael logo principal.png" alt="DJ Michael Logo" loading="lazy" />
-                <span class="logo-text">DJ MICHAEL</span>
+            <a href="#" class="logo-box">
+                <img src="dj michael logo principal.png" alt="DJ Michael Logo" onerror="this.style.display='none'" />
+                <span class="logo-text">DJ MICHAEL · AGENDA</span>
             </a>
-            <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <ul class="nav-links" id="nav-links" role="navigation">
-                <li><a class="active" data-section="inicio">Inicio</a></li>
-                <li><a data-section="agenda">Agenda <i class="fa-solid fa-lock" style="font-size:0.75rem;"></i></a></li>
-                <li><a data-section="contacto">Contacto</a></li>
-            </ul>
-            <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quisiera%20consultar%20disponibilidad%20para%20un%20evento" class="btn-primary" target="_blank">
-                <i class="fa-brands fa-whatsapp"></i> Reservar Ahora
+            <a href="index.html" class="btn-secondary">
+                <i class="fa-solid fa-arrow-left"></i> Volver a la Web
             </a>
         </div>
     </header>
 
-    <!-- SECCIÓN: INICIO -->
-    <section class="section-page active" id="page-inicio">
-        <div class="hero">
-            <div class="hero-content">
-                <div class="hero-badge"><i class="fa-solid fa-bolt"></i> Producción de Eventos Premium</div>
-                <div class="location-badge"><i class="fa-solid fa-location-dot"></i> Villeta · Central · Cubrimos todo el departamento</div>
-                <h1 class="hero-title edit-container">
-                    <span class="edit-text" id="hero_title">Tu evento, llevado al <span class="gradient-text">siguiente nivel</span></span>
-                    <button class="edit-btn-overlay" data-key="hero_title" data-type="text" data-text-target="hero_title"><i class="fa-solid fa-pen"></i></button>
-                </h1>
-                <p class="hero-description edit-container">
-                    <span class="edit-text" id="hero_desc_text">Servicio profesional de DJ, sistemas de sonido Line Array de alta potencia, iluminación robótica Beam y pantallas LED de alta definición para Bodas, XV Años y Quintas.</span>
-                    <button class="edit-btn-overlay" data-key="hero_desc" data-type="text" data-text-target="hero_desc_text"><i class="fa-solid fa-pen"></i></button>
-                </p>
-                <div class="hero-cta">
-                    <a href="#mejora" class="btn-primary"><i class="fa-solid fa-star"></i> Mejora tu Evento</a>
-                    <a href="https://wa.me/595994608163" class="btn-secondary" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp Directo</a>
-                </div>
-                <div class="hero-stats">
-                    <div class="stat-item"><h3>100%</h3><p>Garantía de Fiesta</p></div>
-                    <div class="stat-item"><h3>Line Array</h3><p>Sonido Profesional</p></div>
-                    <div class="stat-item"><h3>LED 3x2</h3><p>Módulos HD</p></div>
-                </div>
-            </div>
-            <div class="hero-media edit-container">
-                <div class="hero-main-card" id="hero_media_container">
-                    <img src="dj michael.jpg" alt="Hero media" style="width:100%;height:100%;object-fit:cover;" />
-                </div>
-                <button class="edit-btn-overlay" data-key="hero_media" data-type="media" data-target="hero_media_container">
-                    <i class="fa-solid fa-pen"></i>
-                </button>
+    <main class="main-container">
+        <div class="page-header">
+            <div>
+                <h1>Gestor de <span class="gradient-text">Eventos & Fechas</span></h1>
+                <p style="color: var(--text-muted);">Registra contrataciones, señas y coordina la logística de tus shows.</p>
             </div>
         </div>
 
-        <section class="features-bar">
-            <div class="features-grid">
-                <div class="feature-item edit-container">
-                    <div class="feature-icon"><i class="fa-solid fa-sliders"></i></div>
-                    <div class="feature-text">
-                        <h4 class="edit-text" id="feature1_title">Sonido de Alta Fidelidad</h4>
-                        <p class="edit-text" id="feature1_desc">Subwoofers de 18" y torres Line Array de máxima nitidez.</p>
-                    </div>
-                    <button class="edit-btn-overlay" data-key="feature1" data-type="text" data-text-target="feature1_title" data-text-target2="feature1_desc"><i class="fa-solid fa-pen"></i></button>
-                </div>
-                <div class="feature-item edit-container">
-                    <div class="feature-icon"><i class="fa-solid fa-lightbulb"></i></div>
-                    <div class="feature-text">
-                        <h4 class="edit-text" id="feature2_title">Iluminación Robótica</h4>
-                        <p class="edit-text" id="feature2_desc">Cabezas móviles Beam, Par LEDs y efectos stroboscópicos.</p>
-                    </div>
-                    <button class="edit-btn-overlay" data-key="feature2" data-type="text" data-text-target="feature2_title" data-text-target2="feature2_desc"><i class="fa-solid fa-pen"></i></button>
-                </div>
-                <div class="feature-item edit-container">
-                    <div class="feature-icon"><i class="fa-solid fa-tv"></i></div>
-                    <div class="feature-text">
-                        <h4 class="edit-text" id="feature3_title">Visuales en Pantalla LED</h4>
-                        <p class="edit-text" id="feature3_desc">Estructuras dinámicas, totems y cabina de DJ con LED.</p>
-                    </div>
-                    <button class="edit-btn-overlay" data-key="feature3" data-type="text" data-text-target="feature3_title" data-text-target2="feature3_desc"><i class="fa-solid fa-pen"></i></button>
-                </div>
-                <div class="feature-item edit-container">
-                    <div class="feature-icon"><i class="fa-solid fa-clock"></i></div>
-                    <div class="feature-text">
-                        <h4 class="edit-text" id="feature4_title">Puntualidad y Respaldo</h4>
-                        <p class="edit-text" id="feature4_desc">Montaje anticipado, operador en vivo y contrato con seña.</p>
-                    </div>
-                    <button class="edit-btn-overlay" data-key="feature4" data-type="text" data-text-target="feature4_title" data-text-target2="feature4_desc"><i class="fa-solid fa-pen"></i></button>
-                </div>
-            </div>
-        </section>
-
-        <!-- PAQUETES -->
-        <section id="paquetes">
-            <div class="section-header">
-                <span class="section-subtitle">Nuestras Propuestas</span>
-                <h2 class="section-title edit-container">
-                    <span class="edit-text" id="paquetes_title">Paquetes de Sonido e Iluminación</span>
-                    <button class="edit-btn-overlay" data-key="paquetes_title" data-type="text" data-text-target="paquetes_title"><i class="fa-solid fa-pen"></i></button>
-                </h2>
-                <p class="section-desc edit-container">
-                    <span class="edit-text" id="paquetes_desc">Diseñados a la medida de tu espacio y la magnitud de tu celebración.</span>
-                    <button class="edit-btn-overlay" data-key="paquetes_desc" data-type="text" data-text-target="paquetes_desc"><i class="fa-solid fa-pen"></i></button>
-                </p>
-            </div>
-            <div class="packages-grid">
-                <div class="package-card edit-container">
-                    <div class="package-img"><img id="paquete1_img" src="equipo_bassico.jpg" alt="Equipo Básico de Sonido" loading="lazy" /></div>
-                    <button class="edit-btn-overlay" data-key="paquete1" data-type="package" data-img-target="paquete1_img" data-text-target="paquete1_titulo" data-text-target2="paquete1_sub" data-specs-target="paquete1_specs"><i class="fa-solid fa-pen"></i></button>
-                    <div class="package-body">
-                        <h3 class="package-title edit-text" id="paquete1_titulo">Equipo Básico</h3>
-                        <span class="package-subtitle edit-text" id="paquete1_sub">Ideal para Salones y Reuniones Sociales</span>
-                        <div class="package-price"><span class="price-amount">800.000</span><span class="price-currency">Gs.</span></div>
-                        <ul class="package-specs" id="paquete1_specs">
-                            <li class="highlight"><i class="fa-solid fa-check-circle"></i> 2 Subwoofers de 18"</li>
-                            <li class="highlight"><i class="fa-solid fa-check-circle"></i> 2 Módulos Line Array</li>
-                            <li><i class="fa-solid fa-check"></i> Consola de 8 canales profesional</li>
-                            <li><i class="fa-solid fa-check"></i> 2 Luces robóticas Beam</li>
-                            <li><i class="fa-solid fa-check"></i> 2 Luces Par LED</li>
-                            <li><i class="fa-solid fa-clock"></i> <strong>5 Horas de servicio</strong> (Hora adicional 100 mil Gs.)</li>
-                        </ul>
-                        <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20me%20interesa%20el%20Equipo%20B%C3%A1sico%20de%20800.000%20Gs." class="btn-secondary" style="text-align:center;justify-content:center;" target="_blank">Reservar Paquete</a>
-                    </div>
-                </div>
-
-                <div class="package-card featured edit-container">
-                    <div class="featured-tag">Más Popular</div>
-                    <div class="package-img"><img id="paquete2_img" src="basico_led.jpg" alt="Equipo Básico con Pantalla LED" loading="lazy" /></div>
-                    <button class="edit-btn-overlay" data-key="paquete2" data-type="package" data-img-target="paquete2_img" data-text-target="paquete2_titulo" data-text-target2="paquete2_sub" data-specs-target="paquete2_specs"><i class="fa-solid fa-pen"></i></button>
-                    <div class="package-body">
-                        <h3 class="package-title edit-text" id="paquete2_titulo">Básico + Pantalla LED</h3>
-                        <span class="package-subtitle edit-text" id="paquete2_sub">Impacto Visual Completo para XV Años y Bodas</span>
-                        <div class="package-price"><span class="price-amount">1.100.000</span><span class="price-currency">Gs.</span></div>
-                        <ul class="package-specs" id="paquete2_specs">
-                            <li class="highlight"><i class="fa-solid fa-check-circle"></i> Pantalla LED Integrada / Totem / Cabina</li>
-                            <li class="highlight"><i class="fa-solid fa-check-circle"></i> Controlador de Video y Mezcla LED</li>
-                            <li><i class="fa-solid fa-check"></i> 2 Subwoofers 18" + 2 Line Array</li>
-                            <li><i class="fa-solid fa-check"></i> 2 Luces robóticas Beam + 2 Par LED</li>
-                            <li><i class="fa-solid fa-check"></i> 2 Máquinas de humo vertical</li>
-                            <li><i class="fa-solid fa-user-gear"></i> Operador DJ en vivo incluido</li>
-                            <li><i class="fa-solid fa-clock"></i> <strong>6 Horas de servicio continuo</strong></li>
-                        </ul>
-                        <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20me%20interesa%20el%20Equipo%20B%C3%A1sico%20con%20Pantalla%20LED%20de%201.100.000%20Gs." class="btn-primary" style="text-align:center;justify-content:center;" target="_blank">Reservar Este Paquete</a>
-                    </div>
-                </div>
-
-                <div class="package-card edit-container">
-                    <div class="package-img"><img id="paquete3_img" src="equipo_exterior.jpg" alt="Equipo Para Exterior y Grandes Espacios" loading="lazy" /></div>
-                    <button class="edit-btn-overlay" data-key="paquete3" data-type="package" data-img-target="paquete3_img" data-text-target="paquete3_titulo" data-text-target2="paquete3_sub" data-specs-target="paquete3_specs"><i class="fa-solid fa-pen"></i></button>
-                    <div class="package-body">
-                        <h3 class="package-title edit-text" id="paquete3_titulo">Equipo Exterior / Show</h3>
-                        <span class="package-subtitle edit-text" id="paquete3_sub">Potencia Total para Quintas, Festivales y Conciertos</span>
-                        <div class="package-price"><span class="price-amount">2.800.000</span><span class="price-currency">Gs.</span></div>
-                        <ul class="package-specs" id="paquete3_specs">
-                            <li class="highlight"><i class="fa-solid fa-check-circle"></i> 8 Subwoofers de 18" de Altísima Potencia</li>
-                            <li class="highlight"><i class="fa-solid fa-check-circle"></i> 6 Módulos Line Array de Gran Alcance</li>
-                            <li><i class="fa-solid fa-check"></i> 4 Luces Robóticas Beam de Alta Intensidad</li>
-                            <li><i class="fa-solid fa-check"></i> 8 Luces Par LED + Estrobo</li>
-                            <li><i class="fa-solid fa-check"></i> 2 Máquinas de humo vertical de alto flujo</li>
-                            <li><i class="fa-solid fa-microphone"></i> Sistema de Micrófonos Inalámbricos</li>
-                            <li><i class="fa-solid fa-user-gear"></i> Operador DJ + Staff Técnico de Montaje</li>
-                        </ul>
-                        <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20cotizar%20el%20Equipo%20Exterior%20de%202.800.000%20Gs." class="btn-secondary" style="text-align:center;justify-content:center;" target="_blank">Reservar Show Exterior</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- LED SPOTLIGHT -->
-        <section id="pantalla-led">
-            <div class="led-container">
-                <div class="led-content edit-container">
-                    <span class="section-subtitle">Tecnología Visual Premium</span>
-                    <h3 class="edit-text" id="led_titulo">Alquiler de Pantalla LED HD</h3>
-                    <p class="edit-text" id="led_desc">Transforma la atmósfera de tu evento con nuestro sistema modular de pantallas LED. Configurable como pantalla gigante de 3x2 metros, dos tótems laterales o cabina de DJ iluminada.</p>
-                    <div class="led-grid">
-                        <div class="led-spec-box"><h5>3 x 2 Metros</h5><p>12 Módulos HD de 50x100 mm</p></div>
-                        <div class="led-spec-box"><h5>Formato Versátil</h5><p>Opción 2 pantallas de 3x1 o Cabina DJ</p></div>
-                        <div class="led-spec-box"><h5>Estructuras Perimetrales</h5><p>Montaje seguro tipo Tótem en Truss</p></div>
-                        <div class="led-spec-box"><h5>Desde 1.200.000 Gs.</h5><p>Servicio individual o combo</p></div>
-                    </div>
-                    <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20informaci%C3%B3n%20sobre%20el%20alquiler%20de%20Pantalla%20LED" class="btn-primary" target="_blank"><i class="fa-solid fa-tv"></i> Consultar Disponibilidad LED</a>
-                    <button class="edit-btn-overlay" data-key="led" data-type="text" data-text-target="led_titulo" data-text-target2="led_desc"><i class="fa-solid fa-pen"></i></button>
-                </div>
-                <div class="led-media edit-container">
-                    <img id="led_img" src="alquiler_led.jpg" alt="Pantalla LED en evento" loading="lazy" />
-                    <button class="edit-btn-overlay" data-key="led_img" data-type="package" data-img-target="led_img"><i class="fa-solid fa-pen"></i></button>
-                </div>
-            </div>
-        </section>
-
-        <!-- GALERÍA -->
-        <section id="galeria">
-            <div class="section-header">
-                <span class="section-subtitle">Nuestros Trabajos</span>
-                <h2 class="section-title edit-container">
-                    <span class="edit-text" id="galeria_title">Galería de Eventos</span>
-                    <button class="edit-btn-overlay" data-key="galeria_title" data-type="text" data-text-target="galeria_title"><i class="fa-solid fa-pen"></i></button>
-                </h2>
-                <p class="section-desc edit-container">
-                    <span class="edit-text" id="galeria_desc">Mira cómo transformamos cada celebración con sonido, luz y pantallas LED.</span>
-                    <button class="edit-btn-overlay" data-key="galeria_desc" data-type="text" data-text-target="galeria_desc"><i class="fa-solid fa-pen"></i></button>
-                </p>
-            </div>
-            <div class="gallery-grid" id="gallery-grid"></div>
-            <div class="gallery-cta">
-                <a href="https://www.instagram.com/michael.pintos" target="_blank" class="btn-secondary"><i class="fa-brands fa-instagram"></i> Ver más en Instagram</a>
-            </div>
-        </section>
-
-        <!-- UPGRADES -->
-        <section id="mejora">
-            <div class="section-header">
-                <span class="section-subtitle">Opcionales</span>
-                <h2 class="section-title edit-container">
-                    <span class="edit-text" id="upgrades_title">Mejora tu Evento</span>
-                    <button class="edit-btn-overlay" data-key="upgrades_title" data-type="text" data-text-target="upgrades_title"><i class="fa-solid fa-pen"></i></button>
-                </h2>
-                <p class="section-desc edit-container">
-                    <span class="edit-text" id="upgrades_desc">Agrega estos servicios extra para una experiencia aún más espectacular.</span>
-                    <button class="edit-btn-overlay" data-key="upgrades_desc" data-type="text" data-text-target="upgrades_desc"><i class="fa-solid fa-pen"></i></button>
-                </p>
-            </div>
-            <div class="upgrades-grid">
-                <div class="upgrade-card edit-container">
-                    <div class="upgrade-icon"><i class="fa-regular fa-square"></i></div>
-                    <h3 class="upgrade-title edit-text" id="upgrade1_titulo">Pista LED 4x4</h3>
-                    <div class="upgrade-price edit-text" id="upgrade1_precio">1.400.000 Gs.</div>
-                    <p class="upgrade-desc edit-text" id="upgrade1_desc">Pista de baile iluminada con LED de alta densidad, ideal para darle un toque futurista a tu evento.</p>
-                    <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20consultar%20la%20Pista%20LED%204x4%20de%201.400.000%20Gs." class="btn-secondary" target="_blank"><i class="fa-brands fa-whatsapp"></i> Consultar</a>
-                    <button class="edit-btn-overlay" data-key="upgrade1" data-type="text" data-text-target="upgrade1_titulo" data-text-target2="upgrade1_desc" data-text-target3="upgrade1_precio"><i class="fa-solid fa-pen"></i></button>
-                </div>
-                <div class="upgrade-card edit-container">
-                    <div class="upgrade-icon"><i class="fa-regular fa-gem"></i></div>
-                    <h3 class="upgrade-title edit-text" id="upgrade2_titulo">Pista Paris</h3>
-                    <div class="upgrade-price edit-text" id="upgrade2_precio">1.500.000 Gs.</div>
-                    <p class="upgrade-desc edit-text" id="upgrade2_desc">Pista de baile con diseño elegante y luces dinámicas, perfecta para bodas y fiestas de gala.</p>
-                    <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20consultar%20la%20Pista%20Paris%20de%201.500.000%20Gs." class="btn-secondary" target="_blank"><i class="fa-brands fa-whatsapp"></i> Consultar</a>
-                    <button class="edit-btn-overlay" data-key="upgrade2" data-type="text" data-text-target="upgrade2_titulo" data-text-target2="upgrade2_desc" data-text-target3="upgrade2_precio"><i class="fa-solid fa-pen"></i></button>
-                </div>
-                <div class="upgrade-card edit-container">
-                    <div class="upgrade-icon"><i class="fa-regular fa-sparkles"></i></div>
-                    <h3 class="upgrade-title edit-text" id="upgrade3_titulo">Chispa Fría</h3>
-                    <div class="upgrade-price edit-text" id="upgrade3_precio" style="color:var(--accent-cyan);">Consultar</div>
-                    <p class="upgrade-desc edit-text" id="upgrade3_desc">Efectos de chispas frías para momentos especiales: entrada, vals, brindis o primer baile.</p>
-                    <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20consultar%20el%20efecto%20de%20Chispa%20Fr%C3%ADa%20para%20mi%20evento" class="btn-primary" target="_blank"><i class="fa-brands fa-whatsapp"></i> Consultar</a>
-                    <button class="edit-btn-overlay" data-key="upgrade3" data-type="text" data-text-target="upgrade3_titulo" data-text-target2="upgrade3_desc" data-text-target3="upgrade3_precio"><i class="fa-solid fa-pen"></i></button>
-                </div>
-            </div>
-        </section>
-
-        <!-- TESTIMONIOS -->
-        <section id="testimonios">
-            <div class="section-header">
-                <span class="section-subtitle">Lo que dicen nuestros clientes</span>
-                <h2 class="section-title edit-container">
-                    <span class="edit-text" id="testimonios_title">Testimonios Reales</span>
-                    <button class="edit-btn-overlay" data-key="testimonios_title" data-type="text" data-text-target="testimonios_title"><i class="fa-solid fa-pen"></i></button>
-                </h2>
-                <p class="section-desc edit-container">
-                    <span class="edit-text" id="testimonios_desc">Experiencias de quienes confiaron en DJ Michael para su evento.</span>
-                    <button class="edit-btn-overlay" data-key="testimonios_desc" data-type="text" data-text-target="testimonios_desc"><i class="fa-solid fa-pen"></i></button>
-                </p>
-            </div>
-            <div class="testimonials-grid">
-                <div class="testimonial-card edit-container">
-                    <div class="testimonial-header">
-                        <img id="testimonio1_avatar" src="avatar1.jpg" alt="Foto de Laura" class="testimonial-avatar" loading="lazy" />
-                        <div>
-                            <div class="testimonial-name edit-text" id="testimonio1_nombre">Laura G.</div>
-                            <div class="testimonial-role edit-text" id="testimonio1_rol">Fiesta de 15 años</div>
-                        </div>
-                    </div>
-                    <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    <p class="testimonial-text edit-text" id="testimonio1_texto">"¡Impresionante! La pantalla LED y el sonido hicieron que mi fiesta de 15 fuera inolvidable. Todo el mundo bailó hasta el final."</p>
-                    <button class="edit-btn-overlay" data-key="testimonio1" data-type="package" data-img-target="testimonio1_avatar" data-text-target="testimonio1_nombre" data-text-target2="testimonio1_rol" data-text-target3="testimonio1_texto"><i class="fa-solid fa-pen"></i></button>
-                </div>
-                <div class="testimonial-card edit-container">
-                    <div class="testimonial-header">
-                        <img id="testimonio2_avatar" src="avatar2.jpg" alt="Foto de Carlos" class="testimonial-avatar" loading="lazy" />
-                        <div>
-                            <div class="testimonial-name edit-text" id="testimonio2_nombre">Carlos R.</div>
-                            <div class="testimonial-role edit-text" id="testimonio2_rol">Boda</div>
-                        </div>
-                    </div>
-                    <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    <p class="testimonial-text edit-text" id="testimonio2_texto">"El mejor DJ que pudimos contratar. Muy profesional, puntual y con un equipamiento de primera. La iluminación creó un ambiente mágico."</p>
-                    <button class="edit-btn-overlay" data-key="testimonio2" data-type="package" data-img-target="testimonio2_avatar" data-text-target="testimonio2_nombre" data-text-target2="testimonio2_rol" data-text-target3="testimonio2_texto"><i class="fa-solid fa-pen"></i></button>
-                </div>
-                <div class="testimonial-card edit-container">
-                    <div class="testimonial-header">
-                        <img id="testimonio3_avatar" src="avatar3.jpg" alt="Foto de Mariana" class="testimonial-avatar" loading="lazy" />
-                        <div>
-                            <div class="testimonial-name edit-text" id="testimonio3_nombre">Mariana S.</div>
-                            <div class="testimonial-role edit-text" id="testimonio3_rol">Evento Corporativo</div>
-                        </div>
-                    </div>
-                    <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    <p class="testimonial-text edit-text" id="testimonio3_texto">"Sonido cristalino para las presentaciones y luego una fiesta espectacular. Todos quedaron encantados con la producción. ¡Altamente recomendado!"</p>
-                    <button class="edit-btn-overlay" data-key="testimonio3" data-type="package" data-img-target="testimonio3_avatar" data-text-target="testimonio3_nombre" data-text-target2="testimonio3_rol" data-text-target3="testimonio3_texto"><i class="fa-solid fa-pen"></i></button>
-                </div>
-            </div>
-        </section>
-
-        <!-- SERVICIOS EXTRA -->
-        <section>
-            <div class="section-header">
-                <span class="section-subtitle">Especialistas en la Pista</span>
-                <h2 class="section-title edit-container">
-                    <span class="edit-text" id="experience_title">Servicios para Cada Ocasión</span>
-                    <button class="edit-btn-overlay" data-key="experience_title" data-type="text" data-text-target="experience_title"><i class="fa-solid fa-pen"></i></button>
-                </h2>
-            </div>
-            <div class="events-grid" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr));">
-                <div class="event-card edit-container">
-                    <div class="event-icon" style="font-size:2.2rem;color:var(--accent-cyan);"><i class="fa-solid fa-crown"></i></div>
-                    <h4 class="edit-text" id="evento1_titulo">Fiestas de 15 Años</h4>
-                    <p class="edit-text" id="evento1_desc">Luces impactantes, tandas bailables ultra dinámicas, visuales personalizados y los éxitos del momento.</p>
-                    <button class="edit-btn-overlay" data-key="evento1" data-type="text" data-text-target="evento1_titulo" data-text-target2="evento1_desc"><i class="fa-solid fa-pen"></i></button>
-                </div>
-                <div class="event-card edit-container">
-                    <div class="event-icon" style="font-size:2.2rem;color:var(--accent-cyan);"><i class="fa-solid fa-heart"></i></div>
-                    <h4 class="edit-text" id="evento2_titulo">Bodas & Casamientos</h4>
-                    <p class="edit-text" id="evento2_desc">Ambientación elegante para la recepción, protocolo de entrada imponente y fiesta total sin pausa.</p>
-                    <button class="edit-btn-overlay" data-key="evento2" data-type="text" data-text-target="evento2_titulo" data-text-target2="evento2_desc"><i class="fa-solid fa-pen"></i></button>
-                </div>
-                <div class="event-card edit-container">
-                    <div class="event-icon" style="font-size:2.2rem;color:var(--accent-cyan);"><i class="fa-solid fa-tree"></i></div>
-                    <h4 class="edit-text" id="evento3_titulo">Fiestas en Quintas</h4>
-                    <p class="edit-text" id="evento3_desc">Equipos reforzados con graves profundos para cubrir áreas abiertas y jardines sin perder potencia.</p>
-                    <button class="edit-btn-overlay" data-key="evento3" data-type="text" data-text-target="evento3_titulo" data-text-target2="evento3_desc"><i class="fa-solid fa-pen"></i></button>
-                </div>
-                <div class="event-card edit-container">
-                    <div class="event-icon" style="font-size:2.2rem;color:var(--accent-cyan);"><i class="fa-solid fa-building"></i></div>
-                    <h4 class="edit-text" id="evento4_titulo">Eventos Corporativos</h4>
-                    <p class="edit-text" id="evento4_desc">Sonido nítido para discursos, micrófonos profesionales e iluminación de realce para salones.</p>
-                    <button class="edit-btn-overlay" data-key="evento4" data-type="text" data-text-target="evento4_titulo" data-text-target2="evento4_desc"><i class="fa-solid fa-pen"></i></button>
-                </div>
-            </div>
-        </section>
-
-        <!-- CONTACTO -->
-        <section id="contacto-inicio">
-            <div class="contact-card edit-container">
-                <h2 class="edit-text" id="contacto_titulo">¿Listo para hacer vibrar tu evento?</h2>
-                <p class="edit-text" id="contacto_desc">Reserva con anticipación mediante seña y asegura la fecha de tu fiesta con el mejor equipamiento visual y de sonido.</p>
-                <div class="contact-actions">
-                    <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quisiera%20reservar%20mi%20fecha" class="btn-primary" target="_blank" style="font-size:1.1rem;padding:1rem 2.5rem;"><i class="fa-brands fa-whatsapp"></i> Hablar al 0994 608 163</a>
-                    <a href="tel:0992311266" class="btn-secondary" style="font-size:1.1rem;padding:1rem 2.5rem;"><i class="fa-solid fa-phone"></i> Llama al 0992 311 266</a>
-                </div>
-                <div class="social-links">
-                    <a href="https://facebook.com/michael.pintos" class="social-btn" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="https://instagram.com/michael.pintos" class="social-btn" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="https://wa.me/595994608163" class="social-btn" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-                </div>
-                <button class="edit-btn-overlay" data-key="contacto" data-type="text" data-text-target="contacto_titulo" data-text-target2="contacto_desc"><i class="fa-solid fa-pen"></i></button>
-            </div>
-        </section>
-    </section>
-
-    <!-- SECCIÓN: AGENDA (se mantiene por si se necesita internamente, pero ya no se usa) -->
-    <section class="section-page" id="page-agenda">
-        <div class="page-header" style="margin-bottom:2rem;">
-            <h1 style="font-size:2.2rem;font-family:var(--font-heading);font-weight:800;">Gestor de <span class="gradient-text">Eventos & Fechas</span></h1>
-            <p style="color:var(--text-muted);">Registra contrataciones, señas y coordina la logística de tus shows.</p>
-        </div>
-
-        <div class="card" style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:20px;backdrop-filter:blur(12px);padding:1.5rem 2rem;margin-bottom:2.5rem;box-shadow:0 15px 40px rgba(0,0,0,0.5);">
-            <div class="card-header" style="display:flex;align-items:center;gap:12px;margin-bottom:1.2rem;padding-bottom:0.8rem;border-bottom:1px solid var(--border-color);">
-                <i class="fa-solid fa-calendar-plus" style="color:var(--primary-red);font-size:1.3rem;"></i>
-                <h2 style="font-size:1.4rem;color:#fff;font-family:var(--font-heading);">Registrar Nuevo Evento</h2>
+        <!-- FORMULARIO -->
+        <section class="card" id="formCard">
+            <div class="card-header">
+                <i class="fa-solid fa-calendar-plus"></i>
+                <h2>Registrar Nuevo Evento</h2>
+                <span class="editing-indicator" id="editingIndicator">
+                    <i class="fa-solid fa-pen-to-square"></i> Editando: <span id="editingClientName"></span>
+                </span>
             </div>
             <form id="eventForm">
                 <div class="form-grid">
@@ -1519,228 +719,903 @@
                         <input type="text" id="eventNotes" class="form-control" placeholder="Detalles de sonido, montaje, horarios..." />
                     </div>
                 </div>
-                <div style="margin-top:1.2rem;text-align:right;">
-                    <button type="submit" class="btn-primary" id="saveBtn"><i class="fa-solid fa-floppy-disk"></i> Guardar en Firebase</button>
+                <div style="margin-top: 1.2rem; display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap;">
+                    <button type="button" class="btn-cancel" id="cancelEditBtn" style="display: none;">
+                        <i class="fa-solid fa-xmark"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn-primary" id="saveBtn">
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar en Firebase
+                    </button>
                 </div>
             </form>
-        </div>
+        </section>
 
-        <div>
-            <div class="card-header" style="border:none;padding:0;margin-bottom:1rem;">
-                <i class="fa-solid fa-list-check" style="color:var(--primary-red);"></i>
-                <h2 style="font-size:1.4rem;color:#fff;font-family:var(--font-heading);">Agenda de Eventos</h2>
+        <!-- AGENDA -->
+        <section>
+            <div class="card-header" style="border:none; padding:0; margin-bottom:1rem;">
+                <i class="fa-solid fa-list-check"></i>
+                <h2>Agenda de Eventos</h2>
             </div>
             <div class="filter-bar">
                 <div class="search-box">
                     <input type="text" id="searchInput" class="form-control" placeholder="🔍 Buscar por cliente o lugar..." />
                 </div>
-                <select id="statusFilter" class="form-control" style="width:auto;min-width:180px;">
+                <select id="statusFilter" class="form-control" style="width: auto; min-width: 180px;">
                     <option value="TODOS">Todos los Estados</option>
                     <option value="Confirmado">Confirmados</option>
                     <option value="Pendiente">Pendientes</option>
                     <option value="Finalizado">Finalizados</option>
                 </select>
             </div>
+
             <div class="events-grid" id="eventsContainer">
-                <div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:3rem;">
-                    <i class="fa-solid fa-spinner fa-spin" style="font-size:2rem;"></i>
-                    <p style="margin-top:1rem;">Cargando agenda de eventos...</p>
+                <div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 3rem;">
+                    <i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem;"></i>
+                    <p style="margin-top: 1rem;">Cargando agenda de eventos...</p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <!-- SECCIÓN: CONTACTO -->
-    <section class="section-page" id="page-contacto">
-        <div class="contact-card" style="margin-top:2rem;">
-            <h2>¿Listo para hacer vibrar tu evento?</h2>
-            <p>Reserva con anticipación mediante seña y asegura la fecha de tu fiesta con el mejor equipamiento visual y de sonido.</p>
-            <div class="contact-actions">
-                <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quisiera%20reservar%20mi%20fecha" class="btn-primary" target="_blank" style="font-size:1.1rem;padding:1rem 2.5rem;"><i class="fa-brands fa-whatsapp"></i> Hablar al 0994 608 163</a>
-                <a href="tel:0992311266" class="btn-secondary" style="font-size:1.1rem;padding:1rem 2.5rem;"><i class="fa-solid fa-phone"></i> Llama al 0992 311 266</a>
-            </div>
-            <div class="social-links">
-                <a href="https://facebook.com/michael.pintos" class="social-btn" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                <a href="https://instagram.com/michael.pintos" class="social-btn" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                <a href="https://wa.me/595994608163" class="social-btn" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-admin-bar">
-            <div class="visitor-counter">
-                <i class="fa-solid fa-eye"></i>
-                <span>Visitas: <strong id="visit-count">Cargando...</strong></span>
-            </div>
-            <button id="addGalleryBtn" class="btn-secondary" style="font-size:0.85rem;padding:0.5rem 1.2rem;">
-                <i class="fa-solid fa-plus-circle"></i> Añadir foto/video
-            </button>
-            <button class="btn-secondary" id="editToggleBtn" style="font-size:0.85rem;padding:0.5rem 1.2rem;">
-                <i class="fa-solid fa-pen"></i> Modo Edición
-            </button>
-        </div>
-        <p class="edit-text" id="footer_copyright">&copy; 2026 DJ MICHAEL / GS Producciones & Eventos. Todos los derechos reservados.</p>
-        <p style="margin-top:0.5rem;font-size:0.8rem;" class="edit-text" id="footer_ubicacion">Villeta, Central · Cubrimos todo el departamento</p>
-    </footer>
-
-    <!-- MODAL DE EDICIÓN -->
-    <div class="modal-overlay" id="editModal">
+    <!-- ====== MODAL RECIBO ====== -->
+    <div class="modal-overlay" id="receiptModal">
         <div class="modal-box">
-            <button class="modal-close" id="modalCloseBtn">&times;</button>
-            <h3 id="modalTitle">Editar elemento</h3>
-            <div id="modalImageSection">
-                <label>Vista previa del medio</label>
-                <img id="modalImgPreview" class="img-preview" src="" alt="Vista previa" />
-                <label for="modalImgUrl">URL del medio (imagen o video)</label>
-                <input type="text" id="modalImgUrl" placeholder="https://..." />
-                <div class="file-input-wrap">
-                    <button type="button" id="uploadUploadcareBtn" class="btn-primary" style="font-size:0.9rem;padding:0.5rem 1.2rem;width:100%;justify-content:center;">
-                        <i class="fa-solid fa-cloud-upload-alt"></i> Subir imagen con Uploadcare
-                    </button>
-                </div>
+            <div class="modal-header">
+                <h3><i class="fa-regular fa-receipt" style="color: #dc2626;"></i> Vista previa del Recibo</h3>
+                <button class="closeModalBtn" data-modal="receiptModal">&times;</button>
             </div>
-            <div id="modalTextSection">
-                <label for="modalText1">Texto principal / Título</label>
-                <input type="text" id="modalText1" placeholder="Escribe el texto..." />
-                <label for="modalText2">Texto secundario / Descripción</label>
-                <textarea id="modalText2" placeholder="Escribe la descripción..."></textarea>
-                <label for="modalText3">Texto terciario / Precio</label>
-                <input type="text" id="modalText3" placeholder="Escribe el texto adicional..." />
+            <div class="modal-body" id="receiptModalBody">
+                <!-- Contenido dinámico -->
             </div>
-            <div id="modalSpecsSection" style="display:none;">
-                <label for="modalSpecs">Características (una por línea)</label>
-                <textarea id="modalSpecs" placeholder="Escribe cada característica en una línea..."></textarea>
-            </div>
-            <div class="modal-actions">
-                <button type="button" class="btn-secondary" id="modalCancelBtn">Cancelar</button>
-                <button type="button" class="btn-primary" id="modalSaveBtn">Guardar cambios</button>
+            <div class="modal-footer">
+                <button class="btn-secondary updateReceiptBtn"><i class="fa-regular fa-rotate-right"></i> Actualizar vista</button>
+                <button class="btn-secondary closeModalBtn" data-modal="receiptModal">Cerrar</button>
+                <button class="btn-primary downloadReceiptPdfBtn"><i class="fa-regular fa-file-pdf"></i> Descargar PDF</button>
             </div>
         </div>
     </div>
 
-    <!-- SCRIPTS -->
+    <!-- ====== MODAL RESERVA (PDF comprobante) ====== -->
+    <div class="modal-overlay" id="reservaModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3><i class="fa-regular fa-file-pdf" style="color: #dc2626;"></i> Vista previa del Comprobante de Reserva</h3>
+                <button class="closeModalBtn" data-modal="reservaModal">&times;</button>
+            </div>
+            <div class="modal-body" id="reservaModalBody">
+                <!-- Contenido dinámico -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary updateReservaBtn"><i class="fa-regular fa-rotate-right"></i> Actualizar vista</button>
+                <button class="btn-secondary closeModalBtn" data-modal="reservaModal">Cerrar</button>
+                <button class="btn-primary downloadReservaPdfBtn"><i class="fa-regular fa-file-pdf"></i> Descargar PDF</button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // ========== CONFIGURACIÓN ==========
         const CONFIG = {
-            FIREBASE_URL: 'https://pagina-mp-default-rtdb.asia-southeast1.firebasedatabase.app/',
-            UPLOADCARE_PUBLIC_KEY: 'f2d187ae3604f0b7c3fe',
-            PASSWORD: '12345'
+            FIREBASE_URL: 'https://pagina-mp-default-rtdb.asia-southeast1.firebasedatabase.app/'
         };
 
-        let isAuthorized = false;
+        const eventForm = document.getElementById('eventForm');
+        const eventsContainer = document.getElementById('eventsContainer');
+        const searchInput = document.getElementById('searchInput');
+        const statusFilter = document.getElementById('statusFilter');
+        const saveBtn = document.getElementById('saveBtn');
+        const cancelEditBtn = document.getElementById('cancelEditBtn');
+        const editingIndicator = document.getElementById('editingIndicator');
+        const editingClientNameSpan = document.getElementById('editingClientName');
 
-        function requirePassword(callback) {
-            if (isAuthorized) {
-                if (typeof callback === 'function') callback();
-                return true;
-            }
-            const pass = prompt('Introduce la contraseña de administración:');
-            if (pass === CONFIG.PASSWORD) {
-                isAuthorized = true;
-                if (typeof callback === 'function') callback();
-                return true;
-            } else if (pass !== null) {
-                alert('Contraseña incorrecta.');
-            }
-            return false;
+        let localEvents = {};
+        let editingKey = null;
+        let currentReceiptKey = null;
+        let currentReservaKey = null;
+
+        // ========== FUNCIONES PRINCIPALES ==========
+
+        function fetchEvents() {
+            fetch(CONFIG.FIREBASE_URL + 'eventos.json')
+                .then(res => res.json())
+                .then(data => {
+                    localEvents = data || {};
+                    renderEvents();
+                })
+                .catch(err => {
+                    console.error("Error al cargar eventos:", err);
+                    eventsContainer.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; color: #ef4444;">Error al conectar con la base de datos.</div>`;
+                });
         }
 
-        // 1. NAVEGACIÓN (MODIFICADA: Agenda pide contraseña y redirige)
-        (function() {
-            const navLinks = document.querySelectorAll('.nav-links a[data-section]');
-            const sections = {
-                inicio: document.getElementById('page-inicio'),
-                agenda: document.getElementById('page-agenda'),
-                contacto: document.getElementById('page-contacto')
+        function renderEvents() {
+            const query = searchInput.value.toLowerCase().trim();
+            const filter = statusFilter.value;
+            const keys = Object.keys(localEvents);
+
+            if (keys.length === 0) {
+                eventsContainer.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-muted);">
+                        <i class="fa-solid fa-calendar-xmark" style="font-size: 3rem; margin-bottom: 1rem; display:block;"></i>
+                        No hay eventos registrados en la agenda.
+                    </div>
+                `;
+                return;
+            }
+
+            let filteredKeys = keys.filter(k => {
+                const ev = localEvents[k];
+                if (!ev) return false;
+                const client = (ev.clientName || '').toLowerCase();
+                const location = (ev.eventLocation || '').toLowerCase();
+                const matchSearch = client.includes(query) || location.includes(query);
+                const matchFilter = (filter === 'TODOS') || (ev.eventStatus === filter);
+                return matchSearch && matchFilter;
+            });
+
+            filteredKeys.sort((a, b) => new Date(localEvents[a].eventDate) - new Date(localEvents[b].eventDate));
+
+            if (filteredKeys.length === 0) {
+                eventsContainer.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 2rem; color: var(--text-muted);">No coinciden eventos con tu búsqueda.</div>`;
+                return;
+            }
+
+            let html = '';
+            filteredKeys.forEach(key => {
+                const ev = localEvents[key];
+                const total = Number(ev.totalCost) || 0;
+                const deposit = Number(ev.depositAmount) || 0;
+                const saldo = total - deposit;
+                
+                let statusClass = 'status-pendiente';
+                if (ev.eventStatus === 'Confirmado') statusClass = 'status-confirmado';
+                if (ev.eventStatus === 'Finalizado') statusClass = 'status-finalizado';
+
+                const waMessage = 
+`✅ *FICHA DE RESERVA - DJ MICHAEL* ✅
+
+👤 Cliente: ${ev.clientName}
+📅 Fecha: ${formatDate(ev.eventDate)} a las ${ev.eventTime} hs.
+📍 Lugar: ${ev.eventLocation}
+🎉 Tipo: ${ev.eventType}
+📦 Paquete: ${ev.packageSelected}
+💰 Total: ${total.toLocaleString('es-PY')} Gs.
+💵 Seña: ${deposit.toLocaleString('es-PY')} Gs.
+🧾 Saldo: ${saldo.toLocaleString('es-PY')} Gs.
+📝 Observaciones: ${ev.eventNotes || 'Ninguna'}
+
+🔹 *Fecha reservada. Queda confirmado.* 🔹`;
+
+                html += `
+                    <div class="event-card">
+                        <div>
+                            <div class="event-card-header">
+                                <span class="event-type-badge">${ev.eventType || 'Evento'}</span>
+                                <span class="event-status ${statusClass}">${ev.eventStatus || 'Pendiente'}</span>
+                            </div>
+                            <div class="event-card-body" style="margin-top: 0.8rem;">
+                                <h3>${ev.clientName || 'Sin Nombre'}</h3>
+                                <div class="event-detail-item">
+                                    <i class="fa-regular fa-calendar"></i>
+                                    <span>${formatDate(ev.eventDate)} · ${ev.eventTime || '--:--'} hs.</span>
+                                </div>
+                                <div class="event-detail-item">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    <span>${ev.eventLocation || 'No especificado'}</span>
+                                </div>
+                                <div class="event-detail-item">
+                                    <i class="fa-solid fa-cube"></i>
+                                    <span>${ev.packageSelected || 'Paquete'}</span>
+                                </div>
+                                ${ev.eventNotes ? `
+                                <div class="event-detail-item" style="align-items: flex-start;">
+                                    <i class="fa-solid fa-note-sticky" style="margin-top: 4px;"></i>
+                                    <span style="font-size: 0.85rem; color: #cbd5e1;">${ev.eventNotes}</span>
+                                </div>` : ''}
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="event-finance">
+                                <div class="finance-item">
+                                    <span>Total</span>
+                                    <strong>${total.toLocaleString('es-PY')} Gs.</strong>
+                                </div>
+                                <div class="finance-item">
+                                    <span>Seña</span>
+                                    <strong style="color: #10b981;">${deposit.toLocaleString('es-PY')} Gs.</strong>
+                                </div>
+                                <div class="finance-item finance-saldo" style="grid-column: 1 / -1; border-top: 1px solid var(--border-color); padding-top: 4px;">
+                                    <span>Saldo Pendiente</span>
+                                    <strong>${saldo.toLocaleString('es-PY')} Gs.</strong>
+                                </div>
+                            </div>
+
+                            <div class="event-actions">
+                                <a href="https://wa.me/595${cleanPhone(ev.clientPhone)}?text=${encodeURIComponent(waMessage)}" 
+                                   target="_blank" 
+                                   class="btn-secondary">
+                                    <i class="fa-brands fa-whatsapp" style="color: #25d366;"></i> Enviar Ficha
+                                </a>
+                                <button class="btn-secondary" onclick="copyFicha('${key}')">
+                                    <i class="fa-regular fa-copy"></i> Copiar
+                                </button>
+                                <!-- Botón PDF (ahora abre modal) -->
+                                <button class="btn-secondary" onclick="abrirModalReserva('${key}')">
+                                    <i class="fa-regular fa-file-pdf"></i> PDF
+                                </button>
+                                <!-- Botón Recibo -->
+                                <button class="btn-secondary" onclick="abrirModalRecibo('${key}')" style="color: #f59e0b;">
+                                    <i class="fa-regular fa-receipt"></i> Recibo
+                                </button>
+                                <button class="btn-secondary" onclick="editEvent('${key}')" style="color: var(--accent-cyan);">
+                                    <i class="fa-regular fa-pen-to-square"></i> Editar
+                                </button>
+                                <button class="btn-delete" onclick="deleteEvent('${key}')" title="Eliminar Evento">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            eventsContainer.innerHTML = html;
+        }
+
+        // ========== GUARDAR / ACTUALIZAR EVENTO ==========
+        eventForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const submitBtn = document.getElementById('saveBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Guardando...';
+
+            const eventData = {
+                clientName: document.getElementById('clientName').value.trim(),
+                clientPhone: document.getElementById('clientPhone').value.trim(),
+                eventDate: document.getElementById('eventDate').value,
+                eventTime: document.getElementById('eventTime').value,
+                eventType: document.getElementById('eventType').value,
+                packageSelected: document.getElementById('packageSelected').value,
+                eventLocation: document.getElementById('eventLocation').value.trim(),
+                totalCost: Number(document.getElementById('totalCost').value),
+                depositAmount: Number(document.getElementById('depositAmount').value),
+                eventStatus: document.getElementById('eventStatus').value,
+                eventNotes: document.getElementById('eventNotes').value.trim(),
+                updatedAt: new Date().toISOString()
             };
 
-            function showSection(sectionId) {
-                Object.keys(sections).forEach(id => {
-                    const sec = sections[id];
-                    if (sec) sec.classList.toggle('active', id === sectionId);
-                });
-                navLinks.forEach(a => {
-                    a.classList.toggle('active', a.dataset.section === sectionId);
-                });
-                const hamburger = document.getElementById('hamburger');
-                const nav = document.getElementById('nav-links');
-                if (hamburger && nav) {
-                    hamburger.classList.remove('active');
-                    nav.classList.remove('open');
-                    hamburger.setAttribute('aria-expanded', 'false');
-                }
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (editingKey && localEvents[editingKey]) {
+                eventData.createdAt = localEvents[editingKey].createdAt;
+            } else {
+                eventData.createdAt = new Date().toISOString();
             }
 
-            navLinks.forEach(a => {
-                a.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetSection = this.dataset.section;
-                    if (targetSection === 'agenda') {
-                        // Solicita contraseña y redirige a la URL
-                        requirePassword(() => {
-                            window.location.href = 'https://pintosingenieria-max.github.io/fechas-/';
-                        });
-                    } else {
-                        showSection(targetSection);
+            let url = CONFIG.FIREBASE_URL + 'eventos.json';
+            let method = 'POST';
+            if (editingKey) {
+                url = `${CONFIG.FIREBASE_URL}eventos/${editingKey}.json`;
+                method = 'PUT';
+            }
+
+            fetch(url, {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(eventData)
+            })
+            .then(res => res.json())
+            .then(() => {
+                resetFormAndExitEdit();
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar en Firebase';
+                fetchEvents();
+            })
+            .catch(err => {
+                alert('Error al guardar: ' + err.message);
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar en Firebase';
+            });
+        });
+
+        // ========== EDITAR EVENTO ==========
+        window.editEvent = function(key) {
+            const ev = localEvents[key];
+            if (!ev) {
+                alert('Evento no encontrado.');
+                return;
+            }
+
+            document.getElementById('clientName').value = ev.clientName || '';
+            document.getElementById('clientPhone').value = ev.clientPhone || '';
+            document.getElementById('eventDate').value = ev.eventDate || '';
+            document.getElementById('eventTime').value = ev.eventTime || '';
+            document.getElementById('eventType').value = ev.eventType || '15 Años';
+            document.getElementById('packageSelected').value = ev.packageSelected || 'Básico (800.000 Gs.)';
+            document.getElementById('eventLocation').value = ev.eventLocation || '';
+            document.getElementById('eventStatus').value = ev.eventStatus || 'Pendiente';
+            document.getElementById('totalCost').value = ev.totalCost || 0;
+            document.getElementById('depositAmount').value = ev.depositAmount || 0;
+            document.getElementById('eventNotes').value = ev.eventNotes || '';
+
+            editingKey = key;
+            saveBtn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Actualizar en Firebase';
+            document.querySelector('#formCard .card-header h2').textContent = 'Editando Evento';
+            editingIndicator.style.display = 'flex';
+            editingClientNameSpan.textContent = ev.clientName || 'Sin nombre';
+            cancelEditBtn.style.display = 'inline-flex';
+            document.getElementById('formCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+
+        // ========== CANCELAR EDICIÓN ==========
+        cancelEditBtn.addEventListener('click', function() {
+            resetFormAndExitEdit();
+        });
+
+        function resetFormAndExitEdit() {
+            eventForm.reset();
+            editingKey = null;
+            saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar en Firebase';
+            document.querySelector('#formCard .card-header h2').textContent = 'Registrar Nuevo Evento';
+            editingIndicator.style.display = 'none';
+            editingClientNameSpan.textContent = '';
+            cancelEditBtn.style.display = 'none';
+            document.getElementById('depositAmount').value = '0';
+        }
+
+        // ========== ELIMINAR EVENTO ==========
+        window.deleteEvent = function(key) {
+            if (!confirm('¿Estás seguro de eliminar este evento de la base de datos?')) return;
+            if (editingKey === key) resetFormAndExitEdit();
+            fetch(`${CONFIG.FIREBASE_URL}eventos/${key}.json`, { method: 'DELETE' })
+                .then(() => {
+                    delete localEvents[key];
+                    renderEvents();
+                })
+                .catch(err => alert('Error al eliminar: ' + err.message));
+        };
+
+        // ========== COPIAR FICHA ==========
+        window.copyFicha = function(key) {
+            const ev = localEvents[key];
+            if (!ev) return;
+            const total = Number(ev.totalCost) || 0;
+            const deposit = Number(ev.depositAmount) || 0;
+            const saldo = total - deposit;
+            const texto = 
+`✅ FICHA DE RESERVA - DJ MICHAEL ✅
+
+👤 Cliente: ${ev.clientName}
+📅 Fecha: ${formatDate(ev.eventDate)} a las ${ev.eventTime} hs.
+📍 Lugar: ${ev.eventLocation}
+🎉 Tipo: ${ev.eventType}
+📦 Paquete: ${ev.packageSelected}
+💰 Total: ${total.toLocaleString('es-PY')} Gs.
+💵 Seña: ${deposit.toLocaleString('es-PY')} Gs.
+🧾 Saldo: ${saldo.toLocaleString('es-PY')} Gs.
+📝 Observaciones: ${ev.eventNotes || 'Ninguna'}
+
+🔹 Fecha reservada. Queda confirmado. 🔹`;
+
+            navigator.clipboard.writeText(texto).then(() => {
+                alert('✅ Ficha copiada al portapapeles.');
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = texto;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert('✅ Ficha copiada al portapapeles (alternativo).');
+            });
+        };
+
+        // ========== ABRIR MODAL RECIBO (EDITABLE) ==========
+        window.abrirModalRecibo = function(key) {
+            const ev = localEvents[key];
+            if (!ev) {
+                alert('Evento no encontrado.');
+                return;
+            }
+            currentReceiptKey = key;
+            renderizarReciboEnModal(ev);
+            document.getElementById('receiptModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        function renderizarReciboEnModal(ev) {
+            const container = document.getElementById('receiptModalBody');
+            const total = Number(ev.totalCost) || 0;
+            const deposit = Number(ev.depositAmount) || 0;
+            const saldo = total - deposit;
+            const ruc = '5209576-2';
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+            // Construir servicios
+            let servicios = [];
+            const packageName = ev.packageSelected || 'Personalizado';
+            if (packageName.includes('Básico')) {
+                servicios.push({ desc: 'Alquiler de Sonido PA (2 Subwoofers 18", 2 Line Array, operador)', precioNormal: 800000, descuento: 0, precioAcordado: 800000 });
+                if (ev.eventNotes) servicios.push({ desc: 'Servicios adicionales: ' + ev.eventNotes, precioNormal: 0, descuento: 0, precioAcordado: 0 });
+            } else if (packageName.includes('LED')) {
+                servicios.push({ desc: 'Alquiler de Sonido PA + Pantalla LED (incluye operador)', precioNormal: 1100000, descuento: 0, precioAcordado: 1100000 });
+                if (ev.eventNotes) servicios.push({ desc: 'Servicios adicionales: ' + ev.eventNotes, precioNormal: 0, descuento: 0, precioAcordado: 0 });
+            } else if (packageName.includes('Show Exterior')) {
+                servicios.push({ desc: 'Alquiler de Sonido de Gran Potencia (8 Subwoofers, 6 Line Array, staff)', precioNormal: 2800000, descuento: 0, precioAcordado: 2800000 });
+                if (ev.eventNotes) servicios.push({ desc: 'Servicios adicionales: ' + ev.eventNotes, precioNormal: 0, descuento: 0, precioAcordado: 0 });
+            } else if (packageName.includes('Solo Pantalla LED')) {
+                servicios.push({ desc: 'Alquiler de Pantalla LED (montaje y contenido personalizado)', precioNormal: 1200000, descuento: 0, precioAcordado: 1200000 });
+                if (ev.eventNotes) servicios.push({ desc: 'Servicios adicionales: ' + ev.eventNotes, precioNormal: 0, descuento: 0, precioAcordado: 0 });
+            } else {
+                servicios.push({ desc: 'Servicio profesional de audio e iluminación (Personalizado)', precioNormal: total, descuento: 0, precioAcordado: total });
+                if (ev.eventNotes) servicios.push({ desc: 'Observaciones: ' + ev.eventNotes, precioNormal: 0, descuento: 0, precioAcordado: 0 });
+            }
+
+            let sumaAcordados = servicios.reduce((acc, s) => acc + s.precioAcordado, 0);
+            if (sumaAcordados !== total && servicios.length > 0) {
+                const diff = total - sumaAcordados;
+                servicios[0].precioAcordado += diff;
+                servicios[0].precioNormal += diff;
+            }
+
+            let tablaHtml = `
+                <table style="width: 100%; border-collapse: collapse; font-size: 13px; border: 1px solid #e2e8f0;">
+                    <thead>
+                        <tr style="background: #f1f5f9;">
+                            <th style="padding: 8px 10px; text-align: left; border-bottom: 1px solid #e2e8f0;">Descripción del Servicio</th>
+                            <th style="padding: 8px 10px; text-align: right; border-bottom: 1px solid #e2e8f0;">Precio Normal</th>
+                            <th style="padding: 8px 10px; text-align: right; border-bottom: 1px solid #e2e8f0;">Descuento</th>
+                            <th style="padding: 8px 10px; text-align: right; border-bottom: 1px solid #e2e8f0;">Precio Acordado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            servicios.forEach((s, idx) => {
+                tablaHtml += `
+                    <tr>
+                        <td style="padding: 8px 10px; border-bottom: 1px solid #e2e8f0;">${s.desc}</td>
+                        <td style="padding: 8px 10px; text-align: right; border-bottom: 1px solid #e2e8f0;">
+                            <input class="editable-input editable-input-sm" type="number" data-row="${idx}" data-field="precioNormal" value="${s.precioNormal}" step="1000" />
+                        </td>
+                        <td style="padding: 8px 10px; text-align: right; border-bottom: 1px solid #e2e8f0;">
+                            <input class="editable-input editable-input-sm" type="number" data-row="${idx}" data-field="descuento" value="${s.descuento}" step="1000" />
+                        </td>
+                        <td style="padding: 8px 10px; text-align: right; border-bottom: 1px solid #e2e8f0;">
+                            <input class="editable-input editable-input-sm" type="number" data-row="${idx}" data-field="precioAcordado" value="${s.precioAcordado}" step="1000" />
+                        </td>
+                    </tr>
+                `;
+            });
+            tablaHtml += `
+                    </tbody>
+                </table>
+            `;
+
+            const html = `
+                <div id="receiptPreview" class="preview-content">
+                    <div style="max-width: 100%; margin: 0 auto; background: white; padding: 10px 0;">
+
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #dc2626; padding-bottom: 12px; margin-bottom: 18px;">
+                            <div>
+                                <div style="font-size: 24px; font-weight: 800; color: #dc2626; letter-spacing: 1px;">DJ MICHAEL</div>
+                                <div style="font-size: 14px; font-weight: 700; color: #1e293b;">MP INGENIERÍA Y PRODUCCIÓN</div>
+                                <div style="font-size: 13px; color: #475569;">Sonido, Luces y Pantallas LED | Servicios Profesionales para Espectáculos</div>
+                            </div>
+                            <div style="text-align: right; font-size: 13px; color: #475569;">
+                                <div><strong>RUC:</strong> ${ruc}</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <h2 style="font-size: 20px; font-weight: 700; color: #1e293b; margin-bottom: 4px;">Comprobante de Servicio / Recibo</h2>
+                            <div style="font-size: 14px; color: #475569;">
+                                <strong>Fecha:</strong> ${dateStr}
+                            </div>
+                            <div style="font-size: 14px; color: #475569;">
+                                <strong>Concepto:</strong> ${ev.eventType || 'Evento'} - ${ev.clientName || 'Cliente'}
+                            </div>
+                            <div style="font-size: 14px; color: #475569;">
+                                <strong>Lugar:</strong> ${ev.eventLocation || 'No especificado'}
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <h3 style="font-size: 16px; font-weight: 700; color: #1e293b; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; margin-bottom: 10px;">Detalle de Servicios</h3>
+                            ${tablaHtml}
+                        </div>
+
+                        <div style="display: flex; justify-content: flex-end; gap: 30px; background: #f8fafc; padding: 12px 18px; border-radius: 6px; border: 1px solid #e2e8f0; margin-bottom: 10px; flex-wrap: wrap;">
+                            <div>
+                                <div style="font-size: 13px; color: #475569;">Total (Gs.):</div>
+                                <input id="editTotalCost" class="editable-input" type="number" value="${total}" step="1000" style="width: 140px;" />
+                            </div>
+                            <div>
+                                <div style="font-size: 13px; color: #475569;">Seña abonada (Gs.):</div>
+                                <input id="editDepositAmount" class="editable-input" type="number" value="${deposit}" step="1000" style="width: 140px;" />
+                            </div>
+                            <div>
+                                <div style="font-size: 13px; color: #475569;">Saldo pendiente:</div>
+                                <div id="editSaldoDisplay" style="font-size: 20px; font-weight: 700; color: #dc2626;">${(total - deposit).toLocaleString('es-PY')} Gs.</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 16px;">
+                            <label style="font-weight: 600; color: #1e293b; font-size: 14px;">Observaciones adicionales:</label>
+                            <input id="editEventNotes" class="form-control" style="background: #f8fafc; color: #1e293b; border: 1px solid #cbd5e1; margin-top: 4px;" value="${ev.eventNotes || ''}" placeholder="Notas adicionales para el recibo..." />
+                        </div>
+
+                        <div style="text-align: center; font-size: 13px; color: #475569; margin-top: 20px; border-top: 1px solid #e2e8f0; padding-top: 15px;">
+                            <p style="font-style: italic;">¡Gracias por confiar en nuestros servicios profesionales!</p>
+                            <p style="font-size: 12px; color: #94a3b8;">Villeta, Paraguay</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML = html;
+
+            // Actualizar saldo al cambiar inputs
+            document.querySelectorAll('#editTotalCost, #editDepositAmount').forEach(el => {
+                el.addEventListener('input', actualizarSaldoRecibo);
+            });
+            document.querySelectorAll('#receiptPreview .editable-input').forEach(el => {
+                el.addEventListener('input', actualizarSaldoRecibo);
+            });
+        }
+
+        function actualizarSaldoRecibo() {
+            const totalInput = document.getElementById('editTotalCost');
+            const depositInput = document.getElementById('editDepositAmount');
+            if (!totalInput || !depositInput) return;
+            const total = Number(totalInput.value) || 0;
+            const deposit = Number(depositInput.value) || 0;
+            const saldo = total - deposit;
+            const display = document.getElementById('editSaldoDisplay');
+            if (display) {
+                display.textContent = saldo.toLocaleString('es-PY') + ' Gs.';
+                display.style.color = saldo < 0 ? '#ef4444' : '#dc2626';
+            }
+        }
+
+        // ========== ABRIR MODAL RESERVA (PDF comprobante) ==========
+        window.abrirModalReserva = function(key) {
+            const ev = localEvents[key];
+            if (!ev) {
+                alert('Evento no encontrado.');
+                return;
+            }
+            currentReservaKey = key;
+            renderizarReservaEnModal(ev);
+            document.getElementById('reservaModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        function renderizarReservaEnModal(ev) {
+            const container = document.getElementById('reservaModalBody');
+            const total = Number(ev.totalCost) || 0;
+            const deposit = Number(ev.depositAmount) || 0;
+            const saldo = total - deposit;
+
+            const dateObj = new Date(ev.eventDate + 'T00:00:00');
+            const year = dateObj.getFullYear();
+            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const day = String(dateObj.getDate()).padStart(2, '0');
+            const refDate = `${year}${month}${day}`;
+            const seq = String(Math.floor(Math.random() * 100)).padStart(2, '0');
+            const ref = `RSV-${refDate}-${seq}`;
+
+            const now = new Date();
+            const months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+            const emission = `${months[now.getMonth()]} ${now.getFullYear()}`;
+
+            let statusText = 'ACTIVO';
+            if (ev.eventStatus === 'Finalizado') statusText = 'FINALIZADO';
+            else if (ev.eventStatus === 'Pendiente') statusText = 'PENDIENTE';
+
+            const packageDescriptions = {
+                'Básico (800.000 Gs.)': '• Sistema de Sonido Profesional de alta fidelidad adaptado al recinto.\n• Consola / Cabina de DJ con mezcla en vivo durante todo el evento.\n• Montaje previo, pruebas técnicas de audio y desmontaje post-evento.',
+                'Básico + LED (1.100.000 Gs.)': '• Sistema de Sonido Profesional de alta fidelidad adaptado al recinto.\n• Consola / Cabina de DJ con mezcla en vivo durante todo el evento.\n• Estructura de Iluminación Ambiental y Show de Luces LED / Robóticas.\n• Montaje previo, pruebas técnicas de audio y desmontaje post-evento.',
+                'Show Exterior (2.800.000 Gs.)': '• Sistema de Sonido de gran potencia para exteriores.\n• Consola / Cabina de DJ con mezcla en vivo.\n• Iluminación escénica profesional y efectos visuales.\n• Montaje y desmontaje completo.',
+                'Solo Pantalla LED': '• Pantalla LED de gran formato.\n• Contenido visual personalizado.\n• Montaje y desmontaje.',
+                'Personalizado': '• Paquete personalizado según requerimientos del cliente.\n• Consultar detalles específicos.'
+            };
+            let cobertura = packageDescriptions[ev.packageSelected] || '• Servicio profesional de audio e iluminación.\n• Montaje y desmontaje.\n• Atención personalizada.';
+            if (ev.eventNotes) {
+                cobertura += '\n• Observaciones: ' + ev.eventNotes;
+            }
+
+            const defaultTerms = `1. Garantía de Fecha: El presente comprobante certifica el bloqueo de la fecha indicada en la agenda oficial de DJ Michael.
+2. Requerimientos Técnicos: El organizador/local deberá proveer una toma de corriente eléctrica estable cercana al sector de cabina.
+3. Cancelación del Saldo: El saldo pendiente se abonará según lo acordado previo o al inicio del montaje del evento.`;
+
+            const html = `
+                <div id="reservaPreview" class="preview-content">
+                    <div style="max-width: 100%; margin: 0 auto; background: white; padding: 10px 0; border: 2px solid #dc2626; border-radius: 8px; padding: 20px 25px;">
+
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #dc2626; padding-bottom: 12px; margin-bottom: 18px;">
+                            <div>
+                                <div style="font-size: 26px; font-weight: 800; color: #dc2626; letter-spacing: 1px;">DJ MICHAEL</div>
+                                <div style="font-size: 14px; font-weight: 600; color: #475569;">SONIDO • ILUMINACIÓN PROFESIONAL • EFECTOS VISUALES</div>
+                            </div>
+                            <div style="text-align: right; font-size: 13px; color: #475569;">
+                                <div><strong>REF:</strong> ${ref}</div>
+                                <div style="font-size: 11px; color: #94a3b8;">Emisión: ${emission}</div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 8px 14px; border-radius: 6px; margin-bottom: 20px;">
+                            <span style="font-size: 18px; font-weight: 700; color: #16a34a;">★ FECHA AGENDADA Y CONFIRMADA</span>
+                            <span style="background: #dc2626; color: white; padding: 2px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; letter-spacing: 1px;">${statusText}</span>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px 30px; background: #f1f5f9; padding: 14px 18px; border-radius: 6px; margin-bottom: 20px;">
+                            <div><span style="font-weight: 700; color: #475569;">NOMBRE / TITULAR</span><br><span style="font-size: 16px; font-weight: 600;">${ev.clientName || 'Sin nombre'}</span></div>
+                            <div><span style="font-weight: 700; color: #475569;">TELÉFONO DE CONTACTO</span><br><span style="font-size: 16px;">${ev.clientPhone || 'No registrado'}</span></div>
+                            <div style="grid-column: 1 / -1;"><span style="font-weight: 700; color: #475569;">EMISIÓN DE COMPROBANTE</span><br><span>${emission}</span></div>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <h3 style="font-size: 16px; font-weight: 700; color: #1e293b; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; margin-bottom: 10px;">DETALLES DEL EVENTO</h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px;">
+                                <div><span style="font-weight: 600; color: #475569;">TIPO DE EVENTO</span><br>${ev.eventType || 'No especificado'}</div>
+                                <div><span style="font-weight: 600; color: #475569;">FECHA Y HORARIO</span><br>${formatDate(ev.eventDate)} — ${ev.eventTime || '--:--'} hs.</div>
+                                <div style="grid-column: 1 / -1;"><span style="font-weight: 600; color: #475569;">LUGAR / UBICACIÓN</span><br>${ev.eventLocation || 'No especificado'}</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <h3 style="font-size: 16px; font-weight: 700; color: #1e293b; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; margin-bottom: 10px;">SERVICIO CONTRATADO Y ESPECIFICACIONES</h3>
+                            <table style="width: 100%; border-collapse: collapse; font-size: 14px; border: 1px solid #e2e8f0;">
+                                <thead>
+                                    <tr style="background: #f1f5f9;">
+                                        <th style="padding: 8px 12px; text-align: left; border-bottom: 1px solid #e2e8f0; width: 20%;">PAQUETE</th>
+                                        <th style="padding: 8px 12px; text-align: left; border-bottom: 1px solid #e2e8f0; width: 60%;">COBERTURA Y EQUIPAMIENTO INCLUIDO</th>
+                                        <th style="padding: 8px 12px; text-align: right; border-bottom: 1px solid #e2e8f0; width: 20%;">SUBTOTAL</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 10px 12px; vertical-align: top; font-weight: 600;">${ev.packageSelected || 'Personalizado'}</td>
+                                        <td style="padding: 10px 12px; vertical-align: top; white-space: pre-line; font-size: 13px;">${cobertura}</td>
+                                        <td style="padding: 10px 12px; text-align: right; font-weight: 700; color: #dc2626;">${total.toLocaleString('es-PY')} Gs.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- MONTOS EDITABLES -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; background: #f8fafc; padding: 14px 18px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #e2e8f0;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 12px; color: #475569; font-weight: 600;">MONTO TOTAL DEL SERVICIO</div>
+                                <input id="editReservaTotal" class="editable-input" type="number" value="${total}" step="1000" style="width: 140px; text-align: center; font-size: 20px; font-weight: 700;" />
+                            </div>
+                            <div style="text-align: center; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0;">
+                                <div style="font-size: 12px; color: #475569; font-weight: 600;">SEÑA / ENTREGA INICIAL</div>
+                                <input id="editReservaDeposit" class="editable-input" type="number" value="${deposit}" step="1000" style="width: 140px; text-align: center; font-size: 20px; font-weight: 700; color: #16a34a;" />
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 12px; color: #475569; font-weight: 600;">SALDO PENDIENTE A ABONAR</div>
+                                <div id="editReservaSaldoDisplay" style="font-size: 20px; font-weight: 700; color: #dc2626;">${saldo.toLocaleString('es-PY')} Gs.</div>
+                            </div>
+                        </div>
+
+                        <!-- TÉRMINOS Y OBSERVACIONES EDITABLE -->
+                        <div style="margin-bottom: 25px; font-size: 13px; background: #f8fafc; padding: 12px 16px; border-radius: 6px; border-left: 4px solid #dc2626;">
+                            <strong style="color: #1e293b;">TÉRMINOS Y OBSERVACIONES DE LA RESERVA:</strong>
+                            <div style="margin-top: 4px; white-space: pre-line;">${defaultTerms}</div>
+                            <div style="margin-top: 6px;">
+                                <label style="font-weight: 600; color: #1e293b;">Notas adicionales:</label>
+                                <input id="editReservaNotes" class="form-control" style="background: #f8fafc; color: #1e293b; border: 1px solid #cbd5e1; margin-top: 4px;" value="${ev.eventNotes || ''}" placeholder="Observaciones adicionales..." />
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 10px; border-top: 1px solid #e2e8f0; padding-top: 18px;">
+                            <div>
+                                <div style="font-weight: 600; color: #475569;">${ev.clientName || 'Cliente'}</div>
+                                <div style="border-bottom: 2px solid #94a3b8; width: 80%; margin: 6px 0 4px;"></div>
+                                <div style="font-size: 12px; color: #94a3b8;">Firma de Conformidad del Cliente</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-weight: 600; color: #475569;">DJ Michael</div>
+                                <div style="border-bottom: 2px solid #94a3b8; width: 80%; margin: 6px 0 4px; margin-left: auto;"></div>
+                                <div style="font-size: 12px; color: #94a3b8;">Servicios Profesionales de Audio & Iluminación</div>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; font-size: 11px; color: #94a3b8; margin-top: 18px; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+                            ¡Gracias por confiar en nuestros servicios! Hacemos de tus momentos especiales una experiencia inolvidable.
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML = html;
+
+            // Actualizar saldo al cambiar inputs
+            document.querySelectorAll('#editReservaTotal, #editReservaDeposit').forEach(el => {
+                el.addEventListener('input', actualizarSaldoReserva);
+            });
+        }
+
+        function actualizarSaldoReserva() {
+            const totalInput = document.getElementById('editReservaTotal');
+            const depositInput = document.getElementById('editReservaDeposit');
+            if (!totalInput || !depositInput) return;
+            const total = Number(totalInput.value) || 0;
+            const deposit = Number(depositInput.value) || 0;
+            const saldo = total - deposit;
+            const display = document.getElementById('editReservaSaldoDisplay');
+            if (display) {
+                display.textContent = saldo.toLocaleString('es-PY') + ' Gs.';
+                display.style.color = saldo < 0 ? '#ef4444' : '#dc2626';
+            }
+        }
+
+        // ========== CERRAR MODALES ==========
+        function cerrarModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = '';
+            if (modalId === 'receiptModal') currentReceiptKey = null;
+            if (modalId === 'reservaModal') currentReservaKey = null;
+        }
+
+        document.querySelectorAll('.closeModalBtn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const modalId = this.dataset.modal;
+                cerrarModal(modalId);
+            });
+        });
+
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    cerrarModal(this.id);
+                }
+            });
+        });
+
+        // ========== ACTUALIZAR VISTA RECIBO ==========
+        document.querySelector('.updateReceiptBtn').addEventListener('click', function() {
+            const key = currentReceiptKey;
+            if (!key || !localEvents[key]) {
+                alert('No se encontró el evento.');
+                return;
+            }
+            const totalInput = document.getElementById('editTotalCost');
+            const depositInput = document.getElementById('editDepositAmount');
+            const notesInput = document.getElementById('editEventNotes');
+            if (!totalInput || !depositInput || !notesInput) return;
+
+            const newTotal = Number(totalInput.value) || 0;
+            const newDeposit = Number(depositInput.value) || 0;
+            const newNotes = notesInput.value.trim();
+
+            const ev = localEvents[key];
+            ev.totalCost = newTotal;
+            ev.depositAmount = newDeposit;
+            ev.eventNotes = newNotes;
+
+            renderizarReciboEnModal(ev);
+        });
+
+        // ========== ACTUALIZAR VISTA RESERVA ==========
+        document.querySelector('.updateReservaBtn').addEventListener('click', function() {
+            const key = currentReservaKey;
+            if (!key || !localEvents[key]) {
+                alert('No se encontró el evento.');
+                return;
+            }
+            const totalInput = document.getElementById('editReservaTotal');
+            const depositInput = document.getElementById('editReservaDeposit');
+            const notesInput = document.getElementById('editReservaNotes');
+            if (!totalInput || !depositInput || !notesInput) return;
+
+            const newTotal = Number(totalInput.value) || 0;
+            const newDeposit = Number(depositInput.value) || 0;
+            const newNotes = notesInput.value.trim();
+
+            const ev = localEvents[key];
+            ev.totalCost = newTotal;
+            ev.depositAmount = newDeposit;
+            ev.eventNotes = newNotes;
+
+            renderizarReservaEnModal(ev);
+        });
+
+        // ========== DESCARGAR PDF RECIBO ==========
+        document.querySelector('.downloadReceiptPdfBtn').addEventListener('click', function() {
+            const preview = document.getElementById('receiptPreview');
+            if (!preview) {
+                alert('No hay vista previa para descargar.');
+                return;
+            }
+            generarPdfDesdePreview(preview, 'Recibo', currentReceiptKey);
+        });
+
+        // ========== DESCARGAR PDF RESERVA ==========
+        document.querySelector('.downloadReservaPdfBtn').addEventListener('click', function() {
+            const preview = document.getElementById('reservaPreview');
+            if (!preview) {
+                alert('No hay vista previa para descargar.');
+                return;
+            }
+            generarPdfDesdePreview(preview, 'Comprobante_Reserva', currentReservaKey);
+        });
+
+        // ========== FUNCIÓN COMÚN PARA GENERAR PDF MULTIPÁGINA ==========
+        function generarPdfDesdePreview(previewElement, nombreBase, key) {
+            html2canvas(previewElement, {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: '#ffffff',
+                logging: false,
+                allowTaint: false,
+                width: previewElement.scrollWidth,
+                height: previewElement.scrollHeight,
+            }).then(canvas => {
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+                const pdfWidth = 210;
+                const pdfHeight = 297;
+                const margin = 8;
+                const usableWidth = pdfWidth - 2 * margin;
+                const usableHeight = pdfHeight - 2 * margin;
+
+                const imgWidth = usableWidth;
+                const totalImgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                if (totalImgHeight <= usableHeight) {
+                    pdf.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', margin, margin, imgWidth, totalImgHeight);
+                } else {
+                    let currentY = 0;
+                    const pageHeightPx = (usableHeight / totalImgHeight) * canvas.height;
+
+                    while (currentY < canvas.height) {
+                        if (currentY > 0) pdf.addPage();
+
+                        const tempCanvas = document.createElement('canvas');
+                        const remainingHeight = Math.min(pageHeightPx, canvas.height - currentY);
+                        tempCanvas.width = canvas.width;
+                        tempCanvas.height = remainingHeight;
+                        const tempCtx = tempCanvas.getContext('2d');
+                        tempCtx.drawImage(canvas, 0, currentY, canvas.width, remainingHeight, 0, 0, canvas.width, remainingHeight);
+
+                        const pageImgData = tempCanvas.toDataURL('image/jpeg', 1.0);
+                        const pageImgHeight = (remainingHeight * imgWidth) / canvas.width;
+                        pdf.addImage(pageImgData, 'JPEG', margin, margin, imgWidth, pageImgHeight);
+
+                        currentY += remainingHeight;
                     }
-                });
-            });
-
-            document.getElementById('logoLink')?.addEventListener('click', function(e) {
-                e.preventDefault();
-                showSection('inicio');
-            });
-        })();
-
-        // 2. MENÚ HAMBURGUESA
-        (function() {
-            const hamburger = document.getElementById('hamburger');
-            const navLinks = document.getElementById('nav-links');
-            if (!hamburger || !navLinks) return;
-            hamburger.addEventListener('click', function() {
-                this.classList.toggle('active');
-                navLinks.classList.toggle('open');
-                this.setAttribute('aria-expanded', this.classList.contains('active'));
-            });
-        })();
-
-        // 3. CONTADOR DE VISITAS
-        (function() {
-            const url = CONFIG.FIREBASE_URL + 'visitas.json';
-            const countElement = document.getElementById('visit-count');
-
-            function updateCounter() {
-                if (sessionStorage.getItem('visitCounted')) {
-                    fetch(url).then(res => res.json()).then(data => {
-                        if (countElement) countElement.innerText = (data || 0).toLocaleString();
-                    }).catch(() => { if (countElement) countElement.innerText = '?'; });
-                    return;
                 }
-                fetch(url)
-                    .then(res => res.json())
-                    .then(data => {
-                        const newCount = (data || 0) + 1;
-                        return fetch(url, {
-                            method: 'PUT',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(newCount)
-                        }).then(() => newCount);
-                    })
-                    .then(newCount => {
-                        if (countElement) countElement.innerText = newCount.toLocaleString();
-                        sessionStorage.setItem('visitCounted', 'true');
-                    })
-                    .catch(() => { if (countElement) countElement.innerText = '?'; });
-            }
-            document.addEventListener('DOMContentLoaded', updateCounter);
-        })();
 
-        // 4. PARTÍCULAS
+                const ev = localEvents[key];
+                const nombreCliente = ev ? ev.clientName || 'Cliente' : 'Cliente';
+                const fecha = ev ? formatDate(ev.eventDate) : '';
+                pdf.save(`${nombreBase}_${nombreCliente.replace(/[^a-zA-Z0-9]/g, '_')}_${fecha}.pdf`);
+            }).catch(err => {
+                console.error('Error al generar PDF:', err);
+                alert('Error al generar el PDF: ' + err.message);
+            });
+        }
+
+        // ========== HELPERS ==========
+        function cleanPhone(phone) {
+            if (!phone) return '';
+            return String(phone).replace(/\D/g, '').replace(/^0/, '');
+        }
+
+        function formatDate(str) {
+            if (!str) return '';
+            const parts = String(str).split('-');
+            if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`;
+            return str;
+        }
+
+        // ========== FILTROS ==========
+        searchInput.addEventListener('input', renderEvents);
+        statusFilter.addEventListener('change', renderEvents);
+
+        // ========== PARTÍCULAS ==========
         (function() {
             const canvas = document.getElementById('particles-canvas');
-            if (!canvas) return;
             const ctx = canvas.getContext('2d');
             let width, height;
             let particles = [];
@@ -1756,49 +1631,27 @@
                 constructor() { this.reset(); }
                 reset() {
                     this.x = Math.random() * width;
-                    this.y = Math.random() * height - height;
-                    this.size = Math.random() * 4 + 2;
-                    this.speedY = Math.random() * 2 + 1;
-                    this.speedX = (Math.random() - 0.5) * 0.8;
-                    this.opacity = Math.random() * 0.6 + 0.2;
-                    this.color = `hsl(${Math.random() * 60 + 340}, 80%, 60%)`;
-                    this.rotation = Math.random() * 360;
-                    this.rotSpeed = (Math.random() - 0.5) * 0.02;
-                    this.shape = Math.random() > 0.5 ? 'circle' : 'square';
+                    this.y = Math.random() * height;
+                    this.size = Math.random() * 3 + 1;
+                    this.speedY = Math.random() * 1.5 + 0.5;
+                    this.opacity = Math.random() * 0.5 + 0.1;
                 }
                 update() {
                     this.y += this.speedY;
-                    this.x += this.speedX + Math.sin(this.y * 0.01) * 0.2;
-                    this.rotation += this.rotSpeed;
-                    if (this.y > height + 20) { this.reset(); this.y = -20; }
-                    if (this.x < -20) this.x = width + 20;
-                    if (this.x > width + 20) this.x = -20;
+                    if (this.y > height) {
+                        this.y = -10;
+                        this.x = Math.random() * width;
+                    }
                 }
                 draw(ctx) {
-                    ctx.save();
-                    ctx.globalAlpha = this.opacity;
-                    ctx.translate(this.x, this.y);
-                    ctx.rotate(this.rotation);
-                    ctx.fillStyle = this.color;
-                    if (this.shape === 'circle') {
-                        ctx.beginPath();
-                        ctx.arc(0, 0, this.size, 0, Math.PI * 2);
-                        ctx.fill();
-                    } else {
-                        ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
-                    }
-                    ctx.shadowColor = this.color;
-                    ctx.shadowBlur = 15;
+                    ctx.fillStyle = `rgba(255, 30, 67, ${this.opacity})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                     ctx.fill();
-                    ctx.restore();
                 }
             }
 
-            for (let i = 0; i < 100; i++) {
-                const p = new Particle();
-                p.y = Math.random() * height;
-                particles.push(p);
-            }
+            for (let i = 0; i < 60; i++) particles.push(new Particle());
 
             function animate() {
                 ctx.clearRect(0, 0, width, height);
@@ -1808,637 +1661,8 @@
             animate();
         })();
 
-        // 5. EDICIÓN DINÁMICA, FIREBASE Y GALERÍA UPLOADCARE (CORREGIDO)
-        (function() {
-            const editToggleBtn = document.getElementById('editToggleBtn');
-            const modalOverlay = document.getElementById('editModal');
-            const modalCloseBtn = document.getElementById('modalCloseBtn');
-            const modalCancelBtn = document.getElementById('modalCancelBtn');
-            const modalSaveBtn = document.getElementById('modalSaveBtn');
-            const modalTitle = document.getElementById('modalTitle');
-            const modalImageSection = document.getElementById('modalImageSection');
-            const modalImgPreview = document.getElementById('modalImgPreview');
-            const modalImgUrl = document.getElementById('modalImgUrl');
-            const modalText1 = document.getElementById('modalText1');
-            const modalText2 = document.getElementById('modalText2');
-            const modalText3 = document.getElementById('modalText3');
-            const modalSpecs = document.getElementById('modalSpecs');
-            const modalSpecsSection = document.getElementById('modalSpecsSection');
-            const uploadUploadcareBtn = document.getElementById('uploadUploadcareBtn');
-
-            let currentEditKey = null;
-            let currentEditType = null;
-            let currentImgTarget = null;
-            let currentTextTarget1 = null;
-            let currentTextTarget2 = null;
-            let currentTextTarget3 = null;
-            let currentSpecsTarget = null;
-            let isEditMode = false;
-
-            const dbUrl = CONFIG.FIREBASE_URL + 'contenido.json';
-            const galleryUrl = CONFIG.FIREBASE_URL + 'galeria_items.json';
-
-            function formatUploadcareUrl(url) {
-                if (!url) return '';
-                let cleanUrl = String(url).trim();
-                if (cleanUrl.includes('ucarecdn.com') && !cleanUrl.endsWith('/')) {
-                    cleanUrl += '/';
-                }
-                return cleanUrl;
-            }
-
-            function checkIsVideo(url, mimeType) {
-                if (mimeType && mimeType.startsWith('video/')) return true;
-                if (!url) return false;
-                return /\.(mp4|webm|ogg|mov|m4v|avi|mkv)($|\?)/i.test(url) || url.includes('/video/');
-            }
-
-            function loadContentFromFirebase() {
-                return fetch(dbUrl).then(res => res.json()).then(data => data || {}).catch(() => ({}));
-            }
-
-            function saveContentToFirebase(data) {
-                return fetch(dbUrl, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                }).then(res => res.json());
-            }
-
-            function applyContent(content) {
-                for (const key in content) {
-                    const entry = content[key];
-                    if (!entry) continue;
-
-                    if (key === 'hero_media' && entry.src) {
-                        const container = document.getElementById('hero_media_container');
-                        if (container) {
-                            container.innerHTML = '';
-                            const src = formatUploadcareUrl(entry.src);
-                            const isVid = entry.type === 'video' || checkIsVideo(src);
-                            if (isVid) {
-                                const video = document.createElement('video');
-                                video.src = src;
-                                video.autoplay = true;
-                                video.loop = true;
-                                video.muted = true;
-                                video.playsInline = true;
-                                video.setAttribute('webkit-playsinline', 'true');
-                                video.style.width = '100%';
-                                video.style.height = '100%';
-                                video.style.objectFit = 'cover';
-                                container.appendChild(video);
-                                video.play().catch(() => {});
-                            } else {
-                                const img = document.createElement('img');
-                                img.src = src;
-                                img.alt = 'Hero media';
-                                img.style.width = '100%';
-                                img.style.height = '100%';
-                                img.style.objectFit = 'cover';
-                                container.appendChild(img);
-                            }
-                        }
-                        continue;
-                    }
-
-                    if (entry.img && entry.imgTarget) {
-                        const imgEl = document.getElementById(entry.imgTarget);
-                        if (imgEl) imgEl.src = formatUploadcareUrl(entry.img);
-                    }
-                    if (entry.text1 && entry.textTarget1) {
-                        const el = document.getElementById(entry.textTarget1);
-                        if (el) el.innerText = entry.text1;
-                    }
-                    if (entry.text2 && entry.textTarget2) {
-                        const el2 = document.getElementById(entry.textTarget2);
-                        if (el2) el2.innerText = entry.text2;
-                    }
-                    if (entry.text3 && entry.textTarget3) {
-                        const el3 = document.getElementById(entry.textTarget3);
-                        if (el3) el3.innerText = entry.text3;
-                    }
-                    if (entry.specs && entry.specsTarget) {
-                        const ul = document.getElementById(entry.specsTarget);
-                        if (ul) {
-                            ul.innerHTML = '';
-                            const items = entry.specs.split('\n').filter(s => s.trim() !== '');
-                            items.forEach(text => {
-                                const li = document.createElement('li');
-                                let iconClass = 'fa-solid fa-check';
-                                if (text.toLowerCase().includes('subwoofer') || text.toLowerCase().includes('torre') || text.toLowerCase().includes('array')) {
-                                    iconClass = 'fa-solid fa-circle-check';
-                                } else if (text.toLowerCase().includes('hora')) {
-                                    iconClass = 'fa-solid fa-clock';
-                                } else if (text.toLowerCase().includes('staff') || text.toLowerCase().includes('operador')) {
-                                    iconClass = 'fa-solid fa-user-gear';
-                                }
-                                const isHighlight = text.toLowerCase().includes('subwoofer') || text.toLowerCase().includes('torre') || text.toLowerCase().includes('array');
-                                li.innerHTML = `<i class="${iconClass}"></i> ${text}`;
-                                if (isHighlight) li.classList.add('highlight');
-                                ul.appendChild(li);
-                            });
-                        }
-                    }
-                }
-            }
-
-            // GALERÍA
-            function getGalleryItems() {
-                return fetch(galleryUrl)
-                    .then(res => res.json())
-                    .then(data => {
-                        if (!data) return [];
-                        if (Array.isArray(data)) return data.filter(Boolean);
-                        return Object.values(data).filter(Boolean);
-                    })
-                    .catch(() => []);
-            }
-
-            function saveGalleryItems(items) {
-                return fetch(galleryUrl, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(items)
-                }).then(res => res.json());
-            }
-
-            function renderGalleryItems(items) {
-                const grid = document.getElementById('gallery-grid');
-                if (!grid) return;
-                if (!items || items.length === 0) {
-                    grid.innerHTML = `
-                        <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);">
-                            <i class="fa-solid fa-images" style="font-size:3rem;display:block;margin-bottom:1rem;"></i>
-                            No hay elementos en la galería. ¡Añade fotos o videos!
-                        </div>
-                    `;
-                    return;
-                }
-                let html = '';
-                items.forEach((item, index) => {
-                    if (!item || !item.src) return;
-                    const validSrc = formatUploadcareUrl(item.src);
-                    const isVideo = item.type === 'video' || checkIsVideo(validSrc, item.mimeType);
-                    const mediaTag = isVideo
-                        ? `<video src="${validSrc}" autoplay loop muted playsinline webkit-playsinline style="width:100%;height:100%;object-fit:cover;background:#000;display:block;"></video>`
-                        : `<img src="${validSrc}" alt="Galería ${index+1}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.src='dj michael.jpg';" />`;
-                    html += `
-                        <div class="gallery-item" data-index="${index}">
-                            ${mediaTag}
-                            <div class="gallery-overlay">
-                                <span>${isVideo ? '<i class="fa-solid fa-video"></i> Video' : '<i class="fa-solid fa-image"></i> Imagen'}</span>
-                                <div class="gallery-actions">
-                                    <button class="gallery-replace-btn" data-index="${index}" title="Reemplazar"><i class="fa-solid fa-rotate"></i></button>
-                                    <button class="gallery-delete-btn" data-index="${index}" title="Eliminar"><i class="fa-solid fa-trash-can"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-                grid.innerHTML = html;
-                grid.querySelectorAll('video').forEach(v => v.play().catch(() => {}));
-                attachGalleryEvents();
-            }
-
-            function attachGalleryEvents() {
-                document.querySelectorAll('.gallery-delete-btn').forEach(btn => {
-                    btn.onclick = function(e) {
-                        e.stopPropagation();
-                        requirePassword(() => {
-                            const index = parseInt(btn.dataset.index);
-                            deleteGalleryItem(index);
-                        });
-                    };
-                });
-                document.querySelectorAll('.gallery-replace-btn').forEach(btn => {
-                    btn.onclick = function(e) {
-                        e.stopPropagation();
-                        requirePassword(() => {
-                            const index = parseInt(btn.dataset.index);
-                            replaceGalleryItem(index);
-                        });
-                    };
-                });
-            }
-
-            function deleteGalleryItem(index) {
-                if (!confirm('¿Deseas eliminar este elemento de la galería?')) return;
-                getGalleryItems().then(items => {
-                    items.splice(index, 1);
-                    return saveGalleryItems(items);
-                }).then(() => getGalleryItems()).then(renderGalleryItems)
-                  .catch(err => alert('Error al eliminar: ' + err.message));
-            }
-
-            function replaceGalleryItem(index) {
-                const dialog = uploadcare.openDialog(null, {
-                    publicKey: CONFIG.UPLOADCARE_PUBLIC_KEY,
-                    multiple: false,
-                    imagesOnly: false
-                });
-                dialog.done(function(fileInfo) {
-                    if (fileInfo && fileInfo.cdnUrl) {
-                        const url = formatUploadcareUrl(fileInfo.cdnUrl);
-                        const mimeType = fileInfo.mimeType || '';
-                        const isVideo = checkIsVideo(url, mimeType) || (fileInfo.isImage === false);
-                        const type = isVideo ? 'video' : 'image';
-                        getGalleryItems().then(items => {
-                            items[index] = { src: url, type: type, mimeType: mimeType };
-                            return saveGalleryItems(items);
-                        }).then(() => getGalleryItems()).then(renderGalleryItems)
-                          .catch(err => alert('Error al reemplazar: ' + err.message));
-                    }
-                });
-            }
-
-            // BOTÓN DE AÑADIR AL FINAL (CON CONTRASEÑA)
-            document.getElementById('addGalleryBtn')?.addEventListener('click', function() {
-                requirePassword(() => {
-                    const dialog = uploadcare.openDialog(null, {
-                        publicKey: CONFIG.UPLOADCARE_PUBLIC_KEY,
-                        multiple: true,
-                        imagesOnly: false
-                    });
-
-                    dialog.done(function(fileGroup) {
-                        const fileList = (fileGroup && typeof fileGroup.files === 'function') 
-                            ? fileGroup.files() 
-                            : [fileGroup];
-
-                        const promises = fileList.map(f => {
-                            if (typeof f.done === 'function') {
-                                return new Promise((resolve, reject) => {
-                                    f.done(resolve).fail(reject);
-                                });
-                            }
-                            return Promise.resolve(f);
-                        });
-
-                        Promise.all(promises)
-                            .then(fileInfos => {
-                                return getGalleryItems().then(items => {
-                                    fileInfos.forEach(info => {
-                                        if (!info || !info.cdnUrl) return;
-                                        const url = formatUploadcareUrl(info.cdnUrl);
-                                        const isVideo = checkIsVideo(url, info.mimeType) || (info.isImage === false);
-                                        items.push({
-                                            src: url,
-                                            type: isVideo ? 'video' : 'image',
-                                            mimeType: info.mimeType || ''
-                                        });
-                                    });
-                                    return saveGalleryItems(items);
-                                });
-                            })
-                            .then(() => getGalleryItems())
-                            .then(items => renderGalleryItems(items))
-                            .catch(err => {
-                                console.error('Error al guardar archivos:', err);
-                                alert('Error al guardar en Firebase: ' + err.message);
-                            });
-                    });
-                });
-            });
-
-            // MODAL DE EDICIÓN
-            function openModal(key, type, imgTarget, textTarget1, textTarget2, textTarget3, specsTarget) {
-                currentEditKey = key;
-                currentEditType = type;
-                currentImgTarget = imgTarget || null;
-                currentTextTarget1 = textTarget1 || null;
-                currentTextTarget2 = textTarget2 || null;
-                currentTextTarget3 = textTarget3 || null;
-                currentSpecsTarget = specsTarget || null;
-
-                let currentImg = '';
-                if (imgTarget) {
-                    const el = document.getElementById(imgTarget);
-                    if (el) {
-                        if (el.tagName === 'IMG' || el.tagName === 'VIDEO') currentImg = el.src;
-                    }
-                } else if (key === 'hero_media') {
-                    const container = document.getElementById('hero_media_container');
-                    const media = container?.querySelector('img, video');
-                    if (media) currentImg = media.src;
-                }
-
-                let currentText1 = textTarget1 ? document.getElementById(textTarget1)?.innerText || '' : '';
-                let currentText2 = textTarget2 ? document.getElementById(textTarget2)?.innerText || '' : '';
-                let currentText3 = textTarget3 ? document.getElementById(textTarget3)?.innerText || '' : '';
-
-                let currentSpecs = '';
-                if (specsTarget) {
-                    const ul = document.getElementById(specsTarget);
-                    if (ul) {
-                        const items = ul.querySelectorAll('li');
-                        currentSpecs = Array.from(items).map(li => li.textContent.trim()).join('\n');
-                    }
-                }
-
-                modalImageSection.style.display = (imgTarget || key === 'hero_media' || type === 'package' || type === 'media') ? 'block' : 'none';
-                modalImgPreview.src = currentImg || '';
-                modalImgUrl.value = currentImg || '';
-                modalText1.value = currentText1;
-                modalText2.value = currentText2;
-                modalText3.value = currentText3;
-
-                modalSpecsSection.style.display = (specsTarget && type === 'package') ? 'block' : 'none';
-                modalSpecs.value = currentSpecs;
-
-                modalTitle.innerText = 'Editar: ' + key;
-                modalOverlay.classList.add('active');
-            }
-
-            function closeModal() {
-                modalOverlay.classList.remove('active');
-                currentEditKey = null;
-            }
-
-            function saveCurrentEdit() {
-                if (!currentEditKey) return;
-                const imgValue = formatUploadcareUrl(modalImgUrl.value.trim());
-                const text1 = modalText1.value.trim();
-                const text2 = modalText2.value.trim();
-                const text3 = modalText3.value.trim();
-                const specsValue = modalSpecs.value.trim();
-
-                const entry = {};
-                if (currentEditKey === 'hero_media') {
-                    entry.src = imgValue;
-                    entry.type = checkIsVideo(imgValue) ? 'video' : 'image';
-                    entry.target = 'hero_media_container';
-                } else {
-                    if (imgValue && currentImgTarget) { entry.img = imgValue; entry.imgTarget = currentImgTarget; }
-                    if (text1 && currentTextTarget1) { entry.text1 = text1; entry.textTarget1 = currentTextTarget1; }
-                    if (text2 && currentTextTarget2) { entry.text2 = text2; entry.textTarget2 = currentTextTarget2; }
-                    if (text3 && currentTextTarget3) { entry.text3 = text3; entry.textTarget3 = currentTextTarget3; }
-                    if (specsValue && currentSpecsTarget) { entry.specs = specsValue; entry.specsTarget = currentSpecsTarget; }
-                }
-
-                loadContentFromFirebase().then(allContent => {
-                    allContent[currentEditKey] = entry;
-                    return saveContentToFirebase(allContent);
-                }).then(() => {
-                    const singleObj = {};
-                    singleObj[currentEditKey] = entry;
-                    applyContent(singleObj);
-                    closeModal();
-                }).catch(err => alert('Error al guardar: ' + err.message));
-            }
-
-            modalCloseBtn.addEventListener('click', closeModal);
-            modalCancelBtn.addEventListener('click', closeModal);
-            modalSaveBtn.addEventListener('click', saveCurrentEdit);
-
-            uploadUploadcareBtn.addEventListener('click', function() {
-                const dialog = uploadcare.openDialog(null, {
-                    publicKey: CONFIG.UPLOADCARE_PUBLIC_KEY,
-                    multiple: false,
-                    imagesOnly: false
-                });
-                dialog.done(function(fileInfo) {
-                    if (fileInfo && fileInfo.cdnUrl) {
-                        const formattedUrl = formatUploadcareUrl(fileInfo.cdnUrl);
-                        modalImgPreview.src = formattedUrl;
-                        modalImgUrl.value = formattedUrl;
-                    }
-                });
-            });
-
-            modalImgUrl.addEventListener('input', function() {
-                modalImgPreview.src = formatUploadcareUrl(this.value);
-            });
-
-            editToggleBtn.addEventListener('click', function() {
-                if (isEditMode) {
-                    document.body.classList.remove('edit-mode');
-                    isEditMode = false;
-                    editToggleBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Modo Edición';
-                } else {
-                    requirePassword(() => {
-                        document.body.classList.add('edit-mode');
-                        isEditMode = true;
-                        editToggleBtn.innerHTML = '<i class="fa-solid fa-check"></i> Salir Edición';
-                    });
-                }
-            });
-
-            document.addEventListener('click', function(e) {
-                const btn = e.target.closest('.edit-btn-overlay');
-                if (!btn) return;
-                e.preventDefault();
-                requirePassword(() => {
-                    openModal(
-                        btn.dataset.key,
-                        btn.dataset.type || 'text',
-                        btn.dataset.imgTarget || btn.dataset.target,
-                        btn.dataset.textTarget,
-                        btn.dataset.textTarget2,
-                        btn.dataset.textTarget3,
-                        btn.dataset.specsTarget
-                    );
-                });
-            });
-
-            document.addEventListener('DOMContentLoaded', function() {
-                loadContentFromFirebase().then(applyContent);
-                getGalleryItems().then(renderGalleryItems);
-            });
-        })();
-
-        // 6. GESTIÓN DE EVENTOS (AGENDA)
-        (function() {
-            const eventForm = document.getElementById('eventForm');
-            const eventsContainer = document.getElementById('eventsContainer');
-            const searchInput = document.getElementById('searchInput');
-            const statusFilter = document.getElementById('statusFilter');
-            let localEvents = {};
-
-            function fetchEvents() {
-                fetch(CONFIG.FIREBASE_URL + 'eventos.json')
-                    .then(res => res.json())
-                    .then(data => {
-                        localEvents = data || {};
-                        renderEvents();
-                    })
-                    .catch(() => {
-                        eventsContainer.innerHTML =
-                            `<div style="grid-column:1/-1;text-align:center;color:#ef4444;">Error al conectar con la base de datos.</div>`;
-                    });
-            }
-
-            function renderEvents() {
-                const query = searchInput.value.toLowerCase().trim();
-                const filter = statusFilter.value;
-                const keys = Object.keys(localEvents);
-
-                if (keys.length === 0) {
-                    eventsContainer.innerHTML = `
-                        <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);">
-                            <i class="fa-solid fa-calendar-xmark" style="font-size:3rem;margin-bottom:1rem;display:block;"></i>
-                            No hay eventos registrados en la agenda.
-                        </div>
-                    `;
-                    return;
-                }
-
-                let filteredKeys = keys.filter(k => {
-                    const ev = localEvents[k];
-                    if (!ev) return false;
-                    const client = (ev.clientName || '').toLowerCase();
-                    const location = (ev.eventLocation || '').toLowerCase();
-                    const matchSearch = client.includes(query) || location.includes(query);
-                    const matchFilter = (filter === 'TODOS') || (ev.eventStatus === filter);
-                    return matchSearch && matchFilter;
-                });
-
-                filteredKeys.sort((a, b) => new Date(localEvents[a].eventDate) - new Date(localEvents[b].eventDate));
-
-                if (filteredKeys.length === 0) {
-                    eventsContainer.innerHTML =
-                        `<div style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--text-muted);">No coinciden eventos con tu búsqueda.</div>`;
-                    return;
-                }
-
-                let html = '';
-                filteredKeys.forEach(key => {
-                    const ev = localEvents[key];
-                    const total = Number(ev.totalCost) || 0;
-                    const deposit = Number(ev.depositAmount) || 0;
-                    const saldo = total - deposit;
-                    let statusClass = 'status-pendiente';
-                    if (ev.eventStatus === 'Confirmado') statusClass = 'status-confirmado';
-                    if (ev.eventStatus === 'Finalizado') statusClass = 'status-finalizado';
-
-                    html += `
-                        <div class="event-card">
-                            <div>
-                                <div class="event-card-header">
-                                    <span class="event-type-badge">${ev.eventType || 'Evento'}</span>
-                                    <span class="event-status ${statusClass}">${ev.eventStatus || 'Pendiente'}</span>
-                                </div>
-                                <div class="event-card-body" style="margin-top:0.8rem;">
-                                    <h3>${ev.clientName || 'Sin Nombre'}</h3>
-                                    <div class="event-detail-item">
-                                        <i class="fa-regular fa-calendar"></i>
-                                        <span>${formatDate(ev.eventDate)} · ${ev.eventTime || '--:--'} hs.</span>
-                                    </div>
-                                    <div class="event-detail-item">
-                                        <i class="fa-solid fa-location-dot"></i>
-                                        <span>${ev.eventLocation || 'No especificado'}</span>
-                                    </div>
-                                    <div class="event-detail-item">
-                                        <i class="fa-solid fa-cube"></i>
-                                        <span>${ev.packageSelected || 'Paquete'}</span>
-                                    </div>
-                                    ${ev.eventNotes ? `
-                                    <div class="event-detail-item" style="align-items:flex-start;">
-                                        <i class="fa-solid fa-note-sticky" style="margin-top:4px;"></i>
-                                        <span style="font-size:0.85rem;color:#cbd5e1;">${ev.eventNotes}</span>
-                                    </div>` : ''}
-                                </div>
-                            </div>
-                            <div>
-                                <div class="event-finance">
-                                    <div class="finance-item">
-                                        <span>Total</span>
-                                        <strong>${total.toLocaleString('es-PY')} Gs.</strong>
-                                    </div>
-                                    <div class="finance-item">
-                                        <span>Seña</span>
-                                        <strong style="color:#10b981;">${deposit.toLocaleString('es-PY')} Gs.</strong>
-                                    </div>
-                                    <div class="finance-item finance-saldo" style="grid-column:1/-1;border-top:1px solid var(--border-color);padding-top:4px;">
-                                        <span>Saldo Pendiente</span>
-                                        <strong>${saldo.toLocaleString('es-PY')} Gs.</strong>
-                                    </div>
-                                </div>
-                                <div class="event-actions">
-                                    <a href="https://wa.me/595${cleanPhone(ev.clientPhone)}?text=Hola%20${encodeURIComponent(ev.clientName || '')},%20te%20contacto%20de%20DJ%20Michael%20por%20tu%20evento%20del%20${formatDate(ev.eventDate)}" target="_blank" class="btn-secondary">
-                                        <i class="fa-brands fa-whatsapp" style="color:#25d366;"></i> WhatsApp
-                                    </a>
-                                    <button class="btn-delete" onclick="deleteEvent('${key}')" title="Eliminar Evento">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-                eventsContainer.innerHTML = html;
-            }
-
-            window.deleteEvent = function(key) {
-                requirePassword(() => {
-                    if (!confirm('¿Estás seguro de eliminar este evento de la base de datos?')) return;
-                    fetch(`${CONFIG.FIREBASE_URL}eventos/${key}.json`, { method: 'DELETE' })
-                        .then(() => {
-                            delete localEvents[key];
-                            renderEvents();
-                        })
-                        .catch(err => alert('Error al eliminar: ' + err.message));
-                });
-            };
-
-            function cleanPhone(phone) {
-                if (!phone) return '';
-                return String(phone).replace(/\D/g, '').replace(/^0/, '');
-            }
-
-            function formatDate(str) {
-                if (!str) return '';
-                const parts = String(str).split('-');
-                if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`;
-                return str;
-            }
-
-            eventForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                requirePassword(() => {
-                    const submitBtn = document.getElementById('saveBtn');
-                    submitBtn.disabled = true;
-                    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Guardando...';
-
-                    const newEvent = {
-                        clientName: document.getElementById('clientName').value.trim(),
-                        clientPhone: document.getElementById('clientPhone').value.trim(),
-                        eventDate: document.getElementById('eventDate').value,
-                        eventTime: document.getElementById('eventTime').value,
-                        eventType: document.getElementById('eventType').value,
-                        packageSelected: document.getElementById('packageSelected').value,
-                        eventLocation: document.getElementById('eventLocation').value.trim(),
-                        totalCost: Number(document.getElementById('totalCost').value),
-                        depositAmount: Number(document.getElementById('depositAmount').value),
-                        eventStatus: document.getElementById('eventStatus').value,
-                        eventNotes: document.getElementById('eventNotes').value.trim(),
-                        createdAt: new Date().toISOString()
-                    };
-
-                    fetch(CONFIG.FIREBASE_URL + 'eventos.json', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(newEvent)
-                    })
-                    .then(res => res.json())
-                    .then(() => {
-                        eventForm.reset();
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar en Firebase';
-                        fetchEvents();
-                    })
-                    .catch(err => {
-                        alert('Error al guardar: ' + err.message);
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Guardar en Firebase';
-                    });
-                });
-            });
-
-            searchInput.addEventListener('input', renderEvents);
-            statusFilter.addEventListener('change', renderEvents);
-            document.addEventListener('DOMContentLoaded', fetchEvents);
-        })();
+        // ========== INICIALIZAR ==========
+        document.addEventListener('DOMContentLoaded', fetchEvents);
     </script>
 </body>
 </html>
