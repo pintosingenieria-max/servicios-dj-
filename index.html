@@ -52,97 +52,6 @@
             min-height: 100vh;
         }
 
-        /* --- MODAL DE CONTRASEÑA PERSONALIZADO --- */
-        .password-modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
-            z-index: 3000;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-        }
-        .password-modal-overlay.active {
-            display: flex;
-        }
-        .password-modal-box {
-            background: #1a1a24;
-            border: 1px solid var(--border-color);
-            border-radius: 28px;
-            max-width: 420px;
-            width: 100%;
-            padding: 2.5rem;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
-            text-align: center;
-        }
-        .password-modal-box h3 {
-            color: #fff;
-            font-size: 1.6rem;
-            font-family: var(--font-heading);
-            margin-bottom: 0.5rem;
-        }
-        .password-modal-box p {
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-        }
-        .password-modal-box input {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            font-size: 1rem;
-            margin-bottom: 1.5rem;
-            font-family: var(--font-body);
-        }
-        .password-modal-box input:focus {
-            outline: none;
-            border-color: var(--primary-red);
-        }
-        .password-modal-box .modal-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-        }
-        .password-modal-box .modal-actions button {
-            padding: 0.7rem 2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            font-family: var(--font-body);
-            transition: all 0.3s ease;
-        }
-        .password-modal-box .btn-confirm {
-            background: var(--primary-red);
-            color: #fff;
-        }
-        .password-modal-box .btn-confirm:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px var(--primary-glow);
-        }
-        .password-modal-box .btn-cancel {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-muted);
-            border: 1px solid var(--border-color);
-        }
-        .password-modal-box .btn-cancel:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        .password-error {
-            color: #ef4444;
-            font-size: 0.85rem;
-            margin-bottom: 0.5rem;
-            display: none;
-        }
-
         #particles-canvas {
             position: fixed;
             top: 0;
@@ -1441,7 +1350,7 @@
             <div class="testimonials-grid">
                 <div class="testimonial-card edit-container">
                     <div class="testimonial-header">
-                        <img src="https://ui-avatars.com/api/?name=Laura+G.&background=ff1e43&color=fff&size=50" alt="Foto de Laura" class="testimonial-avatar" loading="lazy" />
+                        <img id="testimonio1_avatar" src="avatar1.jpg" alt="Foto de Laura" class="testimonial-avatar" loading="lazy" />
                         <div>
                             <div class="testimonial-name edit-text" id="testimonio1_nombre">Laura G.</div>
                             <div class="testimonial-role edit-text" id="testimonio1_rol">Fiesta de 15 años</div>
@@ -1453,7 +1362,7 @@
                 </div>
                 <div class="testimonial-card edit-container">
                     <div class="testimonial-header">
-                        <img src="https://ui-avatars.com/api/?name=Carlos+R.&background=ff1e43&color=fff&size=50" alt="Foto de Carlos" class="testimonial-avatar" loading="lazy" />
+                        <img id="testimonio2_avatar" src="avatar2.jpg" alt="Foto de Carlos" class="testimonial-avatar" loading="lazy" />
                         <div>
                             <div class="testimonial-name edit-text" id="testimonio2_nombre">Carlos R.</div>
                             <div class="testimonial-role edit-text" id="testimonio2_rol">Boda</div>
@@ -1465,7 +1374,7 @@
                 </div>
                 <div class="testimonial-card edit-container">
                     <div class="testimonial-header">
-                        <img src="https://ui-avatars.com/api/?name=Mariana+S.&background=ff1e43&color=fff&size=50" alt="Foto de Mariana" class="testimonial-avatar" loading="lazy" />
+                        <img id="testimonio3_avatar" src="avatar3.jpg" alt="Foto de Mariana" class="testimonial-avatar" loading="lazy" />
                         <div>
                             <div class="testimonial-name edit-text" id="testimonio3_nombre">Mariana S.</div>
                             <div class="testimonial-role edit-text" id="testimonio3_rol">Evento Corporativo</div>
@@ -1534,7 +1443,7 @@
         </section>
     </section>
 
-    <!-- SECCIÓN: AGENDA -->
+    <!-- SECCIÓN: AGENDA (se mantiene por si se necesita internamente, pero ya no se usa) -->
     <section class="section-page" id="page-agenda">
         <div class="page-header" style="margin-bottom:2rem;">
             <h1 style="font-size:2.2rem;font-family:var(--font-heading);font-weight:800;">Gestor de <span class="gradient-text">Eventos & Fechas</span></h1>
@@ -1676,20 +1585,6 @@
         <p style="margin-top:0.5rem;font-size:0.8rem;" class="edit-text" id="footer_ubicacion">Villeta, Central · Cubrimos todo el departamento</p>
     </footer>
 
-    <!-- MODAL DE CONTRASEÑA PERSONALIZADO -->
-    <div class="password-modal-overlay" id="passwordModal">
-        <div class="password-modal-box">
-            <h3>🔐 Acceso restringido</h3>
-            <p>Ingresa la contraseña de administrador para continuar.</p>
-            <input type="password" id="passwordInput" placeholder="Contraseña" />
-            <div class="password-error" id="passwordError">Contraseña incorrecta. Intenta de nuevo.</div>
-            <div class="modal-actions">
-                <button class="btn-cancel" id="passwordCancelBtn">Cancelar</button>
-                <button class="btn-confirm" id="passwordConfirmBtn">Aceptar</button>
-            </div>
-        </div>
-    </div>
-
     <!-- MODAL DE EDICIÓN -->
     <div class="modal-overlay" id="editModal">
         <div class="modal-box">
@@ -1733,81 +1628,25 @@
             PASSWORD: '12345'
         };
 
-        // Asegurar que la URL termine con '/'
-        if (!CONFIG.FIREBASE_URL.endsWith('/')) {
-            CONFIG.FIREBASE_URL += '/';
-        }
-
         let isAuthorized = false;
-
-        // --- MODAL DE CONTRASEÑA PERSONALIZADO ---
-        const passwordModal = document.getElementById('passwordModal');
-        const passwordInput = document.getElementById('passwordInput');
-        const passwordError = document.getElementById('passwordError');
-        const passwordConfirmBtn = document.getElementById('passwordConfirmBtn');
-        const passwordCancelBtn = document.getElementById('passwordCancelBtn');
-        let pendingPasswordCallback = null;
-
-        function showPasswordModal(callback) {
-            pendingPasswordCallback = callback;
-            passwordInput.value = '';
-            passwordError.style.display = 'none';
-            passwordModal.classList.add('active');
-            setTimeout(() => passwordInput.focus(), 100);
-        }
-
-        function closePasswordModal() {
-            passwordModal.classList.remove('active');
-            pendingPasswordCallback = null;
-        }
-
-        passwordConfirmBtn.addEventListener('click', function() {
-            const pass = passwordInput.value;
-            if (pass === CONFIG.PASSWORD) {
-                isAuthorized = true;
-                closePasswordModal();
-                if (typeof pendingPasswordCallback === 'function') {
-                    pendingPasswordCallback();
-                    pendingPasswordCallback = null;
-                }
-            } else {
-                passwordError.style.display = 'block';
-                passwordInput.value = '';
-                passwordInput.focus();
-            }
-        });
-
-        passwordCancelBtn.addEventListener('click', function() {
-            closePasswordModal();
-            pendingPasswordCallback = null;
-        });
-
-        passwordInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                passwordConfirmBtn.click();
-            }
-            if (e.key === 'Escape') {
-                passwordCancelBtn.click();
-            }
-        });
-
-        passwordModal.addEventListener('click', function(e) {
-            if (e.target === this) {
-                closePasswordModal();
-                pendingPasswordCallback = null;
-            }
-        });
 
         function requirePassword(callback) {
             if (isAuthorized) {
                 if (typeof callback === 'function') callback();
                 return true;
             }
-            showPasswordModal(callback);
+            const pass = prompt('Introduce la contraseña de administración:');
+            if (pass === CONFIG.PASSWORD) {
+                isAuthorized = true;
+                if (typeof callback === 'function') callback();
+                return true;
+            } else if (pass !== null) {
+                alert('Contraseña incorrecta.');
+            }
             return false;
         }
 
-        // 1. NAVEGACIÓN
+        // 1. NAVEGACIÓN (MODIFICADA: Agenda redirige a URL externa)
         (function() {
             const navLinks = document.querySelectorAll('.nav-links a[data-section]');
             const sections = {
@@ -1839,9 +1678,8 @@
                     e.preventDefault();
                     const targetSection = this.dataset.section;
                     if (targetSection === 'agenda') {
-                        requirePassword(() => {
-                            showSection('agenda');
-                        });
+                        // REDIRECCIÓN EXTERNA
+                        window.location.href = 'https://pintosingenieria-max.github.io/servicios-dj-/';
                     } else {
                         showSection(targetSection);
                     }
@@ -2212,7 +2050,7 @@
                 });
             }
 
-            // BOTÓN DE AÑADIR AL FINAL
+            // BOTÓN DE AÑADIR AL FINAL (CON CONTRASEÑA)
             document.getElementById('addGalleryBtn')?.addEventListener('click', function() {
                 requirePassword(() => {
                     const dialog = uploadcare.openDialog(null, {
@@ -2374,7 +2212,6 @@
                 if (isEditMode) {
                     document.body.classList.remove('edit-mode');
                     isEditMode = false;
-                    isAuthorized = false; // 🔑 RESETEA LA AUTORIZACIÓN AL SALIR
                     editToggleBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Modo Edición';
                 } else {
                     requirePassword(() => {
