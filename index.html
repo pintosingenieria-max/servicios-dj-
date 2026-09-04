@@ -531,23 +531,6 @@
             margin-bottom: 1.5rem;
             display: block;
         }
-        .package-price {
-            margin-bottom: 1.8rem;
-            display: flex;
-            align-items: baseline;
-            gap: 6px;
-        }
-        .price-amount {
-            font-size: 2.4rem;
-            font-weight: 800;
-            color: #fff;
-            font-family: var(--font-heading);
-        }
-        .price-currency {
-            color: var(--primary-red);
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
         .package-specs {
             list-style: none;
             margin-bottom: 2rem;
@@ -612,70 +595,65 @@
 
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
             margin-bottom: 2rem;
         }
-        .gallery-item {
-            position: relative;
-            border-radius: 16px;
-            overflow: hidden;
+        .gallery-card {
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.4s ease;
+        }
+        .gallery-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 30, 67, 0.4);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+        .gallery-media-wrapper {
+            position: relative;
+            width: 100%;
             aspect-ratio: 1/1;
-            cursor: default;
+            overflow: hidden;
             background: #000;
         }
-        .gallery-item:hover {
-            border-color: var(--primary-red);
-            transform: scale(1.02);
-        }
-        .gallery-item img,
-        .gallery-item video {
+        .gallery-media-wrapper img,
+        .gallery-media-wrapper video {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            background: #000;
             transition: transform 0.5s ease;
             display: block;
         }
-        .gallery-item:hover img,
-        .gallery-item:hover video { transform: scale(1.06); }
-        .gallery-item .gallery-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            top: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.85), transparent 60%);
+        .gallery-card:hover .gallery-media-wrapper img,
+        .gallery-card:hover .gallery-media-wrapper video {
+            transform: scale(1.06);
+        }
+        .gallery-card-body {
+            padding: 1.5rem;
             display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            flex-grow: 1;
             justify-content: space-between;
-            align-items: flex-start;
-            padding: 0.8rem;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-            z-index: 10;
         }
-        .gallery-item:hover .gallery-overlay {
-            opacity: 1;
-            pointer-events: auto;
+        .gallery-card-body p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0;
         }
-        .gallery-overlay span {
-            pointer-events: none;
-            color: #fff;
-            font-size: 0.75rem;
-            background: rgba(0,0,0,0.6);
-            padding: 3px 10px;
-            border-radius: 12px;
-            backdrop-filter: blur(4px);
-        }
-        .gallery-overlay .gallery-actions {
+        .gallery-overlay {
+            position: absolute;
+            top: 10px;
+            right: 10px;
             display: none;
             gap: 0.4rem;
-            pointer-events: auto;
+            z-index: 10;
         }
-        .edit-mode .gallery-overlay .gallery-actions {
+        .edit-mode .gallery-overlay {
             display: flex !important;
         }
         .gallery-replace-btn,
@@ -1286,7 +1264,6 @@
                     <div class="package-body">
                         <h3 class="package-title edit-text" id="paquete1_titulo">Equipo Básico</h3>
                         <span class="package-subtitle edit-text" id="paquete1_sub">Ideal para Salones y Reuniones Sociales</span>
-                        <div class="package-price"><span class="price-amount">800.000</span><span class="price-currency">Gs.</span></div>
                         <ul class="package-specs" id="paquete1_specs">
                             <li class="highlight"><i class="fa-solid fa-check-circle"></i> 2 Subwoofers de 18"</li>
                             <li class="highlight"><i class="fa-solid fa-check-circle"></i> 2 Módulos Line Array</li>
@@ -1295,7 +1272,7 @@
                             <li><i class="fa-solid fa-check"></i> 2 Luces Par LED</li>
                             <li><i class="fa-solid fa-clock"></i> <strong>5 Horas de servicio</strong> (Hora adicional 100 mil Gs.)</li>
                         </ul>
-                        <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20me%20interesa%20el%20Equipo%20B%C3%A1sico%20de%20800.000%20Gs." class="btn-secondary" style="text-align:center;justify-content:center;" target="_blank">Reservar Paquete</a>
+                        <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20consultar%20el%20precio%20del%20Equipo%20B%C3%A1sico" class="btn-primary" style="text-align:center;justify-content:center;" target="_blank"><i class="fa-brands fa-whatsapp"></i> Consultar Precio</a>
                     </div>
                 </div>
 
@@ -1306,7 +1283,6 @@
                     <div class="package-body">
                         <h3 class="package-title edit-text" id="paquete2_titulo">Básico + Pantalla LED</h3>
                         <span class="package-subtitle edit-text" id="paquete2_sub">Impacto Visual Completo para XV Años y Bodas</span>
-                        <div class="package-price"><span class="price-amount">1.100.000</span><span class="price-currency">Gs.</span></div>
                         <ul class="package-specs" id="paquete2_specs">
                             <li class="highlight"><i class="fa-solid fa-check-circle"></i> Pantalla LED Integrada / Totem / Cabina</li>
                             <li class="highlight"><i class="fa-solid fa-check-circle"></i> Controlador de Video y Mezcla LED</li>
@@ -1316,7 +1292,7 @@
                             <li><i class="fa-solid fa-user-gear"></i> Operador DJ en vivo incluido</li>
                             <li><i class="fa-solid fa-clock"></i> <strong>6 Horas de servicio continuo</strong></li>
                         </ul>
-                        <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20me%20interesa%20el%20Equipo%20B%C3%A1sico%20con%20Pantalla%20LED%20de%201.100.000%20Gs." class="btn-primary" style="text-align:center;justify-content:center;" target="_blank">Reservar Este Paquete</a>
+                        <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20consultar%20el%20precio%20del%20paquete%20B%C3%A1sico%20+%20Pantalla%20LED" class="btn-primary" style="text-align:center;justify-content:center;" target="_blank"><i class="fa-brands fa-whatsapp"></i> Consultar Precio</a>
                     </div>
                 </div>
 
@@ -1326,7 +1302,6 @@
                     <div class="package-body">
                         <h3 class="package-title edit-text" id="paquete3_titulo">Equipo Exterior / Show</h3>
                         <span class="package-subtitle edit-text" id="paquete3_sub">Potencia Total para Quintas, Festivales y Conciertos</span>
-                        <div class="package-price"><span class="price-amount">2.800.000</span><span class="price-currency">Gs.</span></div>
                         <ul class="package-specs" id="paquete3_specs">
                             <li class="highlight"><i class="fa-solid fa-check-circle"></i> 8 Subwoofers de 18" de Altísima Potencia</li>
                             <li class="highlight"><i class="fa-solid fa-check-circle"></i> 6 Módulos Line Array de Gran Alcance</li>
@@ -1336,7 +1311,7 @@
                             <li><i class="fa-solid fa-microphone"></i> Sistema de Micrófonos Inalámbricos</li>
                             <li><i class="fa-solid fa-user-gear"></i> Operador DJ + Staff Técnico de Montaje</li>
                         </ul>
-                        <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20cotizar%20el%20Equipo%20Exterior%20de%202.800.000%20Gs." class="btn-secondary" style="text-align:center;justify-content:center;" target="_blank">Reservar Show Exterior</a>
+                        <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20consultar%20el%20precio%20del%20Equipo%20Exterior%20/%20Show" class="btn-primary" style="text-align:center;justify-content:center;" target="_blank"><i class="fa-brands fa-whatsapp"></i> Consultar Precio</a>
                     </div>
                 </div>
             </div>
@@ -1353,7 +1328,7 @@
                         <div class="led-spec-box"><h5>3 x 2 Metros</h5><p>12 Módulos HD de 50x100 mm</p></div>
                         <div class="led-spec-box"><h5>Formato Versátil</h5><p>Opción 2 pantallas de 3x1 o Cabina DJ</p></div>
                         <div class="led-spec-box"><h5>Estructuras Perimetrales</h5><p>Montaje seguro tipo Tótem en Truss</p></div>
-                        <div class="led-spec-box"><h5>Desde 1.200.000 Gs.</h5><p>Servicio individual o combo</p></div>
+                        <div class="led-spec-box"><h5>Atención Personalizada</h5><p>Servicio individual o combo</p></div>
                     </div>
                     <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20informaci%C3%B3n%20sobre%20el%20alquiler%20de%20Pantalla%20LED" class="btn-primary" target="_blank"><i class="fa-solid fa-tv"></i> Consultar Disponibilidad LED</a>
                     <button class="edit-btn-overlay" data-key="led" data-type="text" data-text-target="led_titulo" data-text-target2="led_desc"><i class="fa-solid fa-pen"></i></button>
@@ -1403,7 +1378,7 @@
                     <h3 class="upgrade-title edit-text" id="upgrade1_titulo">Pista LED 4x4</h3>
                     <div class="upgrade-price edit-text" id="upgrade1_precio">1.400.000 Gs.</div>
                     <p class="upgrade-desc edit-text" id="upgrade1_desc">Pista de baile iluminada con LED de alta densidad, ideal para darle un toque futurista a tu evento.</p>
-                    <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20consultar%20la%20Pista%20LED%204x4%20de%201.400.000%20Gs." class="btn-secondary" target="_blank"><i class="fa-brands fa-whatsapp"></i> Consultar</a>
+                    <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20consultar%20la%20Pista%20LED%204x4" class="btn-secondary" target="_blank"><i class="fa-brands fa-whatsapp"></i> Consultar</a>
                     <button class="edit-btn-overlay" data-key="upgrade1" data-type="text" data-text-target="upgrade1_titulo" data-text-target2="upgrade1_desc" data-text-target3="upgrade1_precio"><i class="fa-solid fa-pen"></i></button>
                 </div>
                 <div class="upgrade-card edit-container">
@@ -1411,7 +1386,7 @@
                     <h3 class="upgrade-title edit-text" id="upgrade2_titulo">Pista Paris</h3>
                     <div class="upgrade-price edit-text" id="upgrade2_precio">1.500.000 Gs.</div>
                     <p class="upgrade-desc edit-text" id="upgrade2_desc">Pista de baile con diseño elegante y luces dinámicas, perfecta para bodas y fiestas de gala.</p>
-                    <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20consultar%20la%20Pista%20Paris%20de%201.500.000%20Gs." class="btn-secondary" target="_blank"><i class="fa-brands fa-whatsapp"></i> Consultar</a>
+                    <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20consultar%20la%20Pista%20Paris" class="btn-secondary" target="_blank"><i class="fa-brands fa-whatsapp"></i> Consultar</a>
                     <button class="edit-btn-overlay" data-key="upgrade2" data-type="text" data-text-target="upgrade2_titulo" data-text-target2="upgrade2_desc" data-text-target3="upgrade2_precio"><i class="fa-solid fa-pen"></i></button>
                 </div>
                 <div class="upgrade-card edit-container">
@@ -1863,7 +1838,6 @@
         })();
 
         // 5. EDICIÓN DINÁMICA, FIREBASE Y GALERÍA UPLOADCARE
-        // Con optimización de videos: preload metadata + Intersection Observer
         (function() {
             const editToggleBtn = document.getElementById('editToggleBtn');
             const modalOverlay = document.getElementById('editModal');
@@ -1944,7 +1918,6 @@
                                 video.style.height = '100%';
                                 video.style.objectFit = 'cover';
                                 container.appendChild(video);
-                                // Se inicia la reproducción después de un pequeño delay para permitir buffering
                                 setTimeout(() => {
                                     video.play().catch(() => {});
                                 }, 100);
@@ -2000,15 +1973,12 @@
                         }
                     }
                 }
-                // Después de aplicar contenido, configurar observador de videos
                 setupVideoObserver();
             }
 
-            // --- OPTIMIZACIÓN DE VIDEOS: Intersection Observer y preload ---
             let videoObserver = null;
 
             function setupVideoObserver() {
-                // Desconectar observador anterior si existe
                 if (videoObserver) {
                     videoObserver.disconnect();
                     videoObserver = null;
@@ -2017,7 +1987,6 @@
                 const videos = document.querySelectorAll('video');
                 if (videos.length === 0) return;
 
-                // Asegurar que todos los videos tengan preload="metadata" y muted
                 videos.forEach(v => {
                     v.preload = 'metadata';
                     v.muted = true;
@@ -2027,7 +1996,7 @@
 
                 const options = {
                     root: null,
-                    rootMargin: '0px 0px -50px 0px', // un poco de margen inferior para activar antes de que salga
+                    rootMargin: '0px 0px -50px 0px',
                     threshold: 0.1
                 };
 
@@ -2035,17 +2004,13 @@
                     entries.forEach(entry => {
                         const video = entry.target;
                         if (entry.isIntersecting) {
-                            // Video visible: reproducir (si está pausado)
                             if (video.paused) {
                                 video.play().catch(() => {});
                             }
                         } else {
-                            // Video fuera de vista: pausar y liberar recursos
                             if (!video.paused) {
                                 video.pause();
                             }
-                            // Opcional: resetear el tiempo para evitar buffering innecesario
-                            // video.currentTime = 0; // (descomentar si se desea reiniciar)
                         }
                     });
                 }, options);
@@ -2055,7 +2020,6 @@
                 });
             }
 
-            // GALERÍA
             function getGalleryItems() {
                 return fetch(galleryUrl)
                     .then(res => res.json())
@@ -2085,7 +2049,7 @@
                             No hay elementos en la galería. ¡Añade fotos o videos!
                         </div>
                     `;
-                    setupVideoObserver(); // reiniciar observer
+                    setupVideoObserver();
                     return;
                 }
                 let html = '';
@@ -2096,21 +2060,28 @@
                     const mediaTag = isVideo
                         ? `<video src="${validSrc}" autoplay loop muted playsinline webkit-playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;background:#000;display:block;"></video>`
                         : `<img src="${validSrc}" alt="Galería ${index+1}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.src='dj michael.jpg';" />`;
+                    
+                    const whatsappMsg = encodeURIComponent(`Hola DJ Michael, quiero consultar el precio de este elemento de la galería (Ítem #${index + 1})`);
+
                     html += `
-                        <div class="gallery-item" data-index="${index}">
-                            ${mediaTag}
-                            <div class="gallery-overlay">
-                                <span>${isVideo ? '<i class="fa-solid fa-video"></i> Video' : '<i class="fa-solid fa-image"></i> Imagen'}</span>
-                                <div class="gallery-actions">
+                        <div class="gallery-card edit-container" data-index="${index}">
+                            <div class="gallery-media-wrapper">
+                                ${mediaTag}
+                                <div class="gallery-overlay">
                                     <button class="gallery-replace-btn" data-index="${index}" title="Reemplazar"><i class="fa-solid fa-rotate"></i></button>
                                     <button class="gallery-delete-btn" data-index="${index}" title="Eliminar"><i class="fa-solid fa-trash-can"></i></button>
                                 </div>
+                            </div>
+                            <div class="gallery-card-body">
+                                <p><i class="fa-solid fa-${isVideo ? 'video' : 'image'}"></i> Elemento de la Galería</p>
+                                <a href="https://wa.me/595994608163?text=${whatsappMsg}" class="btn-primary" style="text-align:center;justify-content:center;font-size:0.9rem;padding:0.6rem 1rem;" target="_blank">
+                                    <i class="fa-brands fa-whatsapp"></i> Consultar Precio
+                                </a>
                             </div>
                         </div>
                     `;
                 });
                 grid.innerHTML = html;
-                // Los videos se reproducirán automáticamente; configurar observer
                 setupVideoObserver();
                 attachGalleryEvents();
             }
@@ -2214,7 +2185,6 @@
                 });
             });
 
-            // MODAL DE EDICIÓN
             function openModal(key, type, imgTarget, textTarget1, textTarget2, textTarget3, specsTarget) {
                 currentEditKey = key;
                 currentEditType = type;
