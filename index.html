@@ -547,52 +547,6 @@
         .package-specs li i { color: var(--primary-red); font-size: 0.85rem; }
         .package-specs li.highlight { color: #fff; font-weight: 600; }
 
-        /* ESTILOS NUEVOS PARA EL COTIZADOR INTERACTIVO */
-        .interactive-quote-container {
-            background: linear-gradient(135deg, rgba(25, 20, 35, 0.95) 0%, rgba(12, 14, 22, 0.98) 100%);
-            border: 1px solid rgba(0, 242, 254, 0.3);
-            border-radius: 30px;
-            padding: 3rem 2.5rem;
-            margin-bottom: 4rem;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
-        }
-        .quote-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .quote-box {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-color);
-            padding: 1.5rem;
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-        .quote-box h4 {
-            color: #fff;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .quote-box h4 i { color: var(--accent-cyan); }
-        .quote-summary {
-            background: rgba(0, 242, 254, 0.05);
-            border: 1px dashed rgba(0, 242, 254, 0.3);
-            padding: 1.2rem;
-            border-radius: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        .quote-summary-text h5 { color: var(--accent-cyan); font-size: 1.1rem; margin-bottom: 4px; }
-        .quote-summary-text p { color: var(--text-muted); font-size: 0.9rem; }
-
         .led-container {
             background: linear-gradient(135deg, rgba(20, 24, 38, 0.9) 0%, rgba(10, 12, 18, 0.95) 100%);
             border: 1px solid rgba(0, 242, 254, 0.2);
@@ -1224,7 +1178,7 @@
         <div class="hero">
             <div class="hero-content">
                 <div class="hero-badge"><i class="fa-solid fa-bolt"></i> Producción de Eventos Premium</div>
-                <div class="location-badge"><i class="fa-solid fa-location-dot"></i> Villeta · Central · Cubrimos todo el departamento[cite: 1]</div>
+                <div class="location-badge"><i class="fa-solid fa-location-dot"></i> Villeta · Central · Cubrimos todo el departamento</div>
                 <h1 class="hero-title edit-container">
                     <span class="edit-text" id="hero_title">Tu evento, llevado al <span class="gradient-text">siguiente nivel</span></span>
                     <button class="edit-btn-overlay" data-key="hero_title" data-type="text" data-text-target="hero_title"><i class="fa-solid fa-pen"></i></button>
@@ -1359,52 +1313,6 @@
                         </ul>
                         <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quiero%20consultar%20el%20precio%20del%20Equipo%20Exterior%20/%20Show" class="btn-primary" style="text-align:center;justify-content:center;" target="_blank"><i class="fa-brands fa-whatsapp"></i> Consultar Precio</a>
                     </div>
-                </div>
-            </div>
-
-            {/* --- FUNCIÓN NUEVA: COTIZADOR INTERACTIVO EXPRESS --- */}
-            <div class="interactive-quote-container">
-                <div class="section-header" style="margin-bottom: 2rem;">
-                    <span class="section-subtitle">Herramienta Exclusiva</span>
-                    <h3 style="font-size: 2.2rem; color: #fff;">Arma tu Paquete a Medida</h3>
-                    <p style="color: var(--text-muted); font-size: 0.95rem;">Selecciona los detalles de tu evento y envíanos la solicitud directo a WhatsApp.</p>
-                </div>
-                <div class="quote-grid">
-                    <div class="quote-box">
-                        <h4><i class="fa-solid fa-glass-cheers"></i> Tipo de Evento</h4>
-                        <select id="qType" class="form-control">
-                            <option value="XV Años">Fiesta de 15 Años</option>
-                            <option value="Boda">Boda / Casamiento</option>
-                            <option value="Quinta">Fiesta en Quinta</option>
-                            <option value="Corporativo">Evento Corporativo</option>
-                        </select>
-                    </div>
-                    <div class="quote-box">
-                        <h4><i class="fa-solid fa-music"></i> Base Principal</h4>
-                        <select id="qPackage" class="form-control">
-                            <option value="Equipo Básico">Equipo Básico</option>
-                            <option value="Básico + Pantalla LED">Básico + Pantalla LED</option>
-                            <option value="Equipo Exterior / Show">Equipo Exterior / Show</option>
-                        </select>
-                    </div>
-                    <div class="quote-box">
-                        <h4><i class="fa-solid fa-star"></i> Opcional Extra</h4>
-                        <select id="qUpgrade" class="form-control">
-                            <option value="Ninguno">Ninguno</option>
-                            <option value="Pista LED 4x4">Pista LED 4x4</option>
-                            <option value="Pista Paris">Pista Paris</option>
-                            <option value="Chispa Fría">Efecto Chispa Fría</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="quote-summary">
-                    <div class="quote-summary-text">
-                        <h5>¡Listo para cotizar!</h5>
-                        <p>Genera tu consulta personalizada con un solo toque.</p>
-                    </div>
-                    <button id="sendCustomQuoteBtn" class="btn-primary" style="padding: 0.8rem 2rem;">
-                        <i class="fa-brands fa-whatsapp"></i> Cotizar por WhatsApp
-                    </button>
                 </div>
             </div>
         </section>
@@ -1928,17 +1836,6 @@
             }
             animate();
         })();
-
-        // SCRIPT NUEVO PARA EL COTIZADOR INTERACTIVO
-        document.getElementById('sendCustomQuoteBtn')?.addEventListener('click', function() {
-            const type = document.getElementById('qType').value;
-            const pkg = document.getElementById('qPackage').value;
-            const upgrade = document.getElementById('qUpgrade').value;
-
-            const message = `Hola DJ Michael, quiero armar una cotización personalizada para mi evento:\n- Tipo de Evento: ${type}\n- Paquete Base: ${pkg}\n- Opcional Extra: ${upgrade}`;
-            const encodedUrl = `https://wa.me/595994608163?text=${encodeURIComponent(message)}`;
-            window.open(encodedUrl, '_blank');
-        });
 
         // 5. EDICIÓN DINÁMICA, FIREBASE Y GALERÍA UPLOADCARE
         (function() {
