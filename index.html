@@ -606,13 +606,43 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            transition: all 0.4s ease;
+            transition: transform 0.2s ease, border-color 0.3s ease;
         }
         .gallery-card:hover {
-            transform: translateY(-8px);
             border-color: rgba(255, 30, 67, 0.4);
             box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
+        
+        /* Estilos específicos para cuando el Modo Edición está activo */
+        .edit-mode .gallery-card {
+            cursor: grab;
+            position: relative;
+        }
+        .edit-mode .gallery-card:active {
+            cursor: grabbing;
+        }
+        /* Indicador visual de arrastre en modo edición */
+        .edit-mode .gallery-card::before {
+            content: "\f58d";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(0, 0, 0, 0.75);
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            z-index: 15;
+            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(4px);
+        }
+
         .gallery-media-wrapper {
             position: relative;
             width: 100%;
@@ -639,11 +669,6 @@
             gap: 1rem;
             flex-grow: 1;
             justify-content: space-between;
-        }
-        .gallery-card-body p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin: 0;
         }
         .gallery-overlay {
             position: absolute;
@@ -2064,7 +2089,7 @@
                     const whatsappMsg = encodeURIComponent(`Hola DJ Michael, quiero consultar el precio de este elemento de la galería (Ítem #${index + 1})`);
 
                     html += `
-                        <div class="gallery-card edit-container" data-index="${index}">
+                        <div class="gallery-card edit-container" data-index="${index}" draggable="${isEditMode}">
                             <div class="gallery-media-wrapper">
                                 ${mediaTag}
                                 <div class="gallery-overlay">
@@ -2072,8 +2097,7 @@
                                     <button class="gallery-delete-btn" data-index="${index}" title="Eliminar"><i class="fa-solid fa-trash-can"></i></button>
                                 </div>
                             </div>
-                            <div class="gallery-card-body">
-                                <p><i class="fa-solid fa-${isVideo ? 'video' : 'image'}"></i> Elemento de la Galería</p>
+                            <div class="gallery-card-body" style="justify-content:center;">
                                 <a href="https://wa.me/595994608163?text=${whatsappMsg}" class="btn-primary" style="text-align:center;justify-content:center;font-size:0.9rem;padding:0.6rem 1rem;" target="_blank">
                                     <i class="fa-brands fa-whatsapp"></i> Consultar Precio
                                 </a>
@@ -2084,6 +2108,71 @@
                 grid.innerHTML = html;
                 setupVideoObserver();
                 attachGalleryEvents();
+                initDragAndDrop();
+            }
+
+            // Implementación nativa de Drag and Drop para reorganizar tarjetas de la galería
+            let draggedCard = null;
+
+            function initDragAndDrop() {
+                const grid = document.getElementById('gallery-grid');
+                if (!grid) return;
+
+                const cards = grid.querySelectorAll('.gallery-card');
+                cards.forEach(card => {
+                    card.setAttribute('draggable', isEditMode ? 'true' : 'false');
+
+                    card.addEventListener('dragstart', function(e) {
+                        if (!isEditMode) return;
+                        draggedCard = this;
+                        e.dataTransfer.effectAllowed = 'move';
+                        setTimeout(() => this.style.opacity = '0.4', 0);
+                    });
+
+                    card.addEventListener('dragend', function(e) {
+                        if (!isEditMode) return;
+                        this.style.opacity = '1';
+                        draggedCard = null;
+                        
+                        // Recoger el nuevo orden y guardarlo en Firebase
+                        const updatedCards = grid.querySelectorAll('.gallery-card');
+                        let newItemsOrder = [];
+                        
+                        getGalleryItems().then(currentItems => {
+                            updatedCards.forEach((c) => {
+                                const oldIdx = parseInt(c.dataset.index);
+                                if (currentItems[oldIdx]) {
+                                    newItemsOrder.push(currentItems[oldIdx]);
+                                }
+                            });
+                            saveGalleryItems(newItemsOrder).then(() => {
+                                // Re-renderizar para actualizar índices de datos
+                                getGalleryItems().then(renderGalleryItems);
+                            });
+                        });
+                    });
+
+                    card.addEventListener('dragover', function(e) {
+                        if (!isEditMode) return;
+                        e.preventDefault();
+                        e.dataTransfer.dropEffect = 'move';
+                    });
+
+                    card.addEventListener('drop', function(e) {
+                        if (!isEditMode) return;
+                        e.preventDefault();
+                        if (draggedCard && draggedCard !== this) {
+                            // Insertar antes o después dependiendo de la posición del cursor
+                            const rect = this.getBoundingClientRect();
+                            const next = (e.clientX - rect.left) > (rect.width / 2);
+                            if (next) {
+                                grid.insertBefore(draggedCard, this.nextSibling);
+                            } else {
+                                grid.insertBefore(draggedCard, this);
+                            }
+                        }
+                    });
+                });
             }
 
             function attachGalleryEvents() {
@@ -2306,6 +2395,8 @@
                         editToggleBtn.innerHTML = '<i class="fa-solid fa-check"></i> Salir Edición';
                     });
                 }
+                // Refrescar la galería para habilitar/deshabilitar el atributo draggable en las tarjetas
+                getGalleryItems().then(renderGalleryItems);
             });
 
             document.addEventListener('click', function(e) {
