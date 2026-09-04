@@ -1626,12 +1626,12 @@
             PASSWORD: '12345'
         };
 
-        // Asegurar que la URL termine con '/'
         if (!CONFIG.FIREBASE_URL.endsWith('/')) {
             CONFIG.FIREBASE_URL += '/';
         }
 
         let isAuthorized = false;
+        let pendingRedirectUrl = null;
 
         // --- MODAL DE CONTRASEÑA PERSONALIZADO ---
         const passwordModal = document.getElementById('passwordModal');
@@ -1639,10 +1639,8 @@
         const passwordError = document.getElementById('passwordError');
         const passwordConfirmBtn = document.getElementById('passwordConfirmBtn');
         const passwordCancelBtn = document.getElementById('passwordCancelBtn');
-        let pendingPasswordCallback = null;
 
-        function showPasswordModal(callback) {
-            pendingPasswordCallback = callback;
+        function showPasswordModal() {
             passwordInput.value = '';
             passwordError.style.display = 'none';
             passwordModal.classList.add('active');
@@ -1651,17 +1649,18 @@
 
         function closePasswordModal() {
             passwordModal.classList.remove('active');
-            pendingPasswordCallback = null;
         }
 
-        passwordConfirmBtn.addEventListener('click', function() {
+        passwordConfirmBtn.addEventListener('click', function(e) {
+            e.preventDefault();
             const pass = passwordInput.value;
             if (pass === CONFIG.PASSWORD) {
                 isAuthorized = true;
                 closePasswordModal();
-                if (typeof pendingPasswordCallback === 'function') {
-                    pendingPasswordCallback();
-                    pendingPasswordCallback = null;
+                // Redirigir si hay una URL pendiente
+                if (pendingRedirectUrl) {
+                    window.location.href = pendingRedirectUrl;
+                    pendingRedirectUrl = null;
                 }
             } else {
                 passwordError.style.display = 'block';
@@ -1672,7 +1671,7 @@
 
         passwordCancelBtn.addEventListener('click', function() {
             closePasswordModal();
-            pendingPasswordCallback = null;
+            pendingRedirectUrl = null;
         });
 
         passwordInput.addEventListener('keydown', function(e) {
@@ -1687,7 +1686,7 @@
         passwordModal.addEventListener('click', function(e) {
             if (e.target === this) {
                 closePasswordModal();
-                pendingPasswordCallback = null;
+                pendingRedirectUrl = null;
             }
         });
 
@@ -1696,7 +1695,8 @@
                 if (typeof callback === 'function') callback();
                 return true;
             }
-            showPasswordModal(callback);
+            showPasswordModal();
+            // No ejecutamos callback aquí, la redirección la hará el evento confirm
             return false;
         }
 
@@ -1731,9 +1731,13 @@
                     e.preventDefault();
                     const targetSection = this.dataset.section;
                     if (targetSection === 'agenda') {
-                        requirePassword(() => {
-                            window.location.href = 'https://pintosingenieria-max.github.io/fechas-/';
-                        });
+                        pendingRedirectUrl = 'https://pintosingenieria-max.github.io/fechas-/';
+                        if (isAuthorized) {
+                            window.location.href = pendingRedirectUrl;
+                            pendingRedirectUrl = null;
+                        } else {
+                            showPasswordModal();
+                        }
                     } else {
                         showSection(targetSection);
                     }
@@ -1860,7 +1864,7 @@
             animate();
         })();
 
-        // 5. EDICIÓN DINÁMICA, FIREBASE Y GALERÍA UPLOADCARE (CORREGIDO)
+        // 5. EDICIÓN DINÁMICA, FIREBASE Y GALERÍA UPLOADCARE
         (function() {
             const editToggleBtn = document.getElementById('editToggleBtn');
             const modalOverlay = document.getElementById('editModal');
@@ -2104,7 +2108,6 @@
                 });
             }
 
-            // BOTÓN DE AÑADIR AL FINAL
             document.getElementById('addGalleryBtn')?.addEventListener('click', function() {
                 requirePassword(() => {
                     const dialog = uploadcare.openDialog(null, {
@@ -2266,7 +2269,7 @@
                 if (isEditMode) {
                     document.body.classList.remove('edit-mode');
                     isEditMode = false;
-                    isAuthorized = false; // 🔑 RESETEA LA AUTORIZACIÓN AL SALIR
+                    isAuthorized = false;
                     editToggleBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Modo Edición';
                 } else {
                     requirePassword(() => {
