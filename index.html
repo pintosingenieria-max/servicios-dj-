@@ -1554,10 +1554,15 @@
                 <video id="modalVideoPreview" class="video-preview" style="display:none;" controls playsinline></video>
                 <label for="modalImgUrl">URL del medio (imagen o video)</label>
                 <input type="text" id="modalImgUrl" placeholder="https://..." />
-                <div class="file-input-wrap">
-                    <button type="button" id="uploadUploadcareBtn" class="btn-primary" style="font-size:0.9rem;padding:0.5rem 1.2rem;width:100%;justify-content:center;">
-                        <i class="fa-solid fa-cloud-upload-alt"></i> Subir foto o video con Uploadcare
+                <div class="file-input-wrap" style="flex-direction:column;align-items:stretch;">
+                    <input type="file" id="modalLocalFileInput" accept="image/*,video/*" style="display:none;" />
+                    <button type="button" id="selectLocalFileBtn" class="btn-primary" style="font-size:0.95rem;padding:0.75rem 1.2rem;width:100%;justify-content:center;">
+                        <i class="fa-solid fa-folder-open"></i> Seleccionar foto o video de mi dispositivo
                     </button>
+                    <button type="button" id="uploadUploadcareBtn" class="btn-secondary" style="font-size:0.85rem;padding:0.55rem 1.2rem;width:100%;justify-content:center;">
+                        <i class="fa-solid fa-cloud-upload-alt"></i> Usar gestor avanzado Uploadcare
+                    </button>
+                    <div id="uploadStatusMsg" style="font-size:0.85rem;color:var(--accent-cyan);text-align:center;display:none;margin-top:4px;"></div>
                 </div>
             </div>
             <div id="modalTextSection">
@@ -2239,8 +2244,7 @@
                         const ul = document.getElementById(entry.specsTarget);
                         if (ul) {
                             ul.innerHTML = '';
-                            const items = entry.specs.split('
-').filter(s => s.trim() !== '');
+                            const items = entry.specs.split('\n').filter(s => s.trim() !== '');
                             items.forEach(text => {
                                 const li = document.createElement('li');
                                 let iconClass = 'fa-solid fa-check';
@@ -2263,14 +2267,38 @@
             }
 
             function getGalleryItems() {
-                return fetch(galleryUrl)
-                    .then(res => res.json())
+                return fetch(galleryUrl + '?t=' + Date.now())
+                    .then(res => {
+                        if (!res.ok) throw new Error('HTTP ' + res.status);
+                        return res.json();
+                    })
                     .then(data => {
                         if (!data) return [];
-                        if (Array.isArray(data)) return data.filter(Boolean);
-                        return Object.values(data).filter(Boolean);
+                        let list = [];
+                        if (Array.isArray(data)) {
+                            list = data;
+                        } else if (typeof data === 'object') {
+                            if (data.src) {
+                                list = [data];
+                            } else {
+                                list = Object.values(data);
+                            }
+                        }
+                        return list.map(item => {
+                            if (!item) return null;
+                            if (typeof item === 'string') return { src: item };
+                            if (item.url && !item.src) return { ...item, src: item.url };
+                            return item;
+                        }).filter(item => item && item.src);
                     })
-                    .catch(() => []);
+                    .catch(err => {
+                        console.error('Error cargando galería desde Firebase:', err);
+                        const grid = document.getElementById('gallery-grid');
+                        if (grid) {
+                            grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:2.5rem;color:#ef4444;"><i class="fa-solid fa-triangle-exclamation" style="font-size:2rem;display:block;margin-bottom:0.8rem;"></i>No se pudo conectar con Firebase (${err.message}). Revisa tu conexión o las reglas de la base de datos.</div>`;
+                        }
+                        return null;
+                    });
             }
 
             function saveGalleryItems(items) {
@@ -2283,8 +2311,8 @@
 
             function renderGalleryItems(items) {
                 const grid = document.getElementById('gallery-grid');
-                if (!grid) return;
-                if (!items || items.length === 0) {
+                if (!grid || items === null) return;
+                if (items.length === 0) {
                     grid.innerHTML = `
                         <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);">
                             <i class="fa-solid fa-images" style="font-size:3rem;display:block;margin-bottom:1rem;"></i>
@@ -2523,8 +2551,7 @@
                     const ul = document.getElementById(specsTarget);
                     if (ul) {
                         const items = ul.querySelectorAll('li');
-                        currentSpecs = Array.from(items).map(li => li.textContent.trim()).join('
-');
+                        currentSpecs = Array.from(items).map(li => li.textContent.trim()).join('\n');
                     }
                 }
 
@@ -2550,6 +2577,7 @@
                 modalSpecsSection.style.display = (specsTarget && type === 'package') ? 'block' : 'none';
                 modalSpecs.value = currentSpecs;
 
+                if (uploadStatusMsg) uploadStatusMsg.style.display = 'none';
                 modalTitle.innerText = 'Editar: ' + key;
                 modalOverlay.classList.add('active');
             }
@@ -2564,6 +2592,10 @@
             function saveCurrentEdit() {
                 if (!currentEditKey) return;
                 const imgValue = formatUploadcareUrl(modalImgUrl.value.trim());
+                if (imgValue.startsWith('file:///')) {
+                    alert('Esa es una ruta local de tu computadora (file:///...). Usa el botón rojo "Seleccionar foto o video de mi dispositivo" para subirlo primero a la nube.');
+                    return;
+                }
                 const text1 = modalText1.value.trim();
                 const text2 = modalText2.value.trim();
                 const text3 = modalText3.value.trim();
@@ -2611,20 +2643,71 @@
             modalCancelBtn.addEventListener('click', closeModal);
             modalSaveBtn.addEventListener('click', saveCurrentEdit);
 
+            const modalLocalFileInput = document.getElementById('modalLocalFileInput');
+            const selectLocalFileBtn = document.getElementById('selectLocalFileBtn');
+            const uploadStatusMsg = document.getElementById('uploadStatusMsg');
+
+            function handleUploadedFileInfo(fileInfo) {
+                if (fileInfo && fileInfo.cdnUrl) {
+                    const formattedUrl = formatUploadcareUrl(fileInfo.cdnUrl);
+                    currentUploadedMime = fileInfo.mimeType || (fileInfo.isImage === false ? 'video/mp4' : 'image/jpeg');
+                    modalImgUrl.value = formattedUrl;
+                    updateModalPreview(formattedUrl, currentUploadedMime);
+                    if (uploadStatusMsg) {
+                        uploadStatusMsg.style.display = 'block';
+                        uploadStatusMsg.style.color = 'var(--badge-green)';
+                        uploadStatusMsg.innerHTML = '<i class="fa-solid fa-circle-check"></i> Archivo subido a la nube. Ahora presiona <strong>Guardar cambios</strong>.';
+                    }
+                }
+            }
+
+            selectLocalFileBtn?.addEventListener('click', function() {
+                modalLocalFileInput.value = '';
+                modalLocalFileInput.click();
+            });
+
+            modalLocalFileInput?.addEventListener('change', function() {
+                const file = this.files && this.files[0];
+                if (!file) return;
+
+                const localPreviewUrl = URL.createObjectURL(file);
+                currentUploadedMime = file.type || '';
+                updateModalPreview(localPreviewUrl, currentUploadedMime);
+
+                if (uploadStatusMsg) {
+                    uploadStatusMsg.style.display = 'block';
+                    uploadStatusMsg.style.color = 'var(--accent-cyan)';
+                    uploadStatusMsg.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Subiendo archivo a Uploadcare... espera un momento...';
+                }
+                modalSaveBtn.disabled = true;
+
+                try {
+                    const ucFile = uploadcare.fileFrom('object', file, {
+                        publicKey: CONFIG.UPLOADCARE_PUBLIC_KEY
+                    });
+                    ucFile.done(function(fileInfo) {
+                        modalSaveBtn.disabled = false;
+                        handleUploadedFileInfo(fileInfo);
+                    }).fail(function(err) {
+                        modalSaveBtn.disabled = false;
+                        if (uploadStatusMsg) {
+                            uploadStatusMsg.style.color = '#ef4444';
+                            uploadStatusMsg.innerText = 'Error al subir a Uploadcare: ' + (err || 'verifica tu conexión');
+                        }
+                    });
+                } catch (e) {
+                    modalSaveBtn.disabled = false;
+                    alert('Error iniciando subida: ' + e.message);
+                }
+            });
+
             uploadUploadcareBtn.addEventListener('click', function() {
                 const dialog = uploadcare.openDialog(null, {
                     publicKey: CONFIG.UPLOADCARE_PUBLIC_KEY,
                     multiple: false,
                     imagesOnly: false
                 });
-                dialog.done(function(fileInfo) {
-                    if (fileInfo && fileInfo.cdnUrl) {
-                        const formattedUrl = formatUploadcareUrl(fileInfo.cdnUrl);
-                        currentUploadedMime = fileInfo.mimeType || (fileInfo.isImage === false ? 'video/mp4' : 'image/jpeg');
-                        modalImgUrl.value = formattedUrl;
-                        updateModalPreview(formattedUrl, currentUploadedMime);
-                    }
-                });
+                dialog.done(handleUploadedFileInfo);
             });
 
             modalImgUrl.addEventListener('input', function() {
@@ -2667,10 +2750,20 @@
                 });
             });
 
-            document.addEventListener('DOMContentLoaded', function() {
+            function initPageData() {
+                const grid = document.getElementById('gallery-grid');
+                if (grid && !grid.innerHTML.trim()) {
+                    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2.5rem;color:var(--text-muted);"><i class="fa-solid fa-spinner fa-spin" style="font-size:2rem;display:block;margin-bottom:0.8rem;color:var(--primary-red);"></i>Cargando galería de eventos...</div>';
+                }
                 loadContentFromFirebase().then(applyContent);
                 getGalleryItems().then(renderGalleryItems);
-            });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initPageData);
+            } else {
+                initPageData();
+            }
         })();
     </script>
 </body>
