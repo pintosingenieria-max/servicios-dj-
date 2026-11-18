@@ -1904,6 +1904,7 @@
             function formatUploadcareUrl(url) {
                 if (!url) return '';
                 let cleanUrl = String(url).trim();
+                cleanUrl = cleanUrl.replace(/https?:\/\/[a-z0-9]+\.ucarecd\.net\//i, 'https://ucarecdn.com/');
                 if (cleanUrl.includes('ucarecdn.com') && !cleanUrl.endsWith('/')) {
                     cleanUrl += '/';
                 }
@@ -2048,8 +2049,22 @@
                 const iconoOriginal = botonEl.innerHTML;
                 botonEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
                 botonEl.style.pointerEvents = 'none';
+                
+                let urlDescarga = formatUploadcareUrl(url);
+                
+                if (urlDescarga.includes('ucarecdn.com')) {
+                    const baseUrl = urlDescarga.split('/-/')[0].replace(/\/$/, '');
+                    urlDescarga = `${baseUrl}/-/inline/no/${nombreArchivo || 'dj-michael-evento.mp4'}`;
+                    window.location.href = urlDescarga;
+                    setTimeout(() => {
+                        botonEl.innerHTML = iconoOriginal;
+                        botonEl.style.pointerEvents = 'auto';
+                    }, 1200);
+                    return;
+                }
+
                 try {
-                    const respuesta = await fetch(url);
+                    const respuesta = await fetch(urlDescarga);
                     const blob = await respuesta.blob();
                     const blobUrl = window.URL.createObjectURL(blob);
                     const enlace = document.createElement('a');
@@ -2060,7 +2075,7 @@
                     enlace.remove();
                     window.URL.revokeObjectURL(blobUrl);
                 } catch (error) {
-                    window.open(url, '_blank');
+                    window.open(urlDescarga, '_blank');
                 } finally {
                     botonEl.innerHTML = iconoOriginal;
                     botonEl.style.pointerEvents = 'auto';
