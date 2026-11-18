@@ -453,6 +453,34 @@
             box-shadow: 0 0 14px var(--primary-glow);
         }
 
+        /* Botón de descarga directa para videos */
+        .video-download-btn {
+            position: absolute;
+            bottom: 14px;
+            right: 62px;
+            background: rgba(0, 0, 0, 0.78);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 25;
+            font-size: 0.95rem;
+            backdrop-filter: blur(6px);
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
+        .video-download-btn:hover {
+            background: var(--accent-cyan);
+            color: #000;
+            border-color: var(--accent-cyan);
+            transform: scale(1.1);
+        }
+
         /* Indicador visual de "En reproducción" */
         .video-playing-badge {
             position: absolute;
@@ -696,7 +724,7 @@
             cursor: grabbing;
         }
         .edit-mode .gallery-card::before {
-            content: "58d";
+            content: "\f58d";
             font-family: "Font Awesome 6 Free";
             font-weight: 900;
             position: absolute;
@@ -1482,7 +1510,7 @@
                 <p class="edit-text" id="contacto_desc">Reserva con anticipación mediante seña y asegura la fecha de tu fiesta con el mejor equipamiento visual y de sonido.</p>
                 <div class="contact-actions">
                     <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quisiera%20reservar%20mi%20fecha" class="btn-primary" target="_blank" style="font-size:1.1rem;padding:1rem 2.5rem;"><i class="fa-brands fa-whatsapp"></i> Hablar al 0994 608 163</a>
-                    <a href="tel:0992311266" class="btn-secondary" style="font-size:1.1rem;padding:1rem 2.5rem;"><i class="fa-solid fa-phone"></i> Llama al 0992 311 266</a>
+                    <a href="tel:+595992311266" class="btn-secondary" style="font-size:1.1rem;padding:1rem 2.5rem;"><i class="fa-solid fa-phone"></i> Llama al 0992 311 266</a>
                 </div>
                 <div class="social-links">
                     <a href="https://facebook.com/michael.pintos" class="social-btn" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
@@ -1501,7 +1529,7 @@
             <p>Reserva con anticipación mediante seña y asegura la fecha de tu fiesta con el mejor equipamiento visual y de sonido.</p>
             <div class="contact-actions">
                 <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quisiera%20reservar%20mi%20fecha" class="btn-primary" target="_blank" style="font-size:1.1rem;padding:1rem 2.5rem;"><i class="fa-brands fa-whatsapp"></i> Hablar al 0994 608 163</a>
-                <a href="tel:0992311266" class="btn-secondary" style="font-size:1.1rem;padding:1rem 2.5rem;"><i class="fa-solid fa-phone"></i> Llama al 0992 311 266</a>
+                <a href="tel:+595992311266" class="btn-secondary" style="font-size:1.1rem;padding:1rem 2.5rem;"><i class="fa-solid fa-phone"></i> Llama al 0992 311 266</a>
             </div>
             <div class="social-links">
                 <a href="https://facebook.com/michael.pintos" class="social-btn" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
@@ -1835,7 +1863,7 @@
             animate();
         })();
 
-        // 5. CONTROL EXCLUSIVO DE VIDEO (SIN SOLAPAMIENTO DE AUDIO Y SIN TRANCARSE)
+        // 5. CONTROL EXCLUSIVO DE VIDEO (SIN SOLAPAMIENTO DE AUDIO Y CON DESCARGA DIRECTA)
         (function() {
             const editToggleBtn = document.getElementById('editToggleBtn');
             const modalOverlay = document.getElementById('editModal');
@@ -1864,11 +1892,10 @@
             let currentUploadedMime = '';
             let isEditMode = false;
 
-            // Estado global del gestor de videos (1 solo video activo a la vez para evitar solapamiento y lag)
             let activeVideo = null;
-            let userMutedPreference = false; // false = sonido activado por defecto
+            let userMutedPreference = false;
             let audioUnlocked = false;
-            const visibleVideosMap = new Map(); // video -> intersectionRatio
+            const visibleVideosMap = new Map();
             let scrollDebounceTimer = null;
 
             const dbUrl = CONFIG.FIREBASE_URL + 'contenido.json';
@@ -1904,7 +1931,6 @@
                 }
             }
 
-            // Pausar todos los demás videos excepto el elegido (evita solapamiento de audio y libera ancho de banda)
             function pauseAllVideosExcept(targetVideo) {
                 document.querySelectorAll('video:not(.video-preview)').forEach(v => {
                     if (v !== targetVideo) {
@@ -1917,7 +1943,6 @@
                 });
             }
 
-            // Actualizar ícono de sonido y etiqueta de reproducción en el video
             function updateVideoUI(video, isPlayingActive) {
                 const wrapper = video.parentElement;
                 if (!wrapper) return;
@@ -1945,15 +1970,13 @@
                 }
             }
 
-            // Reproduce el video elegido con sonido automático (sin solapamiento y con precarga fluida)
             function playExclusiveVideo(video) {
                 if (!video) return;
-                if (modalOverlay.classList.contains('active')) return; // No reproducir de fondo si el modal está abierto
+                if (modalOverlay.classList.contains('active')) return;
 
                 pauseAllVideosExcept(video);
                 activeVideo = video;
 
-                // Asegurar carga del buffer para que no se tranque
                 if (video.preload !== 'auto') {
                     video.preload = 'auto';
                 }
@@ -1967,8 +1990,6 @@
                         audioUnlocked = !video.muted;
                         updateVideoUI(video, true);
                     }).catch(() => {
-                        // Si el navegador bloqueó el autoplay con sonido antes del primer clic del usuario,
-                        // arrancamos en silencio para que no se tranque y activamos el audio al instante al tocar la pantalla
                         video.muted = true;
                         updateVideoUI(video, true);
                         video.play().catch(() => {});
@@ -1976,7 +1997,6 @@
                 }
             }
 
-            // Al primer clic, toque o scroll con interacción del usuario, desbloquear el sonido del video activo inmediatamente
             function unlockAudioOnUserGesture() {
                 if (audioUnlocked) return;
                 audioUnlocked = true;
@@ -1993,7 +2013,6 @@
                 document.addEventListener(evt, unlockAudioOnUserGesture, { passive: true });
             });
 
-            // Seleccionar el video más centrado/visible en la pantalla para reproducirlo de forma exclusiva
             function selectMostVisibleVideo() {
                 if (visibleVideosMap.size === 0) {
                     pauseAllVideosExcept(null);
@@ -2010,7 +2029,6 @@
                     const rect = video.getBoundingClientRect();
                     const videoCenter = rect.top + rect.height / 2;
                     const distanceToCenter = Math.abs(viewportCenter - videoCenter);
-                    // Prioriza el video más cercano al centro de la pantalla y con mayor área visible
                     const score = (ratio * 1000) - distanceToCenter;
                     if (score > bestScore) {
                         bestScore = score;
@@ -2026,7 +2044,29 @@
                 }
             }
 
-            // Preparar controles y prevención de tirones en cada etiqueta <video>
+            async function descargarArchivoDirecto(url, nombreArchivo, botonEl) {
+                const iconoOriginal = botonEl.innerHTML;
+                botonEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+                botonEl.style.pointerEvents = 'none';
+                try {
+                    const respuesta = await fetch(url);
+                    const blob = await respuesta.blob();
+                    const blobUrl = window.URL.createObjectURL(blob);
+                    const enlace = document.createElement('a');
+                    enlace.href = blobUrl;
+                    enlace.download = nombreArchivo || 'dj-michael-evento.mp4';
+                    document.body.appendChild(enlace);
+                    enlace.click();
+                    enlace.remove();
+                    window.URL.revokeObjectURL(blobUrl);
+                } catch (error) {
+                    window.open(url, '_blank');
+                } finally {
+                    botonEl.innerHTML = iconoOriginal;
+                    botonEl.style.pointerEvents = 'auto';
+                }
+            }
+
             function setupVideoElement(video) {
                 const wrapper = video.parentElement;
                 if (!wrapper) return;
@@ -2039,7 +2079,6 @@
                 video.preload = 'metadata';
                 video.loop = true;
 
-                // Recuperación automática si el video se llega a quedar sin buffer (stalled/waiting)
                 if (!video.dataset.bufferBound) {
                     video.dataset.bufferBound = 'true';
                     video.addEventListener('waiting', () => {
@@ -2054,7 +2093,6 @@
                     });
                 }
 
-                // Botón de sonido individual
                 let btn = wrapper.querySelector('.video-sound-btn');
                 if (!btn) {
                     btn = document.createElement('button');
@@ -2063,7 +2101,24 @@
                     wrapper.appendChild(btn);
                 }
 
-                // Etiqueta visual discreta de "En reproducción"
+                let dlBtn = wrapper.querySelector('.video-download-btn');
+                if (!dlBtn) {
+                    dlBtn = document.createElement('button');
+                    dlBtn.type = 'button';
+                    dlBtn.className = 'video-download-btn';
+                    dlBtn.title = 'Descargar video';
+                    dlBtn.innerHTML = '<i class="fa-solid fa-download"></i>';
+                    wrapper.appendChild(dlBtn);
+                }
+
+                dlBtn.onclick = function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const videoSrc = video.currentSrc || video.src;
+                    const nombre = `DJ-Michael-Evento-${Date.now()}.mp4`;
+                    descargarArchivoDirecto(videoSrc, nombre, dlBtn);
+                };
+
                 let badge = wrapper.querySelector('.video-playing-badge');
                 if (!badge) {
                     badge = document.createElement('div');
@@ -2072,7 +2127,6 @@
                     wrapper.appendChild(badge);
                 }
 
-                // Al hacer clic en el video directamente, lo convierte en el video activo con sonido
                 video.onclick = function(e) {
                     if (isEditMode) return;
                     e.stopPropagation();
@@ -2140,7 +2194,6 @@
                 videos.forEach(video => videoObserver.observe(video));
             }
 
-            // Re-evaluar qué video está en el centro al hacer scroll rápido
             window.addEventListener('scroll', () => {
                 if (visibleVideosMap.size > 1) {
                     clearTimeout(scrollDebounceTimer);
@@ -2148,7 +2201,6 @@
                 }
             }, { passive: true });
 
-            // Pausar el video cuando el usuario cambia de pestaña o minimiza el navegador
             document.addEventListener('visibilitychange', () => {
                 if (document.hidden) {
                     pauseAllVideosExcept(null);
@@ -2174,7 +2226,6 @@
                     const entry = content[key];
                     if (!entry) continue;
 
-                    // Soporte completo para Hero Media (imagen o video con sonido exclusivo)
                     if (key === 'hero_media' && (entry.src || entry.img)) {
                         const container = document.getElementById('hero_media_container');
                         if (container) {
@@ -2207,7 +2258,6 @@
                         continue;
                     }
 
-                    // Cualquier imagen o medio editable en la página
                     if (entry.img && entry.imgTarget) {
                         const imgEl = document.getElementById(entry.imgTarget);
                         if (imgEl) {
@@ -2327,7 +2377,6 @@
                     if (!item || !item.src) return;
                     const validSrc = formatUploadcareUrl(item.src);
                     const isVideo = item.type === 'video' || checkIsVideo(validSrc, item.mimeType);
-                    // No poner autoplay en el HTML para que el gestor exclusivo controle que solo 1 video suene a la vez y no se tranque
                     const mediaTag = isVideo
                         ? `<video src="${validSrc}" loop playsinline webkit-playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;background:#000;display:block;"></video>`
                         : `<img src="${validSrc}" alt="Galería ${index+1}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.src='dj michael.jpg';" />`;
@@ -2357,7 +2406,6 @@
                 initDragAndDrop();
             }
 
-            // Drag and Drop para reorganizar galería
             let draggedCard = null;
 
             function initDragAndDrop() {
@@ -2518,7 +2566,6 @@
             });
 
             function openModal(key, type, imgTarget, textTarget1, textTarget2, textTarget3, specsTarget) {
-                // Pausar videos de fondo mientras se edita para evitar solapamiento
                 pauseAllVideosExcept(null);
 
                 currentEditKey = key;
