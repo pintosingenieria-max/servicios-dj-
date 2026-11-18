@@ -207,7 +207,6 @@
             align-items: center;
             gap: 12px;
             text-decoration: none;
-            position: relative;
         }
         .logo-box img {
             height: 44px;
@@ -401,18 +400,13 @@
         }
         .stat-item h3 { font-size: 2rem; color: #fff; font-weight: 800; }
         .stat-item p { color: var(--text-muted); font-size: 0.85rem; }
-        .hero-media {
-            position: relative;
-            z-index: 10;
-        }
         .hero-main-card {
             border-radius: 24px;
             overflow: hidden;
             border: 1px solid var(--border-color);
             box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-            background: #000;
+            background: var(--bg-card);
             aspect-ratio: 16/9;
-            position: relative;
         }
         .hero-main-card video,
         .hero-main-card img {
@@ -420,99 +414,6 @@
             height: 100%;
             object-fit: cover;
             display: block;
-        }
-
-        /* Indicador y botón de sonido / reproducción en videos */
-        .video-sound-btn {
-            position: absolute;
-            bottom: 14px;
-            right: 14px;
-            background: rgba(0, 0, 0, 0.78);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 25;
-            font-size: 0.95rem;
-            backdrop-filter: blur(6px);
-            transition: all 0.25s ease;
-        }
-        .video-sound-btn:hover {
-            background: var(--primary-red);
-            border-color: var(--primary-red);
-            transform: scale(1.1);
-        }
-        .video-sound-btn.unmuted {
-            background: var(--primary-red);
-            border-color: #fff;
-            box-shadow: 0 0 14px var(--primary-glow);
-        }
-
-        /* Botón de descarga directa para videos */
-        .video-download-btn {
-            position: absolute;
-            bottom: 14px;
-            right: 62px;
-            background: rgba(0, 0, 0, 0.78);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 25;
-            font-size: 0.95rem;
-            backdrop-filter: blur(6px);
-            transition: all 0.25s ease;
-            text-decoration: none;
-        }
-        .video-download-btn:hover {
-            background: var(--accent-cyan);
-            color: #000;
-            border-color: var(--accent-cyan);
-            transform: scale(1.1);
-        }
-
-        /* Indicador visual de "En reproducción" */
-        .video-playing-badge {
-            position: absolute;
-            bottom: 16px;
-            left: 14px;
-            background: rgba(0, 0, 0, 0.72);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 20px;
-            padding: 4px 10px;
-            font-size: 0.72rem;
-            font-weight: 600;
-            display: none;
-            align-items: center;
-            gap: 6px;
-            z-index: 20;
-            backdrop-filter: blur(4px);
-            pointer-events: none;
-        }
-        .video-playing-badge.active {
-            display: inline-flex;
-        }
-        .video-playing-badge .dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: var(--primary-red);
-            animation: pulseDot 1.2s infinite;
-        }
-        @keyframes pulseDot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.75); }
         }
 
         .features-bar {
@@ -592,7 +493,7 @@
         .featured-tag {
             position: absolute;
             top: 20px;
-            left: 20px;
+            right: 20px;
             background: var(--primary-red);
             color: #fff;
             padding: 4px 14px;
@@ -609,8 +510,7 @@
             overflow: hidden;
             position: relative;
         }
-        .package-img img,
-        .package-img video {
+        .package-img img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -685,11 +585,8 @@
             border: 1px solid var(--border-color);
             box-shadow: 0 15px 35px rgba(0,0,0,0.7);
             aspect-ratio: 16/9;
-            position: relative;
-            background: #000;
         }
-        .led-media img,
-        .led-media video {
+        .led-media img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -715,7 +612,8 @@
             border-color: rgba(255, 30, 67, 0.4);
             box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
-
+        
+        /* Estilos específicos para cuando el Modo Edición está activo */
         .edit-mode .gallery-card {
             cursor: grab;
             position: relative;
@@ -723,6 +621,7 @@
         .edit-mode .gallery-card:active {
             cursor: grabbing;
         }
+        /* Indicador visual de arrastre en modo edición */
         .edit-mode .gallery-card::before {
             content: "\f58d";
             font-family: "Font Awesome 6 Free";
@@ -777,18 +676,18 @@
             right: 10px;
             display: none;
             gap: 0.4rem;
-            z-index: 30;
+            z-index: 10;
         }
         .edit-mode .gallery-overlay {
             display: flex !important;
         }
         .gallery-replace-btn,
         .gallery-delete-btn {
-            background: rgba(0,0,0,0.75);
-            border: 1px solid rgba(255,255,255,0.25);
+            background: rgba(0,0,0,0.7);
+            border: none;
             color: #fff;
-            width: 34px;
-            height: 34px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             cursor: pointer;
             font-size: 0.85rem;
@@ -797,7 +696,7 @@
             align-items: center;
             justify-content: center;
         }
-        .gallery-delete-btn { background: rgba(255, 30, 67, 0.9); }
+        .gallery-delete-btn { background: rgba(255, 30, 67, 0.85); }
         .gallery-replace-btn:hover { background: rgba(255, 255, 255, 0.3); transform: scale(1.1); }
         .gallery-delete-btn:hover { background: var(--primary-red); transform: scale(1.1); }
         .gallery-cta {
@@ -892,6 +791,126 @@
             transform: translateY(-4px);
             box-shadow: 0 10px 30px rgba(0, 242, 254, 0.08);
         }
+        .event-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        .event-type-badge {
+            background: rgba(0, 242, 254, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+        .event-status {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+        .status-confirmado {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--badge-green);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        .status-pendiente {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--badge-yellow);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        .status-finalizado {
+            background: rgba(148, 163, 184, 0.15);
+            color: var(--text-muted);
+            border: 1px solid rgba(148, 163, 184, 0.3);
+        }
+        .event-card-body h3 { font-size: 1.3rem; color: #fff; margin-bottom: 0.5rem; }
+        .event-detail-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.3rem;
+        }
+        .event-detail-item i { width: 16px; color: var(--primary-red); }
+        .event-finance {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            padding: 0.8rem;
+            border-radius: 12px;
+            margin-top: 0.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+        .finance-item span { display: block; color: var(--text-muted); font-size: 0.75rem; }
+        .finance-item strong { color: #fff; font-size: 0.95rem; }
+        .finance-saldo strong { color: var(--accent-cyan); }
+        .event-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 0.8rem;
+            border-top: 1px solid var(--border-color);
+        }
+        .btn-delete {
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 6px;
+            transition: transform 0.2s;
+        }
+        .btn-delete:hover { transform: scale(1.2); }
+
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .search-box { flex: 1; min-width: 250px; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+        .form-group { display: flex; flex-direction: column; gap: 5px; }
+        .form-group label {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .form-group label i { color: var(--primary-red); }
+        .form-control {
+            width: 100%;
+            padding: 0.7rem 0.9rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+            font-family: var(--font-body);
+            font-size: 0.92rem;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 12px rgba(255, 30, 67, 0.25);
+        }
+        select.form-control option { background: #141724; color: #fff; }
 
         .contact-card {
             background: linear-gradient(135deg, rgba(20, 24, 38, 0.95) 0%, rgba(12, 14, 22, 0.98) 100%);
@@ -956,37 +975,31 @@
 
         .edit-btn-overlay {
             position: absolute;
-            top: 12px;
-            right: 12px;
-            background: rgba(15, 17, 26, 0.85);
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
             color: #fff;
             border: 2px solid var(--primary-red);
             border-radius: 50%;
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             display: none;
             align-items: center;
             justify-content: center;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            z-index: 120;
-            backdrop-filter: blur(6px);
-            box-shadow: 0 4px 18px rgba(255, 30, 67, 0.5);
+            z-index: 50;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 0 15px rgba(255, 30, 67, 0.3);
         }
         .edit-btn-overlay:hover {
-            transform: scale(1.18);
+            transform: scale(1.2);
             background: var(--primary-red);
         }
         .edit-mode .edit-btn-overlay { display: flex !important; }
         .edit-container { position: relative; }
         .edit-text { position: relative; display: inline-block; }
-
-        .edit-mode .edit-container {
-            outline: 1px dashed rgba(255, 30, 67, 0.45);
-            outline-offset: 4px;
-            border-radius: 16px;
-        }
 
         .footer-admin-bar {
             display: flex;
@@ -1018,9 +1031,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(8px);
-            z-index: 2500;
+            z-index: 2000;
             justify-content: center;
             align-items: center;
             padding: 1rem;
@@ -1068,10 +1081,9 @@
             border-color: var(--primary-red);
         }
         .modal-box textarea { min-height: 80px; resize: vertical; }
-        .modal-box .img-preview,
-        .modal-box .video-preview {
+        .modal-box .img-preview {
             width: 100%;
-            max-height: 220px;
+            max-height: 200px;
             object-fit: contain;
             border-radius: 12px;
             border: 1px solid var(--border-color);
@@ -1111,6 +1123,7 @@
             .hero-cta { justify-content: center; }
             .hero-stats { justify-content: center; }
             .led-container { grid-template-columns: 1fr; }
+            .form-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 768px) {
@@ -1144,6 +1157,8 @@
             .contact-card h2 { font-size: 2.2rem; }
             .gallery-grid { grid-template-columns: 1fr 1fr; }
             .upgrades-grid { grid-template-columns: 1fr; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group[style*="span 2"] { grid-column: span 1 !important; }
         }
 
         @media (max-width: 480px) {
@@ -1163,13 +1178,10 @@
 
     <header>
         <div class="nav-container">
-            <div class="logo-box edit-container">
-                <a href="#" id="logoLink" style="display:flex;align-items:center;gap:12px;text-decoration:none;">
-                    <img id="site_logo_img" src="dj michael logo principal.png" alt="DJ Michael Logo" loading="lazy" />
-                    <span class="logo-text edit-text" id="site_logo_text">DJ MICHAEL</span>
-                </a>
-                <button class="edit-btn-overlay" style="top:-6px;right:-16px;width:28px;height:28px;font-size:0.75rem;" data-key="site_logo" data-type="media" data-img-target="site_logo_img" data-text-target="site_logo_text" title="Editar Logo"><i class="fa-solid fa-pen"></i></button>
-            </div>
+            <a href="#" class="logo-box" id="logoLink">
+                <img src="dj michael logo principal.png" alt="DJ Michael Logo" loading="lazy" />
+                <span class="logo-text">DJ MICHAEL</span>
+            </a>
             <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
                 <span></span>
                 <span></span>
@@ -1212,9 +1224,9 @@
             </div>
             <div class="hero-media edit-container">
                 <div class="hero-main-card" id="hero_media_container">
-                    <img id="hero_main_img" src="dj michael.jpg" alt="DJ Michael Evento" />
+                    <img src="dj michael.jpg" alt="Hero media" style="width:100%;height:100%;object-fit:cover;" />
                 </div>
-                <button class="edit-btn-overlay" data-key="hero_media" data-type="media" data-target="hero_media_container" title="Cambiar foto o video principal">
+                <button class="edit-btn-overlay" data-key="hero_media" data-type="media" data-target="hero_media_container">
                     <i class="fa-solid fa-pen"></i>
                 </button>
             </div>
@@ -1348,7 +1360,7 @@
                 </div>
                 <div class="led-media edit-container">
                     <img id="led_img" src="alquiler_led.jpg" alt="Pantalla LED en evento" loading="lazy" />
-                    <button class="edit-btn-overlay" data-key="led_img" data-type="media" data-img-target="led_img"><i class="fa-solid fa-pen"></i></button>
+                    <button class="edit-btn-overlay" data-key="led_img" data-type="package" data-img-target="led_img"><i class="fa-solid fa-pen"></i></button>
                 </div>
             </div>
         </section>
@@ -1403,7 +1415,7 @@
                     <button class="edit-btn-overlay" data-key="upgrade2" data-type="text" data-text-target="upgrade2_titulo" data-text-target2="upgrade2_desc" data-text-target3="upgrade2_precio"><i class="fa-solid fa-pen"></i></button>
                 </div>
                 <div class="upgrade-card edit-container">
-                    <div class="upgrade-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <div class="upgrade-icon"><i class="fa-regular fa-sparkles"></i></div>
                     <h3 class="upgrade-title edit-text" id="upgrade3_titulo">Chispa Fría</h3>
                     <div class="upgrade-price edit-text" id="upgrade3_precio" style="color:var(--accent-cyan);">Consultar</div>
                     <p class="upgrade-desc edit-text" id="upgrade3_desc">Efectos de chispas frías para momentos especiales: entrada, vals, brindis o primer baile.</p>
@@ -1429,7 +1441,7 @@
             <div class="testimonials-grid">
                 <div class="testimonial-card edit-container">
                     <div class="testimonial-header">
-                        <img id="testimonio1_avatar" src="https://ui-avatars.com/api/?name=Laura+G.&background=ff1e43&color=fff&size=50" alt="Foto de Laura" class="testimonial-avatar" loading="lazy" />
+                        <img src="https://ui-avatars.com/api/?name=Laura+G.&background=ff1e43&color=fff&size=50" alt="Foto de Laura" class="testimonial-avatar" loading="lazy" />
                         <div>
                             <div class="testimonial-name edit-text" id="testimonio1_nombre">Laura G.</div>
                             <div class="testimonial-role edit-text" id="testimonio1_rol">Fiesta de 15 años</div>
@@ -1441,7 +1453,7 @@
                 </div>
                 <div class="testimonial-card edit-container">
                     <div class="testimonial-header">
-                        <img id="testimonio2_avatar" src="https://ui-avatars.com/api/?name=Carlos+R.&background=ff1e43&color=fff&size=50" alt="Foto de Carlos" class="testimonial-avatar" loading="lazy" />
+                        <img src="https://ui-avatars.com/api/?name=Carlos+R.&background=ff1e43&color=fff&size=50" alt="Foto de Carlos" class="testimonial-avatar" loading="lazy" />
                         <div>
                             <div class="testimonial-name edit-text" id="testimonio2_nombre">Carlos R.</div>
                             <div class="testimonial-role edit-text" id="testimonio2_rol">Boda</div>
@@ -1453,7 +1465,7 @@
                 </div>
                 <div class="testimonial-card edit-container">
                     <div class="testimonial-header">
-                        <img id="testimonio3_avatar" src="https://ui-avatars.com/api/?name=Mariana+S.&background=ff1e43&color=fff&size=50" alt="Foto de Mariana" class="testimonial-avatar" loading="lazy" />
+                        <img src="https://ui-avatars.com/api/?name=Mariana+S.&background=ff1e43&color=fff&size=50" alt="Foto de Mariana" class="testimonial-avatar" loading="lazy" />
                         <div>
                             <div class="testimonial-name edit-text" id="testimonio3_nombre">Mariana S.</div>
                             <div class="testimonial-role edit-text" id="testimonio3_rol">Evento Corporativo</div>
@@ -1510,7 +1522,7 @@
                 <p class="edit-text" id="contacto_desc">Reserva con anticipación mediante seña y asegura la fecha de tu fiesta con el mejor equipamiento visual y de sonido.</p>
                 <div class="contact-actions">
                     <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quisiera%20reservar%20mi%20fecha" class="btn-primary" target="_blank" style="font-size:1.1rem;padding:1rem 2.5rem;"><i class="fa-brands fa-whatsapp"></i> Hablar al 0994 608 163</a>
-                    <a href="tel:+595992311266" class="btn-secondary" style="font-size:1.1rem;padding:1rem 2.5rem;"><i class="fa-solid fa-phone"></i> Llama al 0992 311 266</a>
+                    <a href="tel:0992311266" class="btn-secondary" style="font-size:1.1rem;padding:1rem 2.5rem;"><i class="fa-solid fa-phone"></i> Llama al 0992 311 266</a>
                 </div>
                 <div class="social-links">
                     <a href="https://facebook.com/michael.pintos" class="social-btn" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
@@ -1529,7 +1541,7 @@
             <p>Reserva con anticipación mediante seña y asegura la fecha de tu fiesta con el mejor equipamiento visual y de sonido.</p>
             <div class="contact-actions">
                 <a href="https://wa.me/595994608163?text=Hola%20DJ%20Michael,%20quisiera%20reservar%20mi%20fecha" class="btn-primary" target="_blank" style="font-size:1.1rem;padding:1rem 2.5rem;"><i class="fa-brands fa-whatsapp"></i> Hablar al 0994 608 163</a>
-                <a href="tel:+595992311266" class="btn-secondary" style="font-size:1.1rem;padding:1rem 2.5rem;"><i class="fa-solid fa-phone"></i> Llama al 0992 311 266</a>
+                <a href="tel:0992311266" class="btn-secondary" style="font-size:1.1rem;padding:1rem 2.5rem;"><i class="fa-solid fa-phone"></i> Llama al 0992 311 266</a>
             </div>
             <div class="social-links">
                 <a href="https://facebook.com/michael.pintos" class="social-btn" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
@@ -1579,18 +1591,12 @@
             <div id="modalImageSection">
                 <label>Vista previa del medio</label>
                 <img id="modalImgPreview" class="img-preview" src="" alt="Vista previa" />
-                <video id="modalVideoPreview" class="video-preview" style="display:none;" controls playsinline></video>
                 <label for="modalImgUrl">URL del medio (imagen o video)</label>
                 <input type="text" id="modalImgUrl" placeholder="https://..." />
-                <div class="file-input-wrap" style="flex-direction:column;align-items:stretch;">
-                    <input type="file" id="modalLocalFileInput" accept="image/*,video/*" style="display:none;" />
-                    <button type="button" id="selectLocalFileBtn" class="btn-primary" style="font-size:0.95rem;padding:0.75rem 1.2rem;width:100%;justify-content:center;">
-                        <i class="fa-solid fa-folder-open"></i> Seleccionar foto o video de mi dispositivo
+                <div class="file-input-wrap">
+                    <button type="button" id="uploadUploadcareBtn" class="btn-primary" style="font-size:0.9rem;padding:0.5rem 1.2rem;width:100%;justify-content:center;">
+                        <i class="fa-solid fa-cloud-upload-alt"></i> Subir imagen con Uploadcare
                     </button>
-                    <button type="button" id="uploadUploadcareBtn" class="btn-secondary" style="font-size:0.85rem;padding:0.55rem 1.2rem;width:100%;justify-content:center;">
-                        <i class="fa-solid fa-cloud-upload-alt"></i> Usar gestor avanzado Uploadcare
-                    </button>
-                    <div id="uploadStatusMsg" style="font-size:0.85rem;color:var(--accent-cyan);text-align:center;display:none;margin-top:4px;"></div>
                 </div>
             </div>
             <div id="modalTextSection">
@@ -1626,7 +1632,6 @@
 
         let isAuthorized = false;
         let pendingRedirectUrl = null;
-        let pendingCallback = null;
 
         // --- MODAL DE CONTRASEÑA PERSONALIZADO ---
         const passwordModal = document.getElementById('passwordModal');
@@ -1653,13 +1658,8 @@
                 isAuthorized = true;
                 closePasswordModal();
                 if (pendingRedirectUrl) {
-                    const urlToGo = pendingRedirectUrl;
+                    window.location.href = pendingRedirectUrl;
                     pendingRedirectUrl = null;
-                    window.location.href = urlToGo;
-                } else if (typeof pendingCallback === 'function') {
-                    const cb = pendingCallback;
-                    pendingCallback = null;
-                    cb();
                 }
             } else {
                 passwordError.style.display = 'block';
@@ -1671,7 +1671,6 @@
         passwordCancelBtn.addEventListener('click', function() {
             closePasswordModal();
             pendingRedirectUrl = null;
-            pendingCallback = null;
         });
 
         passwordInput.addEventListener('keydown', function(e) {
@@ -1687,7 +1686,6 @@
             if (e.target === this) {
                 closePasswordModal();
                 pendingRedirectUrl = null;
-                pendingCallback = null;
             }
         });
 
@@ -1696,7 +1694,6 @@
                 if (typeof callback === 'function') callback();
                 return true;
             }
-            pendingCallback = callback || null;
             showPasswordModal();
             return false;
         }
@@ -1794,7 +1791,7 @@
             document.addEventListener('DOMContentLoaded', updateCounter);
         })();
 
-        // 4. PARTÍCULAS (Optimizadas para rendimiento fluido en video)
+        // 4. PARTÍCULAS
         (function() {
             const canvas = document.getElementById('particles-canvas');
             if (!canvas) return;
@@ -1815,9 +1812,9 @@
                     this.x = Math.random() * width;
                     this.y = Math.random() * height - height;
                     this.size = Math.random() * 4 + 2;
-                    this.speedY = Math.random() * 1.8 + 0.8;
+                    this.speedY = Math.random() * 2 + 1;
                     this.speedX = (Math.random() - 0.5) * 0.8;
-                    this.opacity = Math.random() * 0.55 + 0.2;
+                    this.opacity = Math.random() * 0.6 + 0.2;
                     this.color = `hsl(${Math.random() * 60 + 340}, 80%, 60%)`;
                     this.rotation = Math.random() * 360;
                     this.rotSpeed = (Math.random() - 0.5) * 0.02;
@@ -1844,12 +1841,14 @@
                     } else {
                         ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
                     }
+                    ctx.shadowColor = this.color;
+                    ctx.shadowBlur = 15;
+                    ctx.fill();
                     ctx.restore();
                 }
             }
 
-            const particleCount = window.innerWidth < 768 ? 35 : 65;
-            for (let i = 0; i < particleCount; i++) {
+            for (let i = 0; i < 100; i++) {
                 const p = new Particle();
                 p.y = Math.random() * height;
                 particles.push(p);
@@ -1863,7 +1862,7 @@
             animate();
         })();
 
-        // 5. CONTROL EXCLUSIVO DE VIDEO (SIN SOLAPAMIENTO DE AUDIO Y CON DESCARGA DIRECTA)
+        // 5. EDICIÓN DINÁMICA, FIREBASE Y GALERÍA UPLOADCARE
         (function() {
             const editToggleBtn = document.getElementById('editToggleBtn');
             const modalOverlay = document.getElementById('editModal');
@@ -1873,7 +1872,6 @@
             const modalTitle = document.getElementById('modalTitle');
             const modalImageSection = document.getElementById('modalImageSection');
             const modalImgPreview = document.getElementById('modalImgPreview');
-            const modalVideoPreview = document.getElementById('modalVideoPreview');
             const modalImgUrl = document.getElementById('modalImgUrl');
             const modalText1 = document.getElementById('modalText1');
             const modalText2 = document.getElementById('modalText2');
@@ -1889,14 +1887,7 @@
             let currentTextTarget2 = null;
             let currentTextTarget3 = null;
             let currentSpecsTarget = null;
-            let currentUploadedMime = '';
             let isEditMode = false;
-
-            let activeVideo = null;
-            let userMutedPreference = false;
-            let audioUnlocked = false;
-            const visibleVideosMap = new Map();
-            let scrollDebounceTimer = null;
 
             const dbUrl = CONFIG.FIREBASE_URL + 'contenido.json';
             const galleryUrl = CONFIG.FIREBASE_URL + 'galeria_items.json';
@@ -1904,7 +1895,6 @@
             function formatUploadcareUrl(url) {
                 if (!url) return '';
                 let cleanUrl = String(url).trim();
-                cleanUrl = cleanUrl.replace(/https?:\/\/[a-z0-9]+\.ucarecd\.net\//i, 'https://ucarecdn.com/');
                 if (cleanUrl.includes('ucarecdn.com') && !cleanUrl.endsWith('/')) {
                     cleanUrl += '/';
                 }
@@ -1916,313 +1906,6 @@
                 if (!url) return false;
                 return /\.(mp4|webm|ogg|mov|m4v|avi|mkv)($|\?)/i.test(url) || url.includes('/video/');
             }
-
-            function updateModalPreview(url, mimeType) {
-                const formatted = formatUploadcareUrl(url);
-                const isVid = checkIsVideo(formatted, mimeType);
-                if (isVid) {
-                    modalImgPreview.style.display = 'none';
-                    modalVideoPreview.style.display = 'block';
-                    modalVideoPreview.src = formatted;
-                } else {
-                    modalVideoPreview.pause();
-                    modalVideoPreview.style.display = 'none';
-                    modalImgPreview.style.display = 'block';
-                    modalImgPreview.src = formatted;
-                }
-            }
-
-            function pauseAllVideosExcept(targetVideo) {
-                document.querySelectorAll('video:not(.video-preview)').forEach(v => {
-                    if (v !== targetVideo) {
-                        if (!v.paused) {
-                            v.pause();
-                        }
-                        v.muted = true;
-                        updateVideoUI(v, false);
-                    }
-                });
-            }
-
-            function updateVideoUI(video, isPlayingActive) {
-                const wrapper = video.parentElement;
-                if (!wrapper) return;
-
-                const btn = wrapper.querySelector('.video-sound-btn');
-                if (btn) {
-                    if (video.muted || userMutedPreference) {
-                        btn.classList.remove('unmuted');
-                        btn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
-                        btn.title = 'Activar sonido';
-                    } else {
-                        btn.classList.add('unmuted');
-                        btn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
-                        btn.title = 'Silenciar sonido';
-                    }
-                }
-
-                const badge = wrapper.querySelector('.video-playing-badge');
-                if (badge) {
-                    if (isPlayingActive && !video.paused) {
-                        badge.classList.add('active');
-                    } else {
-                        badge.classList.remove('active');
-                    }
-                }
-            }
-
-            function playExclusiveVideo(video) {
-                if (!video) return;
-                if (modalOverlay.classList.contains('active')) return;
-
-                pauseAllVideosExcept(video);
-                activeVideo = video;
-
-                if (video.preload !== 'auto') {
-                    video.preload = 'auto';
-                }
-
-                video.volume = 1.0;
-                video.muted = userMutedPreference;
-
-                const playPromise = video.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        audioUnlocked = !video.muted;
-                        updateVideoUI(video, true);
-                    }).catch(() => {
-                        video.muted = true;
-                        updateVideoUI(video, true);
-                        video.play().catch(() => {});
-                    });
-                }
-            }
-
-            function unlockAudioOnUserGesture() {
-                if (audioUnlocked) return;
-                audioUnlocked = true;
-                if (activeVideo && !userMutedPreference) {
-                    activeVideo.muted = false;
-                    activeVideo.volume = 1.0;
-                    if (activeVideo.paused) {
-                        activeVideo.play().catch(() => {});
-                    }
-                    updateVideoUI(activeVideo, true);
-                }
-            }
-            ['click', 'touchstart', 'keydown'].forEach(evt => {
-                document.addEventListener(evt, unlockAudioOnUserGesture, { passive: true });
-            });
-
-            function selectMostVisibleVideo() {
-                if (visibleVideosMap.size === 0) {
-                    pauseAllVideosExcept(null);
-                    activeVideo = null;
-                    return;
-                }
-
-                const viewportCenter = window.innerHeight / 2;
-                let bestVideo = null;
-                let bestScore = -Infinity;
-
-                visibleVideosMap.forEach((ratio, video) => {
-                    if (!document.body.contains(video) || ratio < 0.25) return;
-                    const rect = video.getBoundingClientRect();
-                    const videoCenter = rect.top + rect.height / 2;
-                    const distanceToCenter = Math.abs(viewportCenter - videoCenter);
-                    const score = (ratio * 1000) - distanceToCenter;
-                    if (score > bestScore) {
-                        bestScore = score;
-                        bestVideo = video;
-                    }
-                });
-
-                if (bestVideo && bestVideo !== activeVideo) {
-                    playExclusiveVideo(bestVideo);
-                } else if (!bestVideo && activeVideo) {
-                    pauseAllVideosExcept(null);
-                    activeVideo = null;
-                }
-            }
-
-            async function descargarArchivoDirecto(url, nombreArchivo, botonEl) {
-                const iconoOriginal = botonEl.innerHTML;
-                botonEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-                botonEl.style.pointerEvents = 'none';
-                
-                let urlDescarga = formatUploadcareUrl(url);
-                
-                if (urlDescarga.includes('ucarecdn.com')) {
-                    const baseUrl = urlDescarga.split('/-/')[0].replace(/\/$/, '');
-                    urlDescarga = `${baseUrl}/-/inline/no/${nombreArchivo || 'dj-michael-evento.mp4'}`;
-                    window.location.href = urlDescarga;
-                    setTimeout(() => {
-                        botonEl.innerHTML = iconoOriginal;
-                        botonEl.style.pointerEvents = 'auto';
-                    }, 1200);
-                    return;
-                }
-
-                try {
-                    const respuesta = await fetch(urlDescarga);
-                    const blob = await respuesta.blob();
-                    const blobUrl = window.URL.createObjectURL(blob);
-                    const enlace = document.createElement('a');
-                    enlace.href = blobUrl;
-                    enlace.download = nombreArchivo || 'dj-michael-evento.mp4';
-                    document.body.appendChild(enlace);
-                    enlace.click();
-                    enlace.remove();
-                    window.URL.revokeObjectURL(blobUrl);
-                } catch (error) {
-                    window.open(urlDescarga, '_blank');
-                } finally {
-                    botonEl.innerHTML = iconoOriginal;
-                    botonEl.style.pointerEvents = 'auto';
-                }
-            }
-
-            function setupVideoElement(video) {
-                const wrapper = video.parentElement;
-                if (!wrapper) return;
-                if (getComputedStyle(wrapper).position === 'static') {
-                    wrapper.style.position = 'relative';
-                }
-
-                video.setAttribute('playsinline', '');
-                video.setAttribute('webkit-playsinline', '');
-                video.preload = 'metadata';
-                video.loop = true;
-
-                if (!video.dataset.bufferBound) {
-                    video.dataset.bufferBound = 'true';
-                    video.addEventListener('waiting', () => {
-                        if (video === activeVideo && video.readyState < 3) {
-                            // Mantener fluido sin reiniciar
-                        }
-                    });
-                    video.addEventListener('canplay', () => {
-                        if (video === activeVideo && video.paused && !modalOverlay.classList.contains('active')) {
-                            video.play().catch(() => {});
-                        }
-                    });
-                }
-
-                let btn = wrapper.querySelector('.video-sound-btn');
-                if (!btn) {
-                    btn = document.createElement('button');
-                    btn.type = 'button';
-                    btn.className = 'video-sound-btn';
-                    wrapper.appendChild(btn);
-                }
-
-                let dlBtn = wrapper.querySelector('.video-download-btn');
-                if (!dlBtn) {
-                    dlBtn = document.createElement('button');
-                    dlBtn.type = 'button';
-                    dlBtn.className = 'video-download-btn';
-                    dlBtn.title = 'Descargar video';
-                    dlBtn.innerHTML = '<i class="fa-solid fa-download"></i>';
-                    wrapper.appendChild(dlBtn);
-                }
-
-                dlBtn.onclick = function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const videoSrc = video.currentSrc || video.src;
-                    const nombre = `DJ-Michael-Evento-${Date.now()}.mp4`;
-                    descargarArchivoDirecto(videoSrc, nombre, dlBtn);
-                };
-
-                let badge = wrapper.querySelector('.video-playing-badge');
-                if (!badge) {
-                    badge = document.createElement('div');
-                    badge.className = 'video-playing-badge';
-                    badge.innerHTML = '<span class="dot"></span> Reproduciendo';
-                    wrapper.appendChild(badge);
-                }
-
-                video.onclick = function(e) {
-                    if (isEditMode) return;
-                    e.stopPropagation();
-                    userMutedPreference = false;
-                    audioUnlocked = true;
-                    playExclusiveVideo(video);
-                };
-
-                btn.onclick = function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    audioUnlocked = true;
-                    if (activeVideo !== video) {
-                        userMutedPreference = false;
-                        playExclusiveVideo(video);
-                    } else {
-                        userMutedPreference = !video.muted;
-                        video.muted = userMutedPreference;
-                        video.volume = 1.0;
-                        if (video.paused) video.play().catch(() => {});
-                        updateVideoUI(video, true);
-                    }
-                };
-
-                updateVideoUI(video, video === activeVideo);
-            }
-
-            let videoObserver = null;
-
-            function setupVideoObserver() {
-                if (videoObserver) {
-                    videoObserver.disconnect();
-                    videoObserver = null;
-                }
-                visibleVideosMap.clear();
-
-                const videos = document.querySelectorAll('video:not(.video-preview)');
-                if (videos.length === 0) return;
-
-                videos.forEach(v => setupVideoElement(v));
-
-                videoObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        const video = entry.target;
-                        if (entry.isIntersecting && entry.intersectionRatio >= 0.25) {
-                            visibleVideosMap.set(video, entry.intersectionRatio);
-                        } else {
-                            visibleVideosMap.delete(video);
-                            if (video === activeVideo) {
-                                video.pause();
-                                video.muted = true;
-                                updateVideoUI(video, false);
-                                activeVideo = null;
-                            }
-                        }
-                    });
-
-                    clearTimeout(scrollDebounceTimer);
-                    scrollDebounceTimer = setTimeout(selectMostVisibleVideo, 120);
-                }, {
-                    root: null,
-                    threshold: [0, 0.25, 0.5, 0.75, 1.0]
-                });
-
-                videos.forEach(video => videoObserver.observe(video));
-            }
-
-            window.addEventListener('scroll', () => {
-                if (visibleVideosMap.size > 1) {
-                    clearTimeout(scrollDebounceTimer);
-                    scrollDebounceTimer = setTimeout(selectMostVisibleVideo, 150);
-                }
-            }, { passive: true });
-
-            document.addEventListener('visibilitychange', () => {
-                if (document.hidden) {
-                    pauseAllVideosExcept(null);
-                } else {
-                    selectMostVisibleVideo();
-                }
-            });
 
             function loadContentFromFirebase() {
                 return fetch(dbUrl).then(res => res.json()).then(data => data || {}).catch(() => ({}));
@@ -2241,29 +1924,32 @@
                     const entry = content[key];
                     if (!entry) continue;
 
-                    if (key === 'hero_media' && (entry.src || entry.img)) {
+                    if (key === 'hero_media' && entry.src) {
                         const container = document.getElementById('hero_media_container');
                         if (container) {
                             container.innerHTML = '';
-                            const src = formatUploadcareUrl(entry.src || entry.img);
-                            const isVid = entry.type === 'video' || checkIsVideo(src, entry.mimeType);
+                            const src = formatUploadcareUrl(entry.src);
+                            const isVid = entry.type === 'video' || checkIsVideo(src);
                             if (isVid) {
                                 const video = document.createElement('video');
-                                video.id = 'hero_main_video';
                                 video.src = src;
+                                video.autoplay = true;
                                 video.loop = true;
+                                video.muted = true;
                                 video.playsInline = true;
                                 video.setAttribute('webkit-playsinline', 'true');
-                                video.preload = 'auto';
+                                video.preload = 'metadata';
                                 video.style.width = '100%';
                                 video.style.height = '100%';
                                 video.style.objectFit = 'cover';
                                 container.appendChild(video);
+                                setTimeout(() => {
+                                    video.play().catch(() => {});
+                                }, 100);
                             } else {
                                 const img = document.createElement('img');
-                                img.id = 'hero_main_img';
                                 img.src = src;
-                                img.alt = 'DJ Michael Evento';
+                                img.alt = 'Hero media';
                                 img.style.width = '100%';
                                 img.style.height = '100%';
                                 img.style.objectFit = 'cover';
@@ -2275,24 +1961,8 @@
 
                     if (entry.img && entry.imgTarget) {
                         const imgEl = document.getElementById(entry.imgTarget);
-                        if (imgEl) {
-                            const formattedSrc = formatUploadcareUrl(entry.img);
-                            const isVid = entry.type === 'video' || checkIsVideo(formattedSrc, entry.mimeType);
-                            if (isVid && imgEl.tagName === 'IMG') {
-                                const video = document.createElement('video');
-                                video.id = imgEl.id;
-                                video.src = formattedSrc;
-                                video.loop = true;
-                                video.playsInline = true;
-                                video.setAttribute('webkit-playsinline', 'true');
-                                video.style.cssText = imgEl.style.cssText || 'width:100%;height:100%;object-fit:cover;';
-                                imgEl.replaceWith(video);
-                            } else {
-                                imgEl.src = formattedSrc;
-                            }
-                        }
+                        if (imgEl) imgEl.src = formatUploadcareUrl(entry.img);
                     }
-
                     if (entry.text1 && entry.textTarget1) {
                         const el = document.getElementById(entry.textTarget1);
                         if (el) el.innerText = entry.text1;
@@ -2331,39 +2001,59 @@
                 setupVideoObserver();
             }
 
-            function getGalleryItems() {
-                return fetch(galleryUrl + '?t=' + Date.now())
-                    .then(res => {
-                        if (!res.ok) throw new Error('HTTP ' + res.status);
-                        return res.json();
-                    })
-                    .then(data => {
-                        if (!data) return [];
-                        let list = [];
-                        if (Array.isArray(data)) {
-                            list = data;
-                        } else if (typeof data === 'object') {
-                            if (data.src) {
-                                list = [data];
-                            } else {
-                                list = Object.values(data);
+            let videoObserver = null;
+
+            function setupVideoObserver() {
+                if (videoObserver) {
+                    videoObserver.disconnect();
+                    videoObserver = null;
+                }
+
+                const videos = document.querySelectorAll('video');
+                if (videos.length === 0) return;
+
+                videos.forEach(v => {
+                    v.preload = 'metadata';
+                    v.muted = true;
+                    v.setAttribute('playsinline', '');
+                    v.setAttribute('webkit-playsinline', '');
+                });
+
+                const options = {
+                    root: null,
+                    rootMargin: '0px 0px -50px 0px',
+                    threshold: 0.1
+                };
+
+                videoObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        const video = entry.target;
+                        if (entry.isIntersecting) {
+                            if (video.paused) {
+                                video.play().catch(() => {});
+                            }
+                        } else {
+                            if (!video.paused) {
+                                video.pause();
                             }
                         }
-                        return list.map(item => {
-                            if (!item) return null;
-                            if (typeof item === 'string') return { src: item };
-                            if (item.url && !item.src) return { ...item, src: item.url };
-                            return item;
-                        }).filter(item => item && item.src);
-                    })
-                    .catch(err => {
-                        console.error('Error cargando galería desde Firebase:', err);
-                        const grid = document.getElementById('gallery-grid');
-                        if (grid) {
-                            grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:2.5rem;color:#ef4444;"><i class="fa-solid fa-triangle-exclamation" style="font-size:2rem;display:block;margin-bottom:0.8rem;"></i>No se pudo conectar con Firebase (${err.message}). Revisa tu conexión o las reglas de la base de datos.</div>`;
-                        }
-                        return null;
                     });
+                }, options);
+
+                videos.forEach(video => {
+                    videoObserver.observe(video);
+                });
+            }
+
+            function getGalleryItems() {
+                return fetch(galleryUrl)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (!data) return [];
+                        if (Array.isArray(data)) return data.filter(Boolean);
+                        return Object.values(data).filter(Boolean);
+                    })
+                    .catch(() => []);
             }
 
             function saveGalleryItems(items) {
@@ -2376,8 +2066,8 @@
 
             function renderGalleryItems(items) {
                 const grid = document.getElementById('gallery-grid');
-                if (!grid || items === null) return;
-                if (items.length === 0) {
+                if (!grid) return;
+                if (!items || items.length === 0) {
                     grid.innerHTML = `
                         <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);">
                             <i class="fa-solid fa-images" style="font-size:3rem;display:block;margin-bottom:1rem;"></i>
@@ -2393,9 +2083,9 @@
                     const validSrc = formatUploadcareUrl(item.src);
                     const isVideo = item.type === 'video' || checkIsVideo(validSrc, item.mimeType);
                     const mediaTag = isVideo
-                        ? `<video src="${validSrc}" loop playsinline webkit-playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;background:#000;display:block;"></video>`
+                        ? `<video src="${validSrc}" autoplay loop muted playsinline webkit-playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;background:#000;display:block;"></video>`
                         : `<img src="${validSrc}" alt="Galería ${index+1}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.src='dj michael.jpg';" />`;
-
+                    
                     const whatsappMsg = encodeURIComponent(`Hola DJ Michael, quiero consultar el precio de este elemento de la galería (Ítem #${index + 1})`);
 
                     html += `
@@ -2403,7 +2093,7 @@
                             <div class="gallery-media-wrapper">
                                 ${mediaTag}
                                 <div class="gallery-overlay">
-                                    <button class="gallery-replace-btn" data-index="${index}" title="Reemplazar foto o video"><i class="fa-solid fa-rotate"></i></button>
+                                    <button class="gallery-replace-btn" data-index="${index}" title="Reemplazar"><i class="fa-solid fa-rotate"></i></button>
                                     <button class="gallery-delete-btn" data-index="${index}" title="Eliminar"><i class="fa-solid fa-trash-can"></i></button>
                                 </div>
                             </div>
@@ -2421,6 +2111,7 @@
                 initDragAndDrop();
             }
 
+            // Implementación nativa de Drag and Drop para reorganizar tarjetas de la galería
             let draggedCard = null;
 
             function initDragAndDrop() {
@@ -2438,14 +2129,15 @@
                         setTimeout(() => this.style.opacity = '0.4', 0);
                     });
 
-                    card.addEventListener('dragend', function() {
+                    card.addEventListener('dragend', function(e) {
                         if (!isEditMode) return;
                         this.style.opacity = '1';
                         draggedCard = null;
-
+                        
+                        // Recoger el nuevo orden y guardarlo en Firebase
                         const updatedCards = grid.querySelectorAll('.gallery-card');
                         let newItemsOrder = [];
-
+                        
                         getGalleryItems().then(currentItems => {
                             updatedCards.forEach((c) => {
                                 const oldIdx = parseInt(c.dataset.index);
@@ -2454,6 +2146,7 @@
                                 }
                             });
                             saveGalleryItems(newItemsOrder).then(() => {
+                                // Re-renderizar para actualizar índices de datos
                                 getGalleryItems().then(renderGalleryItems);
                             });
                         });
@@ -2469,6 +2162,7 @@
                         if (!isEditMode) return;
                         e.preventDefault();
                         if (draggedCard && draggedCard !== this) {
+                            // Insertar antes o después dependiendo de la posición del cursor
                             const rect = this.getBoundingClientRect();
                             const next = (e.clientX - rect.left) > (rect.width / 2);
                             if (next) {
@@ -2541,8 +2235,8 @@
                     });
 
                     dialog.done(function(fileGroup) {
-                        const fileList = (fileGroup && typeof fileGroup.files === 'function')
-                            ? fileGroup.files()
+                        const fileList = (fileGroup && typeof fileGroup.files === 'function') 
+                            ? fileGroup.files() 
                             : [fileGroup];
 
                         const promises = fileList.map(f => {
@@ -2581,8 +2275,6 @@
             });
 
             function openModal(key, type, imgTarget, textTarget1, textTarget2, textTarget3, specsTarget) {
-                pauseAllVideosExcept(null);
-
                 currentEditKey = key;
                 currentEditType = type;
                 currentImgTarget = imgTarget || null;
@@ -2590,18 +2282,17 @@
                 currentTextTarget2 = textTarget2 || null;
                 currentTextTarget3 = textTarget3 || null;
                 currentSpecsTarget = specsTarget || null;
-                currentUploadedMime = '';
 
                 let currentImg = '';
-                if (key === 'hero_media') {
+                if (imgTarget) {
+                    const el = document.getElementById(imgTarget);
+                    if (el) {
+                        if (el.tagName === 'IMG' || el.tagName === 'VIDEO') currentImg = el.src;
+                    }
+                } else if (key === 'hero_media') {
                     const container = document.getElementById('hero_media_container');
                     const media = container?.querySelector('img, video');
                     if (media) currentImg = media.src;
-                } else if (imgTarget) {
-                    const el = document.getElementById(imgTarget);
-                    if (el && (el.tagName === 'IMG' || el.tagName === 'VIDEO')) {
-                        currentImg = el.src;
-                    }
                 }
 
                 let currentText1 = textTarget1 ? document.getElementById(textTarget1)?.innerText || '' : '';
@@ -2617,47 +2308,28 @@
                     }
                 }
 
-                const showImage = Boolean(imgTarget || key === 'hero_media' || type === 'package' || type === 'media');
-                modalImageSection.style.display = showImage ? 'block' : 'none';
+                modalImageSection.style.display = (imgTarget || key === 'hero_media' || type === 'package' || type === 'media') ? 'block' : 'none';
+                modalImgPreview.src = currentImg || '';
                 modalImgUrl.value = currentImg || '';
-                updateModalPreview(currentImg || '', '');
-
-                const showText = Boolean(textTarget1 || textTarget2 || textTarget3);
-                document.getElementById('modalTextSection').style.display = showText ? 'block' : 'none';
-                modalText1.parentElement.querySelector('label[for="modalText1"]').style.display = textTarget1 ? 'block' : 'none';
-                modalText1.style.display = textTarget1 ? 'block' : 'none';
                 modalText1.value = currentText1;
-
-                modalText2.parentElement.querySelector('label[for="modalText2"]').style.display = textTarget2 ? 'block' : 'none';
-                modalText2.style.display = textTarget2 ? 'block' : 'none';
                 modalText2.value = currentText2;
-
-                modalText3.parentElement.querySelector('label[for="modalText3"]').style.display = textTarget3 ? 'block' : 'none';
-                modalText3.style.display = textTarget3 ? 'block' : 'none';
                 modalText3.value = currentText3;
 
                 modalSpecsSection.style.display = (specsTarget && type === 'package') ? 'block' : 'none';
                 modalSpecs.value = currentSpecs;
 
-                if (uploadStatusMsg) uploadStatusMsg.style.display = 'none';
                 modalTitle.innerText = 'Editar: ' + key;
                 modalOverlay.classList.add('active');
             }
 
             function closeModal() {
-                modalVideoPreview.pause();
                 modalOverlay.classList.remove('active');
                 currentEditKey = null;
-                selectMostVisibleVideo();
             }
 
             function saveCurrentEdit() {
                 if (!currentEditKey) return;
                 const imgValue = formatUploadcareUrl(modalImgUrl.value.trim());
-                if (imgValue.startsWith('file:///')) {
-                    alert('Esa es una ruta local de tu computadora (file:///...). Usa el botón rojo "Seleccionar foto o video de mi dispositivo" para subirlo primero a la nube.');
-                    return;
-                }
                 const text1 = modalText1.value.trim();
                 const text2 = modalText2.value.trim();
                 const text3 = modalText3.value.trim();
@@ -2666,25 +2338,15 @@
                 const entry = {};
                 if (currentEditKey === 'hero_media') {
                     entry.src = imgValue;
-                    entry.img = imgValue;
-                    entry.type = checkIsVideo(imgValue, currentUploadedMime) ? 'video' : 'image';
-                    entry.mimeType = currentUploadedMime;
+                    entry.type = checkIsVideo(imgValue) ? 'video' : 'image';
                     entry.target = 'hero_media_container';
                 } else {
-                    if (imgValue && currentImgTarget) {
-                        entry.img = imgValue;
-                        entry.imgTarget = currentImgTarget;
-                        entry.type = checkIsVideo(imgValue, currentUploadedMime) ? 'video' : 'image';
-                        entry.mimeType = currentUploadedMime;
-                    }
+                    if (imgValue && currentImgTarget) { entry.img = imgValue; entry.imgTarget = currentImgTarget; }
                     if (text1 && currentTextTarget1) { entry.text1 = text1; entry.textTarget1 = currentTextTarget1; }
                     if (text2 && currentTextTarget2) { entry.text2 = text2; entry.textTarget2 = currentTextTarget2; }
                     if (text3 && currentTextTarget3) { entry.text3 = text3; entry.textTarget3 = currentTextTarget3; }
                     if (specsValue && currentSpecsTarget) { entry.specs = specsValue; entry.specsTarget = currentSpecsTarget; }
                 }
-
-                modalSaveBtn.disabled = true;
-                modalSaveBtn.innerText = 'Guardando...';
 
                 loadContentFromFirebase().then(allContent => {
                     allContent[currentEditKey] = entry;
@@ -2694,74 +2356,12 @@
                     singleObj[currentEditKey] = entry;
                     applyContent(singleObj);
                     closeModal();
-                }).catch(err => alert('Error al guardar: ' + err.message))
-                  .finally(() => {
-                      modalSaveBtn.disabled = false;
-                      modalSaveBtn.innerText = 'Guardar cambios';
-                  });
+                }).catch(err => alert('Error al guardar: ' + err.message));
             }
 
             modalCloseBtn.addEventListener('click', closeModal);
             modalCancelBtn.addEventListener('click', closeModal);
             modalSaveBtn.addEventListener('click', saveCurrentEdit);
-
-            const modalLocalFileInput = document.getElementById('modalLocalFileInput');
-            const selectLocalFileBtn = document.getElementById('selectLocalFileBtn');
-            const uploadStatusMsg = document.getElementById('uploadStatusMsg');
-
-            function handleUploadedFileInfo(fileInfo) {
-                if (fileInfo && fileInfo.cdnUrl) {
-                    const formattedUrl = formatUploadcareUrl(fileInfo.cdnUrl);
-                    currentUploadedMime = fileInfo.mimeType || (fileInfo.isImage === false ? 'video/mp4' : 'image/jpeg');
-                    modalImgUrl.value = formattedUrl;
-                    updateModalPreview(formattedUrl, currentUploadedMime);
-                    if (uploadStatusMsg) {
-                        uploadStatusMsg.style.display = 'block';
-                        uploadStatusMsg.style.color = 'var(--badge-green)';
-                        uploadStatusMsg.innerHTML = '<i class="fa-solid fa-circle-check"></i> Archivo subido a la nube. Ahora presiona <strong>Guardar cambios</strong>.';
-                    }
-                }
-            }
-
-            selectLocalFileBtn?.addEventListener('click', function() {
-                modalLocalFileInput.value = '';
-                modalLocalFileInput.click();
-            });
-
-            modalLocalFileInput?.addEventListener('change', function() {
-                const file = this.files && this.files[0];
-                if (!file) return;
-
-                const localPreviewUrl = URL.createObjectURL(file);
-                currentUploadedMime = file.type || '';
-                updateModalPreview(localPreviewUrl, currentUploadedMime);
-
-                if (uploadStatusMsg) {
-                    uploadStatusMsg.style.display = 'block';
-                    uploadStatusMsg.style.color = 'var(--accent-cyan)';
-                    uploadStatusMsg.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Subiendo archivo a Uploadcare... espera un momento...';
-                }
-                modalSaveBtn.disabled = true;
-
-                try {
-                    const ucFile = uploadcare.fileFrom('object', file, {
-                        publicKey: CONFIG.UPLOADCARE_PUBLIC_KEY
-                    });
-                    ucFile.done(function(fileInfo) {
-                        modalSaveBtn.disabled = false;
-                        handleUploadedFileInfo(fileInfo);
-                    }).fail(function(err) {
-                        modalSaveBtn.disabled = false;
-                        if (uploadStatusMsg) {
-                            uploadStatusMsg.style.color = '#ef4444';
-                            uploadStatusMsg.innerText = 'Error al subir a Uploadcare: ' + (err || 'verifica tu conexión');
-                        }
-                    });
-                } catch (e) {
-                    modalSaveBtn.disabled = false;
-                    alert('Error iniciando subida: ' + e.message);
-                }
-            });
 
             uploadUploadcareBtn.addEventListener('click', function() {
                 const dialog = uploadcare.openDialog(null, {
@@ -2769,12 +2369,17 @@
                     multiple: false,
                     imagesOnly: false
                 });
-                dialog.done(handleUploadedFileInfo);
+                dialog.done(function(fileInfo) {
+                    if (fileInfo && fileInfo.cdnUrl) {
+                        const formattedUrl = formatUploadcareUrl(fileInfo.cdnUrl);
+                        modalImgPreview.src = formattedUrl;
+                        modalImgUrl.value = formattedUrl;
+                    }
+                });
             });
 
             modalImgUrl.addEventListener('input', function() {
-                currentUploadedMime = '';
-                updateModalPreview(this.value, '');
+                modalImgPreview.src = formatUploadcareUrl(this.value);
             });
 
             editToggleBtn.addEventListener('click', function() {
@@ -2783,22 +2388,21 @@
                     isEditMode = false;
                     isAuthorized = false;
                     editToggleBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Modo Edición';
-                    getGalleryItems().then(renderGalleryItems);
                 } else {
                     requirePassword(() => {
                         document.body.classList.add('edit-mode');
                         isEditMode = true;
                         editToggleBtn.innerHTML = '<i class="fa-solid fa-check"></i> Salir Edición';
-                        getGalleryItems().then(renderGalleryItems);
                     });
                 }
+                // Refrescar la galería para habilitar/deshabilitar el atributo draggable en las tarjetas
+                getGalleryItems().then(renderGalleryItems);
             });
 
             document.addEventListener('click', function(e) {
                 const btn = e.target.closest('.edit-btn-overlay');
                 if (!btn) return;
                 e.preventDefault();
-                e.stopPropagation();
                 requirePassword(() => {
                     openModal(
                         btn.dataset.key,
@@ -2812,20 +2416,10 @@
                 });
             });
 
-            function initPageData() {
-                const grid = document.getElementById('gallery-grid');
-                if (grid && !grid.innerHTML.trim()) {
-                    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:2.5rem;color:var(--text-muted);"><i class="fa-solid fa-spinner fa-spin" style="font-size:2rem;display:block;margin-bottom:0.8rem;color:var(--primary-red);"></i>Cargando galería de eventos...</div>';
-                }
+            document.addEventListener('DOMContentLoaded', function() {
                 loadContentFromFirebase().then(applyContent);
                 getGalleryItems().then(renderGalleryItems);
-            }
-
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initPageData);
-            } else {
-                initPageData();
-            }
+            });
         })();
     </script>
 </body>
